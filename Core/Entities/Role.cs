@@ -10,7 +10,7 @@ namespace Core.Entities
     {
         public string RoleCode { get; set; }
         public string RoleName { get; set; }
-        public virtual IEnumerable<NguoiDung> NguoiDungs { get; set; }
+        public virtual IEnumerable<NguoiDungRole> NguoiDungRole { get; set; }
 
     }
 }
