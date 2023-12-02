@@ -17,8 +17,8 @@ namespace Core.Entities
         public string HinhDaiDien { get; set; }
         public string SoCanCuoc { get; set; }
         public string DiaChi { get; set; }
-        public int PhongBanId { get; set; }
-        public virtual PhongBan PhongBan { get; set; }
+        public int? PhongBanId { get; set; }
+        public virtual PhongBan? PhongBan { get; set; }
         public TrangThaiNguoiDung TrangThai { get; set; }
         public virtual IEnumerable<HopDongMuaBatDongSan> HopDongMuaBatDongSan { get; set; }
         public virtual IEnumerable<BaiHocDaoTao> BaiHocDaoTao { get; set; }

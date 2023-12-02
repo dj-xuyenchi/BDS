@@ -164,7 +164,7 @@ namespace Core.Migrations
                     IsPhanTramTienMatChiaNhanVien = table.Column<bool>(type: "bit", nullable: false),
                     DiaChi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DiaChiGoogleMap = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NgayThangNamXayDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NamXayDung = table.Column<int>(type: "int", nullable: false),
                     DienTich = table.Column<double>(type: "float", nullable: false),
                     SoPhongNgu = table.Column<int>(type: "int", nullable: false),
                     SoPhongVeSinh = table.Column<int>(type: "int", nullable: false),
@@ -249,11 +249,18 @@ namespace Core.Migrations
                     CanCuocNguoiLamChung = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NoiCongChung = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NguoiChotId = table.Column<int>(type: "int", nullable: false),
+                    BatDongSanId = table.Column<int>(type: "int", nullable: false),
                     PhieuXemNhaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HopDongMuaBatDongSan", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HopDongMuaBatDongSan_BatDongSan_BatDongSanId",
+                        column: x => x.BatDongSanId,
+                        principalTable: "BatDongSan",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -429,6 +436,11 @@ namespace Core.Migrations
                 name: "IX_HinhAnhHopDongXemNha_PhieuXemId",
                 table: "HinhAnhHopDongXemNha",
                 column: "PhieuXemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HopDongMuaBatDongSan_BatDongSanId",
+                table: "HopDongMuaBatDongSan",
+                column: "BatDongSanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HopDongMuaBatDongSan_NguoiChotId",

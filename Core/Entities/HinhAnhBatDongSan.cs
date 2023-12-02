@@ -8,6 +8,7 @@ namespace Core.Entities
 {
     public class HinhAnhBatDongSan : BaseEntity
     {
+        public string LinkHinhAnh { get; set; }
         public int BatDongSanId { get; set; }
         public virtual BatDongSan BatDongSan { get; set; }
         public DateTime NgayTao { get; set; }

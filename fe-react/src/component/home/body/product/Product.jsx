@@ -14,8 +14,8 @@ function Product() {
   useEffect(() => {
     dispath(productSlice.actions.setIsLoading(true));
     const fetchData = async () => {
-      const data = await useSanPhamStore.actions.fetchSanPham(1, 20);
-      dispath(productSlice.actions.setSanPham(data));
+      const data = await useSanPhamStore.actions.fetchSanPham();
+      dispath(productSlice.actions.setSanPham(data.data));
       dispath(productSlice.actions.setIsLoading(false));
     };
     fetchData();

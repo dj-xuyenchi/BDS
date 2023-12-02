@@ -19,7 +19,7 @@ namespace Core.Entities
         public bool IsPhanTramTienMatChiaNhanVien { get; set; }
         public string DiaChi { get; set; }
         public string DiaChiGoogleMap { get; set; }
-        public string NgayThangNamXayDung { get; set; }
+        public int NamXayDung { get; set; }
         public double DienTich { get; set; }
         public int SoPhongNgu { get; set; }
         public int SoPhongVeSinh { get; set; }
@@ -43,5 +43,6 @@ namespace Core.Entities
         public virtual IEnumerable<HinhAnhBatDongSan> HinhAnhBatDongSan { get; set; }
         public virtual IEnumerable<PhieuXemNhaBatDongSan> PhieuXemNhaBatDongSan { get; set; }
         public virtual IEnumerable<HopDongMuaBatDongSan> HopDongMuaBatDongSan { get; set; }
+        public virtual IEnumerable<TinBan> TinBan { get; set; }
     }
 }

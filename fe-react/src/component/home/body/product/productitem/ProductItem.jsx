@@ -24,7 +24,7 @@ function ProductItem({ item }) {
         <div className="product-item-detail">
           <Link to={"/sanpham/" + item.id} >
             <div className="product-imgs">
-              <img ref={imgRef} src={item.hinhAnh1} alt="san pham" />
+              <img ref={imgRef} src={item.batDongSan.} alt="san pham" />
               <div className="sales">
                 <img
                   src={require("../../../../../assets/fakedata/sales.webp")}

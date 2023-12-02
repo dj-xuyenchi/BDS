@@ -15,11 +15,7 @@ export default createSlice({
             state.isLoading = action.payload;
         },
         setSanPham: (state, action) => {
-            state.data = action.payload.data.data;
-            state.pageSize = action.payload.data.pageSize;
-            state.pageTotal = action.payload.data.pageTotal;
-            state.pageItem = action.payload.data.pageItem;
-            state.pageNumber = action.payload.data.pageNumber;
+            state.data = action;
         }
     }
 })

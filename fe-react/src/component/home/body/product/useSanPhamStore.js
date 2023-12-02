@@ -1,59 +1,63 @@
-import axiosIns from "../../../../plugins/axios"
+import axiosIns from "../../../../plugins/axios";
 
 export const useSanPhamStore = {
     actions: {
-        async fetchSanPham1(payload) {
-            const response = await axiosIns.get('/apps/email/emails', { params: payload })
-            const { emails, emailsMeta } = response.data
-
-            this.emails = emails
-            this.emailsMeta = emailsMeta
-        },
         async fetchSanPham(
-            page,
-            pageSize,
-            chatLieuId,
-            thietKeId,
-            thuongHieuId,
-            mauSacId,
-            loaiSanPhamId,
-            kichThuocId
+            giaBan,
+            tinhCode,
+            huyenCode,
+            namXayDung,
+            dienTich,
+            soPhongNgu,
+            soPhongVeSinh,
+            chieuNgang,
+            chieuDai,
+            dienTichSuDung,
+            loaiBatDongSan,
+            trangThai,
+            keyword
         ) {
-            var url = "/api/sanpham/phantrangsanpham?";
-            if (chatLieuId) {
-                url += 'loaiSanPhamId=' + loaiSanPhamId + "&"
+            var url = "/TinBan/laytinban?";
+            if (giaBan) {
+                url += "giaBan=" + giaBan + "&";
             }
-            if (thietKeId) {
-                url += 'thietKeId=' + thietKeId + "&"
+            if (tinhCode) {
+                url += "tinhCode=" + tinhCode + "&";
             }
-            if (mauSacId) {
-                url += 'mauSacId=' + mauSacId + "&"
+            if (huyenCode) {
+                url += "huyenCode=" + huyenCode + "&";
             }
-            if (thuongHieuId) {
-                url += 'thuongHieuId=' + thuongHieuId + "&"
+            if (namXayDung) {
+                url += "namXayDung=" + namXayDung + "&";
             }
-            if (kichThuocId) {
-                url += 'kichThuocId=' + thuongHieuId + "&"
+            if (dienTich) {
+                url += "dienTich=" + dienTich + "&";
             }
-            if (page) {
-                url += 'page=' + page + "&"
+            if (soPhongNgu) {
+                url += "soPhongNgu=" + soPhongNgu + "&";
             }
-            if (pageSize) {
-                url += 'pageSize=' + pageSize + "&"
+            if (soPhongVeSinh) {
+                url += "soPhongVeSinh=" + soPhongVeSinh + "&";
             }
-            return await axiosIns.get(url)
-        },
-        async updateEmails(ids, data) {
-            return axiosIns.post('/apps/email/update-emails/', {
-                ids,
-                data,
-            })
-        },
-        async updateEmailLabels(ids, label) {
-            return axiosIns.post('/apps/email/update-emails-label', {
-                ids,
-                label,
-            })
+            if (chieuNgang) {
+                url += "chieuNgang=" + chieuNgang + "&";
+            }
+            if (chieuDai) {
+                url += "chieuDai=" + chieuDai + "&";
+            }
+            if (dienTichSuDung) {
+                url += "dienTichSuDung=" + dienTichSuDung + "&";
+            }
+            if (loaiBatDongSan) {
+                url += "loaiBatDongSan=" + loaiBatDongSan + "&";
+            }
+            if (trangThai) {
+                url += "trangThai=" + trangThai + "&";
+            }
+            if (keyword) {
+                url += "keyword=" + keyword + "&";
+            }
+            return await axiosIns.get(url);
         },
     },
-}
+};

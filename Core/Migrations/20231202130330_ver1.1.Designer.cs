@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(BDSContext))]
-    [Migration("20231202104419_ver1.2")]
-    partial class ver12
+    [Migration("20231202130330_ver1.1")]
+    partial class ver11
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,6 +175,9 @@ namespace Core.Migrations
                     b.Property<string>("MoTaChiTiet")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NamXayDung")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("NgayBan")
                         .HasColumnType("datetime2");
 
@@ -183,10 +186,6 @@ namespace Core.Migrations
 
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("NgayThangNamXayDung")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhapLy")
                         .HasColumnType("int");

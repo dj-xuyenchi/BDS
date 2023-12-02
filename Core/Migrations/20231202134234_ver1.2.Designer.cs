@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(BDSContext))]
-    [Migration("20231202104150_ver1.1")]
-    partial class ver11
+    [Migration("20231202134234_ver1.2")]
+    partial class ver12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,6 +175,9 @@ namespace Core.Migrations
                     b.Property<string>("MoTaChiTiet")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NamXayDung")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("NgayBan")
                         .HasColumnType("datetime2");
 
@@ -183,10 +186,6 @@ namespace Core.Migrations
 
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("NgayThangNamXayDung")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PhapLy")
                         .HasColumnType("int");
@@ -329,6 +328,9 @@ namespace Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("BatDongSanId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CanCuocNguoiLamChung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -351,6 +353,8 @@ namespace Core.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BatDongSanId");
 
                     b.HasIndex("NguoiChotId");
 
@@ -386,7 +390,7 @@ namespace Core.Migrations
                     b.Property<DateTime>("NgayThangNamSinh")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PhongBanId")
+                    b.Property<int?>("PhongBanId")
                         .HasColumnType("int");
 
                     b.Property<int>("SoBatDongSanDaBan")
@@ -640,6 +644,9 @@ namespace Core.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("BatDongSanId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MoTa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -661,6 +668,8 @@ namespace Core.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BatDongSanId");
 
                     b.HasIndex("NguoiDangId");
 
@@ -755,6 +764,12 @@ namespace Core.Migrations
 
             modelBuilder.Entity("Core.Entities.HopDongMuaBatDongSan", b =>
                 {
+                    b.HasOne("Core.Entities.BatDongSan", "BatDongSan")
+                        .WithMany("HopDongMuaBatDongSan")
+                        .HasForeignKey("BatDongSanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.NguoiDung", "NguoiChot")
                         .WithMany("HopDongMuaBatDongSan")
                         .HasForeignKey("NguoiChotId")
@@ -767,6 +782,8 @@ namespace Core.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("BatDongSan");
+
                     b.Navigation("NguoiChot");
 
                     b.Navigation("PhieuXemNha");
@@ -777,8 +794,7 @@ namespace Core.Migrations
                     b.HasOne("Core.Entities.PhongBan", "PhongBan")
                         .WithMany("ThanhVienPhongBan")
                         .HasForeignKey("PhongBanId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("PhongBan");
                 });
@@ -816,7 +832,7 @@ namespace Core.Migrations
             modelBuilder.Entity("Core.Entities.PhieuXemNhaBatDongSan", b =>
                 {
                     b.HasOne("Core.Entities.BatDongSan", "BatDongSan")
-                        .WithMany("PhieuXemNhaBatDongSans")
+                        .WithMany("PhieuXemNhaBatDongSan")
                         .HasForeignKey("BatDongSanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -845,11 +861,19 @@ namespace Core.Migrations
 
             modelBuilder.Entity("Core.Entities.TinBan", b =>
                 {
+                    b.HasOne("Core.Entities.BatDongSan", "BatDongSan")
+                        .WithMany("TinBan")
+                        .HasForeignKey("BatDongSanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.NguoiDung", "NguoiDang")
                         .WithMany("TinBan")
                         .HasForeignKey("NguoiDangId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BatDongSan");
 
                     b.Navigation("NguoiDang");
                 });
@@ -858,7 +882,11 @@ namespace Core.Migrations
                 {
                     b.Navigation("HinhAnhBatDongSan");
 
-                    b.Navigation("PhieuXemNhaBatDongSans");
+                    b.Navigation("HopDongMuaBatDongSan");
+
+                    b.Navigation("PhieuXemNhaBatDongSan");
+
+                    b.Navigation("TinBan");
                 });
 
             modelBuilder.Entity("Core.Entities.HopDongMuaBatDongSan", b =>

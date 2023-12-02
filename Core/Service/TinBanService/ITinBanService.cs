@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Service.BatDongSanService
+namespace Core.Service.TinBanService
 {
-    public interface IBatDongSanService
+    public interface ITinBanService
     {
-        IQueryable<BatDongSanDTO> LayHetBatDongSan(
-            double? giaBan,
+        IQueryable<TinBanDTO> LayHetTinBan(
+             double? giaBan,
             string? tinhCode,
             string? huyenCode,
             int? namXayDung,
