@@ -7,16 +7,14 @@ import ProductItem from "./productitem/ProductItem";
 import { useEffect } from "react";
 import { useSanPhamStore } from "./useSanPhamStore";
 import productSlice from "./productSlice";
+import { useState } from "react";
 function Product() {
   const language = useSelector(selectLanguage);
-  const product = useSelector(selectProduct);
-  const dispath = useDispatch();
+  const [data, setData] = useState(undefined);
   useEffect(() => {
-    dispath(productSlice.actions.setIsLoading(true));
     const fetchData = async () => {
       const data = await useSanPhamStore.actions.fetchSanPham();
-      dispath(productSlice.actions.setSanPham(data.data));
-      dispath(productSlice.actions.setIsLoading(false));
+      setData(data.data);
     };
     fetchData();
   }, []);
@@ -54,12 +52,12 @@ function Product() {
           </div>
         </div>
         <div className="product">
-          {product.isLoading ? (
+          {!data ? (
             <div className="loading">
               <Spin size="large"></Spin>
             </div>
           ) : (
-            product.data.map((item, index) => {
+            data.map((item, index) => {
               return <ProductItem key={index} item={item} />;
             })
           )}

@@ -6,8 +6,9 @@
 }
 
 .header-banner {
-    width: 98%;
-    margin-left: 1%;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 4px;
 }
 
@@ -22,4 +23,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.caro img {
+    height: 400px;
+    width: auto;
 }

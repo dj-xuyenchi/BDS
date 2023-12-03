@@ -12,7 +12,7 @@ namespace Core.DTO
     {
         public int Id { get; set; }
         public string TenChuNha { get; set; }
-        public int GiaBan { get; set; }
+        public long GiaBan { get; set; }
         public double GiaTriHoaHong { get; set; }
         // true thì giá trị hoa hồng sẽ là % false thì là tiền mặt
         public bool IsPhanTramTienMat { get; set; }
@@ -42,6 +42,10 @@ namespace Core.DTO
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
         public DateTime? NgayBan { get; set; }
+        public virtual IEnumerable<HinhAnhBatDongSan> HinhAnhBatDongSan { get; set; }
+        public virtual IEnumerable<PhieuXemNhaBatDongSan> PhieuXemNhaBatDongSan { get; set; }
+        public virtual IEnumerable<HopDongMuaBatDongSan> HopDongMuaBatDongSan { get; set; }
+        public virtual IEnumerable<TinBan> TinBan { get; set; }
         public static BatDongSanDTO FromEntity(BatDongSan entity)
         {
             return new BatDongSanDTO()
@@ -75,7 +79,8 @@ namespace Core.DTO
                 LoaiBatDongSan = entity.LoaiBatDongSan,
                 NgayBan = entity.NgayBan,
                 NgayCapNhat = entity.NgayCapNhat,
-                NgayTao = entity.NgayTao
+                NgayTao = entity.NgayTao,
+                HinhAnhBatDongSan=entity.HinhAnhBatDongSan
             };
         }
         public BatDongSan ToEntity()

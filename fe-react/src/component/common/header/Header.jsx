@@ -62,11 +62,28 @@ function Header() {
       <MenuLeft open={openMenuLeft} setOpen={setOpenMenuLeft} />
       <Search open={openSearch} setOpen={setOpenSearch} />
       <div className="header-container">
-        <div className="gif-img">
+        <div
+          className="gif-img"
+          style={{
+            backgroundColor: "#F4F4F4",
+            height: "36px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <img
-            src="https://routine.vn/media/wysiwyg/SALE_UP_TO_50_-_T1023_16_.gif"
-            alt="hinh anh"
+            src="https://cdn-icons-png.flaticon.com/512/4891/4891646.png"
+            alt=""
+            style={{
+              height: "30px",
+              width: "30px",
+            }}
           />
+          <span>
+            Nhà Tốt chỉ cung cấp dịch vụ & chương trình trên các trang chính
+            thức. Hãy cảnh giác với các hình thức liên hệ dưới tên Nhà Tốt!
+          </span>
         </div>
         <div className="menu">
           <div className="left-menu">
@@ -81,7 +98,7 @@ function Header() {
           <div className="mid-menu">
             <Link to="/">
               <img
-                src="https://routine.vn/media/logo/websites/1/logo-black-2x.png"
+                src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
                 alt="logo"
               />
             </Link>

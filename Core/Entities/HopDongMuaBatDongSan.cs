@@ -8,7 +8,7 @@ namespace Core.Entities
 {
     public class HopDongMuaBatDongSan : BaseEntity
     {
-        public double GiaBan { get; set; }
+        public long GiaBan { get; set; }
         public string NguoiLamChung { get; set; }
         public string CanCuocNguoiLamChung { get; set; }
         public string NoiCongChung { get; set; }

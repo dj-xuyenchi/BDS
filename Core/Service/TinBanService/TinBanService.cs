@@ -22,7 +22,8 @@ namespace Core.Service.TinBanService
         {
             var query = _context.
                 TinBan.
-                Include(x => x.BatDongSan)
+                Include(x => x.BatDongSan).
+                ThenInclude(x=>x.HinhAnhBatDongSan)
                 .AsNoTracking();
             if (giaBan.HasValue)
             {

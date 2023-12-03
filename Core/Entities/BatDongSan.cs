@@ -10,7 +10,7 @@ namespace Core.Entities
     public class BatDongSan : BaseEntity
     {
         public string TenChuNha { get; set; }
-        public int GiaBan { get; set; }
+        public long GiaBan { get; set; }
         public double GiaTriHoaHong { get; set; }
         // true thì giá trị hoa hồng sẽ là % false thì là tiền mặt
         public bool IsPhanTramTienMat { get; set; }

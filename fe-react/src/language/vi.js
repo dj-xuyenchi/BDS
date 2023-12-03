@@ -28,7 +28,7 @@ export const vi = {
         search: {
             inputHolder: "Tìm kiếm"
         },
-        title: "Sale up to 50%"
+        title: "Khám phá Nhà Tốt"
     }
     ,
     body: {
