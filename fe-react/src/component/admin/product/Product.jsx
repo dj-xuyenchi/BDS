@@ -9,13 +9,17 @@ import Highlighter from "react-highlight-words";
 import { Button, Image, Input, Space, Table, Tag } from "antd";
 import { useSanPhamStore } from "./useSanPhamStore";
 import { BsFillPencilFill } from "react-icons/bs";
-import ModalThemSua from "./ModalThemSua";
+import ModalThemSua from "./ModalThem";
 import ModalView from "./ModalView";
+import { fixMoney } from "../../../extensions/fixMoney";
+import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
+import ModalThem from "./ModalThem";
 function Product() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [data, setData] = useState(undefined);
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -128,93 +132,142 @@ function Product() {
         text
       ),
   });
-  const [filter, setFilter] = useState({
-    thietKe: [],
-    nhomSanPham: [],
-    chatLieu: [],
-  });
-  const [sanPham, setSanPham] = useState([
-    {
-      key: "1",
-      maSanPham: "ABC",
-      hinhAnh1: "",
-      soLuongTon: 32,
-
-      chatLieu: {
-        tenChatLieu: "abc",
-      },
-      thietKe: {
-        tenThietKe: "abc",
-      },
-      nhomSanPham: {
-        tenNhom: "abc",
-      },
-    },
-  ]);
-  const [filteredInfo, setFilteredInfo] = useState({});
   const columns = [
     {
-      title: "Mã sản phẩm",
-      dataIndex: "maSanPham",
-      key: "name",
-      width: "15%",
-      ...getColumnSearchProps("maSanPham"),
-      render: (maSanPham) => (
+      title: "Mặt trước",
+      dataIndex: "hinhAnhBatDongSan",
+      key: "hinhAnhBatDongSan",
+      width: "10%",
+      render: (hinhAnh) => (
         <>
-          <Tag color="success"> {maSanPham}</Tag>
+          <Image
+            src={hinhAnh[0].linkHinhAnh}
+            style={{ width: "120px", height: "180px" }}
+          />
         </>
       ),
     },
     {
-      title: "Hình ảnh",
-      dataIndex: "hinhAnh1",
-      key: "age",
+      title: "Giá bán",
+      dataIndex: "giaBan",
+      key: "giaBan",
       width: "10%",
-      render: (hinhAnh1) => (
-        <Image src={hinhAnh1} style={{ width: "120px", height: "180px" }} />
+      sorter: (a, b) => a.giaBan - b.giaBan,
+      sortDirections: ["descend", "ascend"],
+      render: (giaBan) => <span>{fixMoney(giaBan)}</span>,
+    },
+    {
+      title: "Hoa hồng",
+      dataIndex: "giaTriHoaHongChiaNhanVien",
+      key: "giaTriHoaHongChiaNhanVien",
+      width: "10%",
+      sorter: (a, b) =>
+        a.giaTriHoaHongChiaNhanVien - b.giaTriHoaHongChiaNhanVien,
+      sortDirections: ["descend", "ascend"],
+      render: (giaTriHoaHongChiaNhanVien) => (
+        <span>{fixMoney(giaTriHoaHongChiaNhanVien)}</span>
       ),
     },
     {
-      title: "Tên sản phẩm",
-      dataIndex: "tenSanPham",
-      key: "address",
-      width: "30%",
-      ...getColumnSearchProps("tenSanPham"),
-    },
-    {
-      title: "SLT",
-      dataIndex: "soLuongTon",
-      key: "address",
+      title: "Mặt tiền",
+      dataIndex: "chieuNgang",
+      key: "chieuNgang",
       width: "5%",
-      sorter: (a, b) => a.soLuongTon - b.soLuongTon,
+      sorter: (a, b) => a.chieuNgang - b.chieuNgang,
       sortDirections: ["descend", "ascend"],
+      render: (chieuNgang) => <span>{chieuNgang}m</span>,
     },
     {
-      title: "Chất liệu",
-      dataIndex: "chatLieu",
-      key: "address",
+      title: "Chiều dài",
+      dataIndex: "chieuDai",
+      key: "chieuDai",
+      width: "5%",
+      sorter: (a, b) => a.chieuDai - b.chieuDai,
+      sortDirections: ["descend", "ascend"],
+      render: (chieuDai) => <span>{chieuDai}m</span>,
+    },
+    {
+      title: "Diện tích",
+      dataIndex: "dienTich",
+      key: "dienTich",
+      width: "5%",
+      sorter: (a, b) => a.dienTich - b.dienTich,
+      sortDirections: ["descend", "ascend"],
+      render: (dienTich) => (
+        <span>
+          {dienTich}m<sup>2</sup>{" "}
+        </span>
+      ),
+    },
+    {
+      title: "Số phòng ngủ",
+      dataIndex: "soPhongNgu",
+      key: "soPhongNgu",
       width: "7.5%",
-      render: (chatLieu) => <span>{chatLieu.tenChatLieu}</span>,
-      // filters: filter.chatLieu,
+      sorter: (a, b) => a.soPhongNgu - b.soPhongNgu,
+      sortDirections: ["descend", "ascend"],
+      render: (soPhongNgu) => <span>{soPhongNgu}</span>,
+    },
+    {
+      title: "Số nhà vệ sinh",
+      dataIndex: "soPhongVeSinh",
+      key: "soPhongVeSinh",
+      width: "7.5%",
+      sorter: (a, b) => a.soPhongVeSinh - b.soPhongVeSinh,
+      sortDirections: ["descend", "ascend"],
+      render: (soPhongVeSinh) => <span>{soPhongVeSinh}</span>,
+    },
+    {
+      title: "Địa chỉ",
+      dataIndex: "diaChi",
+      key: "diaChi",
+      width: "12.5%",
+      render: (diaChi) => <span>{diaChi}</span>,
+      // filters: filter.thietKe,
       // filteredValue: filteredInfo.address || null,
-      // onFilter: (value, record) => record.chatLieu.tenChatLieu.includes(value),
+      // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
     },
     {
-      title: "Nhóm sản phẩm",
-      dataIndex: "nhomSanPham",
-      key: "address",
+      title: "Loại BDS",
+      dataIndex: "loaiBatDongSan",
+      key: "loaiBatDongSan",
       width: "7.5%",
-      render: (nhomSanPham) => <span>{nhomSanPham.tenNhom}</span>,
-      // filters: filter.nhomSanPham,
+      filters: [
+        {
+          text: "Nhà phố",
+          value: 1,
+        },
+        {
+          text: "Đất thổ cư",
+          value: 2,
+        },
+        {
+          text: "Đất nền",
+          value: 3,
+        },
+        {
+          text: "Chung cư",
+          value: 4,
+        },
+      ],
+      onFilter: (value, record) => {
+        return value == record.loaiBatDongSan;
+      },
+      filterSearch: true,
+      render: (loaiBatDongSan) => <span>{fixLoaiBDS(loaiBatDongSan)}</span>,
+      // filters: filter.thietKe,
       // filteredValue: filteredInfo.address || null,
-      // onFilter: (value, record) => record.nhomSanPham.tenNhom.includes(value),
+      // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
     },
+
     {
-      title: "Thiết kế",
-      dataIndex: "thietKe",
-      key: "address",
-      width: "7.5%",
-      render: (thietKe) => <span>{thietKe.tenThietKe}</span>,
+      title: "Thông tin Đầu chủ",
+      dataIndex: "dauChuTao",
+      key: "dauChuTao",
+      width: "10%",
+      render: (dauChuTao) => (
+        <span>{dauChuTao.hoTenNguoiDung + " - " + dauChuTao.soDienThoai}</span>
+      ),
       // filters: filter.thietKe,
       // filteredValue: filteredInfo.address || null,
       // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
@@ -222,88 +275,30 @@ function Product() {
     {
       title: "Thao tác",
       dataIndex: "id",
-      key: "maThietKe",
+      key: "id",
       align: "center",
-      width: "15%",
-      render: (id) => (
+      width: "10%",
+      render: (id, record) => (
         <div
           style={{
             display: "flex",
             justifyContent: "center",
           }}
         >
-          <ModalView id={id} />
+          <ModalView data={record} />
           {/* <ModalThemSua id={id} setData={setData} /> */}
         </div>
       ),
     },
   ];
-  function handleSetFilter(source) {
-    const thietKe = [];
-    const nhomSanPham = [];
-    const chatLieu = [];
-    for (var item of source) {
-      if (
-        !thietKe.some((item2) => {
-          return item2.id == item.thietKe.id;
-        })
-      ) {
-        thietKe.push({
-          id: item.thietKe.id,
-          text: item.thietKe.tenThietKe,
-          value: item.thietKe.tenThietKe,
-        });
-      }
-    }
-    if (
-      !nhomSanPham.some((item2) => {
-        return item2.id == item.nhomSanPham.id;
-      })
-    ) {
-      nhomSanPham.push({
-        id: item.nhomSanPham.id,
-        text: item.nhomSanPham.tenNhom,
-        value: item.nhomSanPham.tenNhom,
-      });
-    }
-    if (
-      !chatLieu.some((item2) => {
-        return item2.id == item.chatLieu.id;
-      })
-    ) {
-      chatLieu.push({
-        id: item.chatLieu.id,
-        text: item.chatLieu.tenChatLieu,
-        value: item.chatLieu.tenChatLieu,
-      });
-    }
-    setFilter({
-      thietKe: thietKe,
-      nhomSanPham: nhomSanPham,
-      chatLieu: chatLieu,
-    });
-  }
-  const [thuocTinh, setThuocTinh] = useState(undefined);
   const fetchData = async () => {
-    const data = await useSanPhamStore.actions.fetchSanPham(1, 10000);
-    setSanPham(data.data.data);
-    handleSetFilter(data.data.data);
-    // dispath(productSlice.actions.setSanPham(data));
-    // dispath(productSlice.actions.setIsLoading(false));
+    const data = await useSanPhamStore.actions.fetchSanPham({});
+    setData(data.data);
   };
   useEffect(() => {
     // dispath(productSlice.actions.setIsLoading(true));
-    const fetchThuocTinh = async () => {
-      const data = await useSanPhamStore.actions.fetchThuocTinh();
-      setThuocTinh(data.data);
-    };
     fetchData();
-    fetchThuocTinh();
   }, []);
-  const onChange = (pagination, filters, sorter, extra) => {
-    setFilteredInfo(filters);
-    console.log(filters);
-  };
   return (
     <>
       <div>
@@ -311,18 +306,11 @@ function Product() {
         <MenuAdmin />
         <div className="body-container">
           <div className="content">
-            <div className="header-status background-color">
-              <ModalThemSua
-                type={1}
-                thuocTinh={thuocTinh}
-                fetchData={fetchData}
-              />
-            </div>
+            <ModalThem fetchData={fetchData} />
             <div className="table-sanpham background-color">
               <Table
                 columns={columns}
-                dataSource={sanPham}
-                onChange={onChange}
+                dataSource={data}
                 pagination={{
                   position: ["bottomRight"],
                 }}

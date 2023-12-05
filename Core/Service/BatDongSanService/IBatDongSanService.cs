@@ -1,5 +1,6 @@
 ﻿using Core.DTO;
 using Core.Enums;
+using Core.RequestModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +11,7 @@ namespace Core.Service.BatDongSanService
 {
     public interface IBatDongSanService
     {
-        IQueryable<BatDongSanDTO> LayHetBatDongSan(
-            double? giaBan,
-            string? tinhCode,
-            string? huyenCode,
-            int? namXayDung,
-            double? dienTich,
-            int? soPhongNgu,
-            int? soPhongVeSinh,
-            double? chieuNgang,
-            double? chieuDai,
-            double? dienTichSuDung,
-            LoaiBatDongSan? loaiBatDongSan,
-            TrangThaiBatDongSan? trangThai,
-            string? keyword
-            );
+        IQueryable<BatDongSanDTO> LayHetBatDongSan(Filter filter);
+        Task<BatDongSanDTO> ThemBDS(BatDongSanDTO data);
     }
 }

@@ -12,6 +12,7 @@ namespace Core.Entities
         public string TenTaiKhoan { get; set; }
         public string MatKhau { get; set; }
         public string HoTenNguoiDung { get; set; }
+        public string? SoDienThoai { get; set; }
         public DateTime NgayThangNamSinh { get; set; }
         public int SoBatDongSanDaBan { get; set; }
         public string HinhDaiDien { get; set; }

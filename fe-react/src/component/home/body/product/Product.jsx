@@ -8,16 +8,9 @@ import { useEffect } from "react";
 import { useSanPhamStore } from "./useSanPhamStore";
 import productSlice from "./productSlice";
 import { useState } from "react";
-function Product() {
+function Product({data}) {
   const language = useSelector(selectLanguage);
-  const [data, setData] = useState(undefined);
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await useSanPhamStore.actions.fetchSanPham();
-      setData(data.data);
-    };
-    fetchData();
-  }, []);
+  
   return (
     <>
       <div className="product-container">

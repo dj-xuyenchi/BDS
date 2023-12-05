@@ -1,6 +1,7 @@
 ﻿using Core.Data;
 using Core.DTO;
 using Core.Enums;
+using Core.RequestModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,62 +19,66 @@ namespace Core.Service.TinBanService
         {
             _context = new BDSContext();
         }
-        public IQueryable<TinBanDTO> LayHetTinBan(double? giaBan, string? tinhCode, string? huyenCode, int? namXayDung, double? dienTich, int? soPhongNgu, int? soPhongVeSinh, double? chieuNgang, double? chieuDai, double? dienTichSuDung, LoaiBatDongSan? loaiBatDongSan, TrangThaiBatDongSan? trangThai, string? keyword)
+        public IQueryable<TinBanDTO> LayHetTinBan(Filter filter)
         {
             var query = _context.
                 TinBan.
                 Include(x => x.BatDongSan).
-                ThenInclude(x=>x.HinhAnhBatDongSan)
+                ThenInclude(x => x.HinhAnhBatDongSan)
                 .AsNoTracking();
-            if (giaBan.HasValue)
+            if (filter.giaBan.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.GiaBan <= giaBan.Value);
+                query = query.Where(x => x.BatDongSan.GiaBan <= filter.giaBan.Value);
             }
-            if (!string.IsNullOrEmpty(tinhCode))
+            if (!string.IsNullOrEmpty(filter.tinhCode))
             {
-                query = query.Where(x => x.BatDongSan.ProvinceCode == tinhCode);
+                query = query.Where(x => x.BatDongSan.ProvinceCode == filter.tinhCode);
             }
-            if (!string.IsNullOrEmpty(huyenCode))
+            if (!string.IsNullOrEmpty(filter.huyenCode))
             {
-                query = query.Where(x => x.BatDongSan.DistrictCode == huyenCode);
+                query = query.Where(x => x.BatDongSan.DistrictCode == filter.huyenCode);
             }
-            if (namXayDung.HasValue)
+            if (filter.namXayDung.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.NamXayDung >= namXayDung.Value);
+                query = query.Where(x => x.BatDongSan.NamXayDung >= filter.namXayDung.Value);
             }
-            if (dienTich.HasValue)
+            if (filter.dienTich.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.DienTich >= dienTich.Value);
+                query = query.Where(x => x.BatDongSan.DienTich >= filter.dienTich.Value);
             }
-            if (soPhongNgu.HasValue)
+            if (filter.soPhongNgu.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.SoPhongNgu >= soPhongNgu.Value);
+                query = query.Where(x => x.BatDongSan.SoPhongNgu >= filter.soPhongNgu.Value);
             }
-            if (soPhongVeSinh.HasValue)
+            if (filter.soPhongVeSinh.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.SoPhongVeSinh >= soPhongVeSinh.Value);
+                query = query.Where(x => x.BatDongSan.SoPhongVeSinh >= filter.soPhongVeSinh.Value);
             }
-            if (chieuNgang.HasValue)
+            if (filter.chieuNgang.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.ChieuNgang >= chieuNgang.Value);
+                query = query.Where(x => x.BatDongSan.ChieuNgang >= filter.chieuNgang.Value);
             }
-            if (chieuDai.HasValue)
+            if (filter.chieuDai.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.ChieuNgang >= chieuDai.Value);
+                query = query.Where(x => x.BatDongSan.ChieuNgang >= filter.chieuDai.Value);
             }
-            if (dienTichSuDung.HasValue)
+            if (filter.dienTichSuDung.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.DienTichSuDung >= dienTichSuDung.Value);
+                query = query.Where(x => x.BatDongSan.DienTichSuDung >= filter.dienTichSuDung.Value);
             }
-            if (loaiBatDongSan.HasValue)
+            if (filter.loaiBatDongSan != null)
             {
-                query = query.Where(x => x.BatDongSan.LoaiBatDongSan == loaiBatDongSan);
+                query = query.Where(x => filter.loaiBatDongSan.Any(y => y == x.BatDongSan.LoaiBatDongSan));
             }
-            if (trangThai.HasValue)
+            if (filter.trangThai.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.TrangThai == trangThai);
+                query = query.Where(x => x.BatDongSan.TrangThai == filter.trangThai);
             }
-            if (!string.IsNullOrEmpty(keyword))
+            if (filter.min.HasValue)
+            {
+                query = query.Where(x => x.BatDongSan.GiaBan >= filter.min && x.BatDongSan.GiaBan <= filter.max);
+            }
+            if (!string.IsNullOrEmpty(filter.keyword))
             {
             }
             return query.Select(x => TinBanDTO.FromEntity(x));

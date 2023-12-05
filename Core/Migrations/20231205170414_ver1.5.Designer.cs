@@ -4,6 +4,7 @@ using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(BDSContext))]
-    partial class BDSContextModelSnapshot : ModelSnapshot
+    [Migration("20231205170414_ver1.5")]
+    partial class ver15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,6 +151,7 @@ namespace Core.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("DistrictCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("GiaBan")
@@ -188,6 +191,7 @@ namespace Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ProvinceCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoaiChuNha")
@@ -195,6 +199,7 @@ namespace Core.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoaiLienHe")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SoPhongNgu")
@@ -211,6 +216,7 @@ namespace Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("WardCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

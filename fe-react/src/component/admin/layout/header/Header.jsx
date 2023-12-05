@@ -15,7 +15,7 @@ function Header() {
           }}
         >
           <img
-            src="https://routine.vn/media/logo/websites/1/logo-black-2x.png"
+            src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
             alt="logo"
           />
         </div>

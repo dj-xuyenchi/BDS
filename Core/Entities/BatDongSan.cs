@@ -28,21 +28,21 @@ namespace Core.Entities
         public double ChieuDai { get; set; }
         public double DienTichSuDung { get; set; }
         public string? MoTaChiTiet { get; set; }
-        public string SoDienThoaiLienHe { get; set; }
+        public string? SoDienThoaiLienHe { get; set; }
         public string SoDienThoaiChuNha { get; set; }
-        public string ProvinceCode { get; set; }
-        public string DistrictCode { get; set; }
-        public string WardCode { get; set; }
-        public int DauChuTaoId { get; set; }
-        public virtual NguoiDung DauChuTao { get; set; }
+        public string? ProvinceCode { get; set; }
+        public string? DistrictCode { get; set; }
+        public string? WardCode { get; set; }
+        public int? DauChuTaoId { get; set; }
+        public virtual NguoiDung? DauChuTao { get; set; }
         public TrangThaiBatDongSan TrangThai { get; set; }
         public LoaiBatDongSan LoaiBatDongSan { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
         public DateTime? NgayBan { get; set; }
-        public virtual IEnumerable<HinhAnhBatDongSan> HinhAnhBatDongSan { get; set; }
-        public virtual IEnumerable<PhieuXemNhaBatDongSan> PhieuXemNhaBatDongSan { get; set; }
-        public virtual IEnumerable<HopDongMuaBatDongSan> HopDongMuaBatDongSan { get; set; }
-        public virtual IEnumerable<TinBan> TinBan { get; set; }
+        public virtual IEnumerable<HinhAnhBatDongSan>? HinhAnhBatDongSan { get; set; }
+        public virtual IEnumerable<PhieuXemNhaBatDongSan>? PhieuXemNhaBatDongSan { get; set; }
+        public virtual IEnumerable<HopDongMuaBatDongSan>? HopDongMuaBatDongSan { get; set; }
+        public virtual IEnumerable<TinBan>? TinBan { get; set; }
     }
 }

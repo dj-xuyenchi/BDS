@@ -1,234 +1,229 @@
-import { selectLanguage } from "../../../language/selectLanguage";
-import "./style.css";
 import {
   Button,
   Form,
   Input,
+  InputNumber,
   Modal,
-  Row,
-  Table,
-  Tooltip,
   notification,
+  Tooltip,
 } from "antd";
-import React, { useEffect, useRef, useState } from "react";
-import { useSanPhamStore } from "./useSanPhamStore";
-import { useSelector } from "react-redux";
+import Gallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
+import "./style.css";
+import React, { useState } from "react";
+import { useForm } from "antd/es/form/Form";
 import { IoEyeSharp } from "react-icons/io5";
-function ModalView({ id }) {
-  const language = useSelector(selectLanguage);
-  const [sanPham, setSanPham] = useState({
-    id: id,
-    tenSanPham: "",
-    ngayTao: "",
-    ngayCapNhat: "",
-    chatLieu: {},
-    nhomSanPham: {},
-    thietKe: {},
+import TextArea from "antd/es/input/TextArea";
+function ModalView({ data }) {
+  console.log(data);
+  const [form] = useForm();
+  const [api, contextHolder] = notification.useNotification();
+  const openNotification = (type, title, des, placement) => {
+    if (type === "error") {
+      api.error({
+        message: title,
+        description: des,
+        placement,
+      });
+    } else {
+      api.success({
+        message: title,
+        description: des,
+        placement,
+      });
+    }
+  };
+  const imgs = data.hinhAnhBatDongSan.map((item) => {
+    return {
+      original: item.linkHinhAnh,
+      thumbnail: item.linkHinhAnh,
+      description: "Description 1",
+    };
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-  useEffect(() => {
-    async function layDuLieu() {
-      const data = await useSanPhamStore.actions.laySanPhamById(id);
-      setSanPham(data.data);
-    }
-    if (isModalOpen) {
-      layDuLieu();
-    }
-  }, [isModalOpen]);
+  // var form = new FormData();
+  // form.append("file1", hinhAnh[0]);
+  // form.append("file2", hinhAnh[1]);
+  // form.append("data", JSON.stringify(sanPham));
+
   return (
     <>
-      <Tooltip title="Xem" onClick={showModal}>
+      {contextHolder}
+      <Tooltip title="Xem">
+        {" "}
         <Button
-          style={{
-            color: "blue",
-          }}
+          style={{ color: "blue" }}
           shape="circle"
           icon={<IoEyeSharp />}
-        />
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        />{" "}
       </Tooltip>
       <Modal
-        cancelButtonProps={{ style: { display: "none" } }}
-        title="Sản phẩm"
+        width={768}
+        title={"Thông tin BDS"}
         open={isModalOpen}
-        onCancel={handleCancel}
+        onOk={() => {
+          setIsModalOpen(false);
+        }}
+        onCancel={() => {
+          setIsModalOpen(false);
+        }}
         centered
       >
         <Form
-          name="wrap"
           labelCol={{
-            flex: "110px",
+            span: 4,
           }}
-          labelAlign="left"
-          labelWrap
           wrapperCol={{
-            flex: 1,
+            span: 18,
           }}
-          colon={false}
+          layout="horizontal"
           style={{
-            maxWidth: 600,
+            maxWidth: 768,
           }}
         >
-          <Form.Item
-            label="Mã sản phẩm"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.maSanPham} />
+          <Form.Item label="Hình ảnh BDS">
+            <Gallery items={imgs} />
           </Form.Item>
-          <Form.Item
-            label="Tên sản phẩm"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.tenSanPham} />
+          <Form.Item label="Tên chủ nhà">
+            <Input value={data.tenChuNha} disabled />
           </Form.Item>
-          <Form.Item label="Hình ảnh 1" >
-            <img
-              alt="Hình ảnh sản phẩm"
-              src={sanPham.hinhAnh1} 
-              style={{ width: '30%', height: '30%' }} 
+          <Form.Item label="Giá bán">
+            <InputNumber
+              value={data.giaBan}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+              formatter={(value) =>
+                `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
             />
           </Form.Item>
-          <Form.Item label="Hình ảnh 2">
-            <img
-              alt="Hình ảnh sản phẩm"
-              src={sanPham.hinhAnh2} 
-              style={{ width: '30%', height: '30%', floa:"left" }} 
+          <Form.Item label="Hoa hồng">
+            <InputNumber
+              value={data.giaTriHoaHong}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+              formatter={(value) =>
+                `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
             />
           </Form.Item>
-          <Form.Item
-            label="Giá nhập"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.giaNhap} />
+          <Form.Item label="Hoa hồng nhân viên">
+            <InputNumber
+              value={data.giaTriHoaHongChiaNhanVien}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+              formatter={(value) =>
+                `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
+            />
           </Form.Item>
-          <Form.Item
-            label="Giá bán"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.giaBan} />
+          <Form.Item label="Năm xây dựng">
+            <InputNumber
+              value={data.namXayDung}
+              min={1900}
+              max={3000}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
           </Form.Item>
-          <Form.Item
-            label="Ngày tạo"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.ngayTao} />
+          <Form.Item label="Số phòng ngủ">
+            <InputNumber
+              value={data.soPhongNgu}
+              min={1}
+              max={20}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
           </Form.Item>
-          <Form.Item
-            label="Ngày cập nhật"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.ngayCapNhat} />
+          <Form.Item label="Số nhà vệ sinh">
+            <InputNumber
+              value={data.soPhongVeSinh}
+              min={1}
+              max={20}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
           </Form.Item>
-          <Form.Item
-            label="Mô tả"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.moTa} />
+          <Form.Item label="Chiều ngang">
+            <InputNumber
+              value={data.chieuNgang + "m"}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
           </Form.Item>
-          <Form.Item
-            label="Trạng thái"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.trangThai} />
+          <Form.Item label="Chiều dài">
+            <InputNumber
+              value={data.chieuDai + "m"}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
           </Form.Item>
-          <Form.Item
-            label="Số lượng tồn"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.soLuongTon} />
+          <Form.Item label="Diện tích">
+            <InputNumber
+              value={data.dienTich + "m2"}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
           </Form.Item>
-          <Form.Item
-            label="Số lượng đã bán"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.soLuongDaBan} />
+          <Form.Item label="Diện tích sử dụng">
+            <InputNumber
+              value={data.dienTichSuDung + "m2"}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
           </Form.Item>
-          <Form.Item
-            label="Số lượng trả hàng"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.soLuongTraHang} />
+          <Form.Item label="Địa chỉ">
+            <Input value={data.diaChi} disabled />
           </Form.Item>
-          <Form.Item
-            label="Số lượng lỗi"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.soLuongLoi} />
+          <Form.Item label="Mô tả">
+            <TextArea value={data.moTaChiTiet} rows={4} disabled />
           </Form.Item>
-          <Form.Item
-            label="Chất liệu"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.chatLieu.tenChatLieu} />
-          </Form.Item>
-
-          <Form.Item
-            label="Thiết kế"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Input disabled value={sanPham.thietKe.tenThietKe} />
-          </Form.Item>
+          <div>
+            <iframe
+              src={data.diaChiGoogleMap}
+              style={{
+                border: 0,
+                width: 700,
+                height: 450,
+              }}
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
         </Form>
       </Modal>
     </>

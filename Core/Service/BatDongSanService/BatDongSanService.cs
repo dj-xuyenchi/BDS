@@ -1,6 +1,8 @@
 ﻿using Core.Data;
 using Core.DTO;
+using Core.Entities;
 using Core.Enums;
+using Core.RequestModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,74 +22,84 @@ namespace Core.Service.BatDongSanService
         }
 
         public IQueryable<BatDongSanDTO> LayHetBatDongSan(
-             double? giaBan,
-            string? tinhCode,
-            string? huyenCode,
-            int? namXayDung,
-            double? dienTich,
-            int? soPhongNgu,
-            int? soPhongVeSinh,
-            double? chieuNgang,
-            double? chieuDai,
-            double? dienTichSuDung,
-            LoaiBatDongSan? loaiBatDongSan,
-            TrangThaiBatDongSan? trangThai,
-            string? keyword
+          Filter filter
             )
         {
-            var query = _context.BatDongSan.AsNoTracking();
-            if (giaBan.HasValue)
+            var query = _context.BatDongSan
+                .Include(x => x.HinhAnhBatDongSan)
+                .Include(x => x.DauChuTao)
+                .AsNoTracking();
+            if (filter.giaBan.HasValue)
             {
-                query = query.Where(x => x.GiaBan <= giaBan.Value);
+                query = query.Where(x => x.GiaBan <= filter.giaBan.Value);
             }
-            if (!string.IsNullOrEmpty(tinhCode))
+            if (!string.IsNullOrEmpty(filter.tinhCode))
             {
-                query = query.Where(x => x.ProvinceCode == tinhCode);
+                query = query.Where(x => x.ProvinceCode == filter.tinhCode);
             }
-            if (!string.IsNullOrEmpty(huyenCode))
+            if (!string.IsNullOrEmpty(filter.huyenCode))
             {
-                query = query.Where(x => x.DistrictCode == huyenCode);
+                query = query.Where(x => x.DistrictCode == filter.huyenCode);
             }
-            if (namXayDung.HasValue)
+            if (filter.namXayDung.HasValue)
             {
-                query = query.Where(x => x.NamXayDung >= namXayDung.Value);
+                query = query.Where(x => x.NamXayDung >= filter.namXayDung.Value);
             }
-            if (dienTich.HasValue)
+            if (filter.dienTich.HasValue)
             {
-                query = query.Where(x => x.DienTich >= dienTich.Value);
+                query = query.Where(x => x.DienTich >= filter.dienTich.Value);
             }
-            if (soPhongNgu.HasValue)
+            if (filter.soPhongNgu.HasValue)
             {
-                query = query.Where(x => x.SoPhongNgu >= soPhongNgu.Value);
+                query = query.Where(x => x.SoPhongNgu >= filter.soPhongNgu.Value);
             }
-            if (soPhongVeSinh.HasValue)
+            if (filter.soPhongVeSinh.HasValue)
             {
-                query = query.Where(x => x.SoPhongVeSinh >= soPhongVeSinh.Value);
+                query = query.Where(x => x.SoPhongVeSinh >= filter.soPhongVeSinh.Value);
             }
-            if (chieuNgang.HasValue)
+            if (filter.chieuNgang.HasValue)
             {
-                query = query.Where(x => x.ChieuNgang >= chieuNgang.Value);
+                query = query.Where(x => x.ChieuNgang >= filter.chieuNgang.Value);
             }
-            if (chieuDai.HasValue)
+            if (filter.chieuDai.HasValue)
             {
-                query = query.Where(x => x.ChieuNgang >= chieuDai.Value);
+                query = query.Where(x => x.ChieuNgang >= filter.chieuDai.Value);
             }
-            if (dienTichSuDung.HasValue)
+            if (filter.dienTichSuDung.HasValue)
             {
-                query = query.Where(x => x.DienTichSuDung >= dienTichSuDung.Value);
+                query = query.Where(x => x.DienTichSuDung >= filter.dienTichSuDung.Value);
             }
-            if (loaiBatDongSan.HasValue)
+            if (filter.loaiBatDongSan != null)
             {
-                query = query.Where(x => x.LoaiBatDongSan == loaiBatDongSan);
+                query = query.Where(x => filter.loaiBatDongSan.Any(y => y == x.LoaiBatDongSan));
             }
-            if (trangThai.HasValue)
+            if (filter.min.HasValue)
             {
-                query = query.Where(x => x.TrangThai == trangThai);
+                query = query.Where(x => x.GiaBan >= filter.min && x.GiaBan <= filter.max);
             }
-            if (!string.IsNullOrEmpty(keyword))
+            if (filter.trangThai.HasValue)
+            {
+                query = query.Where(x => x.TrangThai == filter.trangThai);
+            }
+            if (!string.IsNullOrEmpty(filter.keyword))
             {
             }
-            return query.Select(x => BatDongSanDTO.FromEntity(x));
+            return query.Where(x => x.TrangThai != TrangThaiBatDongSan.LOCK).Select(x => BatDongSanDTO.FromEntity(x));
+        }
+
+        public async Task<BatDongSanDTO> ThemBDS(BatDongSanDTO data)
+        {
+            data.DauChuTaoId = 1;
+            HinhAnhBatDongSan hinh = new HinhAnhBatDongSan();
+            hinh.NgayTao = DateTime.Now;
+            hinh.LinkHinhAnh = "https://png.pngtree.com/png-vector/20190820/ourlarge/pngtree-no-avatar-vector-isolated-on-white-background-png-image_1694546.jpg";
+            var bds = data.ToEntity();
+            await _context.BatDongSan.AddAsync(bds);
+            await _context.SaveChangesAsync();
+            hinh.BatDongSanId = bds.Id;
+            await _context.HinhAnhBatDongSan.AddAsync(hinh);
+            await _context.SaveChangesAsync();
+            return data;
         }
     }
 }

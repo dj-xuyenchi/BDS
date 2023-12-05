@@ -9,6 +9,8 @@ import productSlice from "./product/productSlice";
 import { useState } from "react";
 import { Carousel, Pagination, Row } from "antd";
 import { selectProduct } from "./product/selectProduct";
+import { useSanPhamStore } from "./product/useSanPhamStore";
+import { useEffect } from "react";
 function Body() {
   const language = useSelector(selectLanguage);
 
@@ -32,12 +34,19 @@ function Body() {
     disPath(productSlice.actions.setSanPham(data));
     disPath(productSlice.actions.setIsLoading(false));
   }
+  const [data, setData] = useState(undefined);
+  async function handleLayDuLieu(payload) {
+    const data = await useSanPhamStore.actions.fetchSanPham(
+      payload ? payload : {}
+    );
+    setData(data.data);
+  }
+  useEffect(() => {
+    handleLayDuLieu(null);
+  }, []);
   return (
     <>
-      <div
-        className="header-banner"
-     
-      >
+      <div className="header-banner">
         <Carousel autoplay>
           <div className="caro">
             <img
@@ -69,8 +78,12 @@ function Body() {
         <h3>{language.header.title}</h3>
       </div>
       <div className="body-home-container">
-        <Fillter handleFilter={handleFilter} page={current} pageSize={20} />
-        <Product />
+        <Fillter
+          handleLayDuLieu={handleLayDuLieu}
+          page={current}
+          pageSize={20}
+        />
+        <Product data={data} />
       </div>
       <Row
         style={{

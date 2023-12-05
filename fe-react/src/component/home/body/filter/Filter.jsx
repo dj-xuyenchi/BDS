@@ -17,10 +17,10 @@ import { useEffect, useState } from "react";
 import { fixMoney } from "../../../../extensions/fixMoney";
 import Tag1 from "../../../common/tag/Tag1";
 import { useFilterStore } from "./useFilter";
-function Filter({ handleFilter, page, pageSize }) {
+function Filter({ page, pageSize, handleLayDuLieu }) {
   const language = useSelector(selectLanguage);
   const [value, setValue] = useState(undefined);
-const [optionFilter,setOptionFilter] 
+  const [optionFilter, setOptionFilter] = useState();
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
@@ -33,7 +33,24 @@ const [optionFilter,setOptionFilter]
   const onChangeSlider = (newValue) => {
     setInputValue(newValue);
   };
-  const [option, setOption] = useState(undefined);
+  const [soPhongNgu, setSoPhongNgu] = useState(undefined);
+  const [soNhaVeSinh, setSoNhaVeSinh] = useState(undefined);
+  const [loaiBatDongSan, setLoaiBatDongSan] = useState(undefined);
+  const [dienTichSuDung, setDienTichSuDung] = useState(undefined);
+  const [matTien, setMatTien] = useState(undefined);
+  const [chieuDai, setChieuDai] = useState(undefined);
+  const [giaTien, setGiaTien] = useState([0, 10000000000]);
+  function handleFilter(ngu, veSinh, dienTich, tien, dai, gia) {
+    handleLayDuLieu({
+      soPhongNgu: ngu ? ngu : soPhongNgu,
+      soPhongVeSinh: veSinh ? veSinh : soNhaVeSinh,
+      dienTichSuDung: dienTich ? dienTich : dienTichSuDung,
+      chieuNgang: tien ? tien : matTien,
+      chieuDai: dai ? dai : chieuDai,
+      min: gia ? gia[0] : giaTien[0],
+      max: gia ? gia[1] : giaTien[1],
+    });
+  }
   return (
     <>
       <div className="filter-container">
@@ -78,15 +95,25 @@ const [optionFilter,setOptionFilter]
                       width: "90%",
                     }}
                   >
-                    <ckr.Group
-                      value={null}
-                      options={[
-                        { label: "Trên 2 phòng", value: 1 },
-                        { label: "Trên 3 phòng", value: 2 },
-                        { label: "Trên 4 phòng", value: 3 },
-                        { label: "Trên 5 phòng", value: 4 },
-                      ]}
-                    />
+                    <Radio.Group
+                      onChange={(e) => {
+                        setSoPhongNgu(e.target.value);
+                        handleFilter(
+                          e.target.value,
+                          null,
+                          null,
+                          null,
+                          null,
+                          null
+                        );
+                      }}
+                      value={soPhongNgu}
+                    >
+                      <Radio value={2}>Trên 2 phòng</Radio>
+                      <Radio value={3}>Trên 3 phòng</Radio>
+                      <Radio value={4}>Trên 4 phòng</Radio>
+                      <Radio value={5}>Trên 5 phòng</Radio>
+                    </Radio.Group>
                   </div>
                 </AccordionPanel>
               </AccordionItem>
@@ -107,15 +134,25 @@ const [optionFilter,setOptionFilter]
                       width: "90%",
                     }}
                   >
-                    <ckr.Group
-                      value={null}
-                      options={[
-                        { label: "Trên 2 phòng", value: 1 },
-                        { label: "Trên 2 phòng", value: 2 },
-                        { label: "Trên 2 phòng", value: 3 },
-                        { label: "Trên 2 phòng", value: 4 },
-                      ]}
-                    />
+                    <Radio.Group
+                      onChange={(e) => {
+                        handleFilter(
+                          null,
+                          e.target.value,
+                          null,
+                          null,
+                          null,
+                          null
+                        );
+                        setSoNhaVeSinh(e.target.value);
+                      }}
+                      value={soNhaVeSinh}
+                    >
+                      <Radio value={2}>Trên 2 phòng</Radio>
+                      <Radio value={3}>Trên 3 phòng</Radio>
+                      <Radio value={4}>Trên 4 phòng</Radio>
+                      <Radio value={5}>Trên 5 phòng</Radio>
+                    </Radio.Group>
                   </div>
                 </AccordionPanel>
               </AccordionItem>
@@ -137,13 +174,14 @@ const [optionFilter,setOptionFilter]
                     }}
                   >
                     <ckr.Group
-                      value={null}
+                      value={loaiBatDongSan}
+                      onChange={(e) => {
+                        setLoaiBatDongSan(e);
+                      }}
                       options={[
                         { label: "Nhà phố", value: 1 },
                         { label: "Đất thổ cư", value: 2 },
-                        ,
                         { label: "Đất nền", value: 3 },
-                        ,
                         { label: "Chung cư", value: 4 },
                       ]}
                     />
@@ -167,15 +205,25 @@ const [optionFilter,setOptionFilter]
                       width: "90%",
                     }}
                   >
-                    <ckr.Group
-                      value={null}
-                      options={[
-                        { label: "Trên 25m2", value: 1 },
-                        { label: "Trên 35m2", value: 2 },
-                        { label: "Trên 45m2", value: 3 },
-                        { label: "Trên 50m2", value: 4 },
-                      ]}
-                    />
+                    <Radio.Group
+                      onChange={(e) => {
+                        handleFilter(
+                          null,
+                          null,
+                          e.target.value,
+                          null,
+                          null,
+                          null
+                        );
+                        setDienTichSuDung(e.target.value);
+                      }}
+                      value={dienTichSuDung}
+                    >
+                      <Radio value={20}>Trên 20m2</Radio>
+                      <Radio value={30}>Trên 30m2</Radio>
+                      <Radio value={40}>Trên 40m2</Radio>
+                      <Radio value={50}>Trên 50m2</Radio>
+                    </Radio.Group>
                   </div>
                 </AccordionPanel>
               </AccordionItem>
@@ -196,15 +244,25 @@ const [optionFilter,setOptionFilter]
                       width: "90%",
                     }}
                   >
-                    <ckr.Group
-                      value={null}
-                      options={[
-                        { label: "Trên 2m", value: 1 },
-                        { label: "Trên 3m", value: 2 },
-                        { label: "Trên 4m", value: 3 },
-                        { label: "Trên 5m", value: 4 },
-                      ]}
-                    />
+                    <Radio.Group
+                      onChange={(e) => {
+                        handleFilter(
+                          null,
+                          null,
+                          null,
+                          e.target.value,
+                          null,
+                          null
+                        );
+                        setMatTien(e.target.value);
+                      }}
+                      value={matTien}
+                    >
+                      <Radio value={2}>Trên 2m</Radio>
+                      <Radio value={3}>Trên 3m</Radio>
+                      <Radio value={4}>Trên 4m</Radio>
+                      <Radio value={5}>Trên 5m</Radio>
+                    </Radio.Group>
                   </div>
                 </AccordionPanel>
               </AccordionItem>
@@ -225,15 +283,25 @@ const [optionFilter,setOptionFilter]
                       width: "90%",
                     }}
                   >
-                    <ckr.Group
-                      value={null}
-                      options={[
-                        { label: "Trên 2m", value: 1 },
-                        { label: "Trên 3m", value: 2 },
-                        { label: "Trên 4m", value: 3 },
-                        { label: "Trên 5m", value: 4 },
-                      ]}
-                    />
+                    <Radio.Group
+                      onChange={(e) => {
+                        handleFilter(
+                          null,
+                          null,
+                          null,
+                          null,
+                          e.target.value,
+                          null
+                        );
+                        setChieuDai(e.target.value);
+                      }}
+                      value={chieuDai}
+                    >
+                      <Radio value={2}>Trên 2m</Radio>
+                      <Radio value={3}>Trên 3m</Radio>
+                      <Radio value={4}>Trên 4m</Radio>
+                      <Radio value={5}>Trên 5m</Radio>
+                    </Radio.Group>
                   </div>
                 </AccordionPanel>
               </AccordionItem>
@@ -254,19 +322,6 @@ const [optionFilter,setOptionFilter]
                       width: "90%",
                     }}
                   >
-                    <Radio.Group onChange={onChange} value={value}>
-                      <Space direction="vertical">
-                        {language.body.filter.item.cost.option.map(
-                          (item, index) => {
-                            return (
-                              <Radio value={item.type} key={index}>
-                                {item.name}
-                              </Radio>
-                            );
-                          }
-                        )}
-                      </Space>
-                    </Radio.Group>
                     <Row>
                       <Col span={24}>
                         <Slider
@@ -276,35 +331,46 @@ const [optionFilter,setOptionFilter]
                           tooltip={{
                             formatter,
                           }}
-                          min={100000}
-                          max={10000000}
-                          defaultValue={[500000, 2000000]}
+                          min={500000000}
+                          max={10000000000}
+                          defaultValue={giaTien}
                         />
                       </Col>
-                    </Row>
-                    <Row>
-                      <Col span={11}>
+                      <Col span={24}>
                         <InputNumber
-                          min={1}
-                          max={20}
-                          style={{ width: "100%" }}
-                          value={onChangeSlider}
-                          onChange={onChangeSlider}
+                          value={giaTien[0]}
+                          style={{
+                            width: "49%",
+                          }}
+                          formatter={(value) =>
+                            `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                          }
+                          parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
+                          onChange={(e) => {
+                            setGiaTien([e, giaTien[1]]);
+                            handleFilter(null, null, null, null, null, [
+                              e,
+                              giaTien[1],
+                            ]);
+                          }}
                         />
-                      </Col>
-                      <Col
-                        span={2}
-                        className="d-flex align-items-center justify-content-center"
-                      >
                         -
-                      </Col>
-                      <Col span={11}>
                         <InputNumber
-                          min={1}
-                          max={20}
-                          style={{ width: "100%" }}
-                          value={onChangeSlider}
-                          onChange={onChangeSlider}
+                          style={{
+                            width: "49%",
+                          }}
+                          value={giaTien[1]}
+                          formatter={(value) =>
+                            `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                          }
+                          parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
+                          onChange={(e) => {
+                            setGiaTien([giaTien[0], e]);
+                            handleFilter(null, null, null, null, null, [
+                              giaTien[1],
+                              e,
+                            ]);
+                          }}
                         />
                       </Col>
                     </Row>

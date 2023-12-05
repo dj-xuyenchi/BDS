@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Menu } from "antd";
 import { RiRefundFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { BsPercent } from 'react-icons/bs';
+import { BsPercent } from "react-icons/bs";
 import { FcIdea } from "react-icons/fc";
 function getItem(label, key, icon, children, type) {
   return {
@@ -30,82 +30,29 @@ const items = [
     "1",
     <TbLayoutDashboard />
   ),
-  getItem("Quản lý sản phẩm", "sub1", <BsFillBoxSeamFill />, [
+  getItem("Quản lý bất động sản", "sub1", <BsFillBoxSeamFill />, [
     getItem(
-      <Link to={"/admin/sanpham"}>Sản phẩm</Link>,
+      <Link to={"/admin/sanpham"}>Bất động sản</Link>,
       "2",
       <BsFillBoxSeamFill />
     ),
-    getItem(
-      <Link to={"/admin/sanpham/sanphamchitiet"}>Sản phẩm chi tiết</Link>,
-      "3",
-      <TbPackages />
-    ),
-    getItem("Thuộc tính", "10", <FaBuffer />, [
-      getItem(
-        <Link to={"/admin/sanpham/chatlieu"}>Chất liệu</Link>,
-        "4",
-        <SiSteelseries />
-      ),
-      getItem(
-        <Link to={"/admin/sanpham/nhomsanpham"}>Nhóm sản phẩm</Link>,
-        "5",
-        <MdGroupWork />
-      ),
-      getItem(
-        <Link to={"/admin/sanpham/thietke"}>Thiết kế</Link>,
-        "6",
-        <MdArchitecture />
-      ),
-      getItem(
-        <Link to={"/admin/sanpham/mausac"}>Màu sắc</Link>,
-        "7",
-        <AiOutlineBgColors />
-      ),
-      getItem(
-        <Link to={"/admin/sanpham/kichthuoc"}>Kích thước</Link>,
-        "8",
-        <SiZerodha />
-      ),
-    ]),
   ]),
   getItem(
-    <Link to={"/admin/hoadon"}>Quản lý hóa đơn</Link>,
+    <Link to={"/admin/dangtin"}>Quản lý đăng tin</Link>,
     "9",
     <RiBillLine />
   ),
   getItem(
-    <Link to={"/admin/sanpham"}>Quản lý người dùng</Link>,
+    <Link to={"/admin/nguoidung"}>Quản lý người dùng</Link>,
     "63",
     <FaUserFriends />
   ),
+  getItem(<Link to={"/admin/daotao"}>Đào tạo</Link>, "62", <BsShopWindow />),
   getItem(
-    <Link to={"/admin/bantaiquay"}>Bán hàng tại quầy</Link>,
-    "62",
-    <BsShopWindow />
-  ),
-  getItem(
-    <Link to={"/admin/doitra"}>Đổi trả</Link>,
+    <Link to={"/admin/kygui"}>Yêu cầu ký gửi</Link>,
     "64",
     <RiRefundFill />
   ),
-  getItem("Quản lý sự kiện", "sub5", <FaTag />, [
-    getItem(
-      <Link to={"/admin/sukiengiamgia"}>Sự kiện giảm giá</Link>,
-      "66",
-      <BsPercent />
-    ),
-    getItem(
-      <Link to={"/admin/sukiengiamgia/sanphamsukien"}>Sản phẩm sự kiện</Link>,
-      "67",
-      <TbPackages />
-    ),
-    getItem(
-      <Link to={"/admin/crm"}>CRM</Link>,
-      "65",
-      <FcIdea />
-    ),
-  ]),
 ];
 
 const rootSubmenuKeys = ["sub1", "sub2", "sub4"];

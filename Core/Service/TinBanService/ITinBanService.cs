@@ -1,5 +1,6 @@
 ﻿using Core.DTO;
 using Core.Enums;
+using Core.RequestModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,7 @@ namespace Core.Service.TinBanService
     public interface ITinBanService
     {
         IQueryable<TinBanDTO> LayHetTinBan(
-             double? giaBan,
-            string? tinhCode,
-            string? huyenCode,
-            int? namXayDung,
-            double? dienTich,
-            int? soPhongNgu,
-            int? soPhongVeSinh,
-            double? chieuNgang,
-            double? chieuDai,
-            double? dienTichSuDung,
-            LoaiBatDongSan? loaiBatDongSan,
-            TrangThaiBatDongSan? trangThai,
-            string? keyword
+          Filter filter
             );
     }
 }

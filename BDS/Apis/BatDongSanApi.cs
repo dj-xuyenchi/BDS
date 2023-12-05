@@ -1,4 +1,6 @@
-﻿using Core.Enums;
+﻿using Core.DTO;
+using Core.Enums;
+using Core.RequestModel;
 using Core.Service.BatDongSanService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,38 +12,22 @@ namespace BDS.Apis
     {
         private readonly IBatDongSanService _batDongSanService = new BatDongSanService();
 
-        [HttpGet("laybatdongsan")]
+        [HttpPost("laybatdongsan")]
         public IActionResult LayHetBatDongSan(
-              double? giaBan,
-            string? tinhCode,
-            string? huyenCode,
-            int? namXayDung,
-            double? dienTich,
-            int? soPhongNgu,
-            int? soPhongVeSinh,
-            double? chieuNgang,
-            double? chieuDai,
-            double? dienTichSuDung,
-            LoaiBatDongSan? loaiBatDongSan,
-            TrangThaiBatDongSan? trangThai,
-            string? keyword
+            [FromBody]
+            Filter filter
             )
         {
             return Ok(_batDongSanService.LayHetBatDongSan(
-                giaBan,
-                tinhCode,
-                huyenCode,
-                namXayDung,
-                dienTich,
-                soPhongNgu,
-                soPhongVeSinh,
-                chieuNgang,
-                chieuDai,
-                dienTichSuDung,
-                loaiBatDongSan,
-                trangThai,
-                keyword
-                ));
+               filter));
+        }
+        [HttpPost("themmoi")]
+        public async Task<IActionResult> ThemBDS(
+          [FromBody]
+            BatDongSanDTO data
+          )
+        {
+            return Ok(await _batDongSanService.ThemBDS(data));
         }
     }
 }
