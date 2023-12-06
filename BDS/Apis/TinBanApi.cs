@@ -19,9 +19,9 @@ namespace BDS.Apis
             return Ok(_tinBan.LayHetTinBan(filter));
         }
         [HttpPost("taotin")]
-        public IActionResult TaoTin([FromBody] TinBanDTO tinBan)
+        public async Task<IActionResult> TaoTin([FromBody] TinBanDTO tinBan)
         {
-            return Ok(_tinBan.TaoTin(tinBan));
+            return Ok( await _tinBan.TaoTin(tinBan));
         }
        
     }

@@ -89,7 +89,6 @@ namespace Core.Service.BatDongSanService
 
         public async Task<BatDongSanDTO> ThemBDS(BatDongSanDTO data)
         {
-            data.DauChuTaoId = 1;
             HinhAnhBatDongSan hinh = new HinhAnhBatDongSan();
             hinh.NgayTao = DateTime.Now;
             hinh.LinkHinhAnh = "https://png.pngtree.com/png-vector/20190820/ourlarge/pngtree-no-avatar-vector-isolated-on-white-background-png-image_1694546.jpg";

@@ -21,9 +21,7 @@ function Body() {
   };
   const disPath = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
-  if (user) {
-    disPath(userSlice.actions.dangNhap(user.data));
-  }
+
   async function handleFilter(payload) {
     disPath(productSlice.actions.setIsLoading(true));
     const data = await useFilterStore.actions.filter({

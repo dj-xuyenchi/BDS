@@ -41,7 +41,7 @@ function ModalThem({ fetchData }) {
       });
     }
   };
-
+  const user = JSON.parse(localStorage.getItem("user"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
@@ -68,7 +68,10 @@ function ModalThem({ fetchData }) {
     },
   };
   async function handleThem() {
-    const data2 = await useSanPhamStore.actions.theMoi(data);
+    const data2 = await useSanPhamStore.actions.theMoi({
+      ...data,
+      dauChuTaoId: user.id,
+    });
     openNotification("success", "Hệ thống", "Thêm thành công", "bottomRight");
     form.resetFields();
     setIsModalOpen(false);
@@ -112,15 +115,6 @@ function ModalThem({ fetchData }) {
             maxWidth: 768,
           }}
         >
-          {/* <Form.Item label="Hình ảnh BDS">
-            <Dragger {...props}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Ảnh bất động sản</p>
-              <p className="ant-upload-hint">Chỉ hỗ trợ file png, jpg, jpeg</p>
-            </Dragger>
-          </Form.Item> */}
           <Form.Item
             name="tenChuNha"
             label="Tên chủ nhà"

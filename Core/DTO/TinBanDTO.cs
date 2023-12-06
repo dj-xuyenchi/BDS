@@ -14,9 +14,9 @@ namespace Core.DTO
         public string TieuDe { get; set; }
         public string MoTa { get; set; }
         public int BatDongSanId { get; set; }
-        public virtual BatDongSan BatDongSan { get; set; }
+        public virtual BatDongSan? BatDongSan { get; set; }
         public int NguoiDangId { get; set; }
-        public virtual NguoiDung NguoiDang { get; set; }
+        public virtual NguoiDung? NguoiDang { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
         public TrangThaiTinBan TrangThai { get; set; }

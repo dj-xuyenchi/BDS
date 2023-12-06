@@ -7,11 +7,6 @@ export default createSlice({
         nguoiDung: { id: -1 }
     },
     reducers: {
-        dangNhap: (state, action) => {
-            localStorage.setItem("token", action.payload.token)
-            state.token = action.payload.token
-            state.quyenList = action.payload.quyenList
-            state.nguoiDung = action.payload.nguoiDung
-        }
+
     }
 })

@@ -23,6 +23,7 @@ namespace Core.Service.TinBanService
         {
             var query = _context.
                 TinBan.
+                Include(x=>x.NguoiDang).
                 Include(x => x.BatDongSan).
                 ThenInclude(x => x.HinhAnhBatDongSan)
                 .AsNoTracking();
@@ -88,7 +89,6 @@ namespace Core.Service.TinBanService
         {
             tinBan.NgayTao = DateTime.Now;
             tinBan.TrangThai = TrangThaiTinBan.DANGHIENTHI;
-            tinBan.NguoiDangId = 1;
             await _context.AddAsync(tinBan.ToEntity());
             await _context.SaveChangesAsync();
             return tinBan;

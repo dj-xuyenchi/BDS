@@ -1,6 +1,7 @@
 import {
   Button,
   Form,
+  Image,
   Input,
   InputNumber,
   Modal,
@@ -11,12 +12,17 @@ import {
 import "./style.css";
 import React, { useState } from "react";
 import TextArea from "antd/es/input/TextArea";
-import { useSanPhamStore } from "./useSanPhamStore";
+import { useSanPhamStore, useTinBan } from "./useSanPhamStore";
 import { useForm } from "antd/es/form/Form";
 import { MdPostAdd } from "react-icons/md";
+import { useEffect } from "react";
+import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
+import { fixMoney } from "../../../extensions/fixMoney";
 function ModalThem({ fetchData }) {
   const [form] = useForm();
   const [api, contextHolder] = notification.useNotification();
+  const [batDongSan, setBatDongSan] = useState(undefined);
+  const [hinhAnhBDSchon, setHinhAnhBDSchon] = useState(undefined);
   const openNotification = (type, title, des, placement) => {
     if (type === "error") {
       api.error({
@@ -40,27 +46,23 @@ function ModalThem({ fetchData }) {
   // form.append("file1", hinhAnh[0]);
   // form.append("file2", hinhAnh[1]);
   // form.append("data", JSON.stringify(sanPham));
-  const props = {
-    name: "file",
-    multiple: true,
-    onChange(info) {
-      const { status } = info.file;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
+  async function hanleLayBatDongSan() {
+    const data = await useTinBan.actions.layBatDongSan({});
+    setBatDongSan(data.data);
+  }
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    if (isModalOpen) {
+      hanleLayBatDongSan();
+    }
+  }, [isModalOpen]);
   async function handleThem() {
-    const data2 = await useSanPhamStore.actions.theMoi(data);
-    openNotification("success", "Hệ thống", "Thêm thành công", "bottomRight");
+    const data2 = await useTinBan.actions.taoTin({
+      ...data,
+      nguoiDangId: user.id,
+    });
+    openNotification("success", "Hệ thống", "Tạo thành công", "bottomRight");
     form.resetFields();
     setIsModalOpen(false);
     fetchData();
@@ -75,9 +77,13 @@ function ModalThem({ fetchData }) {
         }}
       >
         <MdPostAdd />
-        <span style={{
-          marginLeft: "4px"
-        }}>Đăng tin mới</span>
+        <span
+          style={{
+            marginLeft: "4px",
+          }}
+        >
+          Đăng tin mới
+        </span>
       </Button>
       <Modal
         okButtonProps={{ style: { display: "none" } }}
@@ -106,7 +112,6 @@ function ModalThem({ fetchData }) {
             maxWidth: 768,
           }}
         >
-
           <Form.Item
             name="tieuDe"
             label="Tiêu đề"
@@ -146,17 +151,39 @@ function ModalThem({ fetchData }) {
                   required: true,
                 },
               ]}
-              onChange={(e) => { }}
+              onChange={(e) => {
+                setHinhAnhBDSchon(
+                  batDongSan.find((item) => {
+                    return item.id == e.key;
+                  })
+                );
+                setData({
+                  ...data,
+                  batDongSanId: e.key,
+                });
+              }}
             >
-              {[]
-                ? [].map((option) => (
-                  <Select.Option key={option.id} value={option.id}>
-                    {option.tenThietKe}
-                  </Select.Option>
-                ))
+              {batDongSan
+                ? batDongSan.map((option) => (
+                    <Select.Option key={option.id} value={option.id}>
+                      {"Đầu chủ " +
+                        option.dauChuTao.hoTenNguoiDung +
+                        " BDS " +
+                        option.diaChi +
+                        " Loại " +
+                        fixLoaiBDS(option.loaiBatDongSan) +
+                        " giá " +
+                        fixMoney(option.giaBan)}
+                    </Select.Option>
+                  ))
                 : ""}
             </Select>
           </Form.Item>
+          {hinhAnhBDSchon && (
+            <Form.Item name="moTa" label="Hình ảnh">
+              <Image src={hinhAnhBDSchon.hinhAnhBatDongSan[0].linkHinhAnh} />
+            </Form.Item>
+          )}
           <Form.Item name="moTa" label="Mô tả">
             <TextArea
               value={data.moTa}

@@ -1,18 +1,25 @@
 import axiosIns from "../../../plugins/axios"
 
-export const useSanPhamStore = {
+export const useTinBan = {
     actions: {
-        async fetchSanPham(
+        async layBatDongSan(
             payload
         ) {
             var url = "/BatDongSan/laybatdongsan";
 
             return await axiosIns.post(url, payload);
         },
-        async theMoi(
+        async layTinBan(
             payload
         ) {
-            var url = "/BatDongSan/themmoi";
+            var url = "/TinBan/laytinban";
+
+            return await axiosIns.post(url, payload);
+        },
+        async taoTin(
+            payload
+        ) {
+            var url = "/TinBan/taotin";
 
             return await axiosIns.post(url, payload);
         },

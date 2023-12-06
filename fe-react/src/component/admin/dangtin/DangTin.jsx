@@ -7,33 +7,18 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Image, Input, Space, Table, Tag } from "antd";
-import { useSanPhamStore } from "./useSanPhamStore";
+import { useSanPhamStore, useTinBan } from "./useSanPhamStore";
 import ModalView from "./ModalView";
 import { fixMoney } from "../../../extensions/fixMoney";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import ModalThem from "./ModalThem";
+import { fixNgayThang } from "../../../extensions/fixNgayThang";
 function DangTin() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  const [data, setData] = useState([{
-    tieuDe: "cực gắt",
-    moTa: "ahihi",
-    soDienThoai: "0987657763",
-    nguoiDang: {
-      hoTenNguoiDung: "ahihi"
-    },
-    ngayTao: "2023-1-2",
-    giaBan: 200000,
-    trangThai: 1,
-    batDongSan: {
-      hinhAnhBatDongSan: [{
-        linkHinhAnh: ""
-      }]
-    },
-    loaiBatDongSan: 1
-  }]);
+  const [data, setData] = useState(undefined);
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -170,15 +155,12 @@ function DangTin() {
     },
     {
       title: "Giá bán",
-      dataIndex: "giaBan",
-      key: "giaBan",
+      dataIndex: "moTa",
+      key: "moTa",
       width: "15%",
-      sorter: (a, b) =>
-        a.giaBan - b.giaBan,
+      sorter: (a, b) => a.giaBan - b.giaBan,
       sortDirections: ["descend", "ascend"],
-      render: (giaBan) => (
-        <span>{fixMoney(giaBan)}</span>
-      ),
+      render: (moTa) => <span>{moTa}</span>,
     },
     {
       title: "Mô tả",
@@ -192,18 +174,14 @@ function DangTin() {
       dataIndex: "ngayTao",
       key: "ngayTao",
       width: "5%",
-      render: (ngayTao) => <span>{ngayTao}</span>,
+      render: (ngayTao) => <span>{fixNgayThang(ngayTao)}</span>,
     },
     {
       title: "Người đăng",
       dataIndex: "nguoiDang",
       key: "nguoiDang",
       width: "7.5%",
-      render: (nguoiDang) => (
-        <span>
-          {nguoiDang.hoTenNguoiDung}
-        </span>
-      ),
+      render: (nguoiDang) => <span>{nguoiDang.hoTenNguoiDung}</span>,
     },
     {
       title: "Loại BDS",
@@ -232,9 +210,9 @@ function DangTin() {
         return value == record.loaiBatDongSan;
       },
       filterSearch: true,
-      render: (loaiBatDongSan) =>
+      render: (loaiBatDongSan) => (
         <Tag color="success">{fixLoaiBDS(loaiBatDongSan)}</Tag>
-      ,
+      ),
       // filters: filter.thietKe,
       // filteredValue: filteredInfo.address || null,
       // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
@@ -259,12 +237,12 @@ function DangTin() {
     },
   ];
   const fetchData = async () => {
-    const data = await useSanPhamStore.actions.fetchSanPham({});
+    const data = await useTinBan.actions.layTinBan({});
     setData(data.data);
   };
   useEffect(() => {
     // dispath(productSlice.actions.setIsLoading(true));
-    // fetchData();
+    fetchData();
   }, []);
   return (
     <>

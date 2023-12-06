@@ -36,14 +36,10 @@ function App() {
       }
     }
     const user = localStorage.getItem("user");
-    if (user) {
-      disPath(userSlice.actions.dangNhap(JSON.parse(user).data));
-    }
   }, []);
   return (
     <>
       <Routes>
-
         <Route path="/*" element={<NotFound />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
