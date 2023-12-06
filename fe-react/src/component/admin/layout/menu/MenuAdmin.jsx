@@ -3,11 +3,11 @@ import "./style.css";
 import { selectLanguage } from "../../../../language/selectLanguage";
 import { BsFillBoxSeamFill, BsShopWindow } from "react-icons/bs";
 import { RiBillLine } from "react-icons/ri";
-import { FaBuffer, FaUserFriends, FaTag } from "react-icons/fa";
+import { FaBuffer, FaUserFriends, FaTag, FaGraduationCap } from "react-icons/fa";
 import { SiZerodha } from "react-icons/si";
 import { AiOutlineBgColors } from "react-icons/ai";
 import { SiSteelseries } from "react-icons/si";
-import { MdGroupWork, MdArchitecture } from "react-icons/md";
+import { MdGroupWork, MdArchitecture, MdVideoSettings } from "react-icons/md";
 import { TbLayoutDashboard, TbPackages } from "react-icons/tb";
 import { useState } from "react";
 import { Menu } from "antd";
@@ -15,6 +15,7 @@ import { RiRefundFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { BsPercent } from "react-icons/bs";
 import { FcIdea } from "react-icons/fc";
+import { PiStudentBold } from "react-icons/pi";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -33,7 +34,7 @@ const items = [
   getItem("Quản lý bất động sản", "sub1", <BsFillBoxSeamFill />, [
     getItem(
       <Link to={"/admin/sanpham"}>Bất động sản</Link>,
-      "2",
+      "22",
       <BsFillBoxSeamFill />
     ),
   ]),
@@ -47,7 +48,18 @@ const items = [
     "63",
     <FaUserFriends />
   ),
-  getItem(<Link to={"/admin/daotao"}>Đào tạo</Link>, "62", <BsShopWindow />),
+  getItem("Đào tạo", "sub1", <PiStudentBold />, [
+    getItem(
+      <Link to={"/admin/daotao"}>Đào tạo</Link>,
+      "2",
+      <FaGraduationCap />
+    ),
+    getItem(
+      <Link to={"/admin/quanlydaotao"}>Quản lý bài học</Link>,
+      "32",
+      <MdVideoSettings />
+    ),
+  ]),
   getItem(
     <Link to={"/admin/kygui"}>Yêu cầu ký gửi</Link>,
     "64",

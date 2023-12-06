@@ -8,18 +8,32 @@ import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Image, Input, Space, Table, Tag } from "antd";
 import { useSanPhamStore } from "./useSanPhamStore";
-import { BsFillPencilFill } from "react-icons/bs";
-import ModalThemSua from "./ModalThem";
 import ModalView from "./ModalView";
 import { fixMoney } from "../../../extensions/fixMoney";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import ModalThem from "./ModalThem";
-function Product() {
+function DangTin() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  const [data, setData] = useState(undefined);
+  const [data, setData] = useState([{
+    tieuDe: "cực gắt",
+    moTa: "ahihi",
+    soDienThoai: "0987657763",
+    nguoiDang: {
+      hoTenNguoiDung: "ahihi"
+    },
+    ngayTao: "2023-1-2",
+    giaBan: 200000,
+    trangThai: 1,
+    batDongSan: {
+      hinhAnhBatDongSan: [{
+        linkHinhAnh: ""
+      }]
+    },
+    loaiBatDongSan: 1
+  }]);
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -134,98 +148,62 @@ function Product() {
   });
   const columns = [
     {
-      title: "Mặt trước",
-      dataIndex: "hinhAnhBatDongSan",
-      key: "hinhAnhBatDongSan",
+      title: "Hình ảnh",
+      dataIndex: "batDongSan",
+      key: "batDongSan",
       width: "10%",
-      render: (hinhAnh) => (
+      render: (batDongSan) => (
         <>
           <Image
-            src={hinhAnh[0].linkHinhAnh}
+            src={batDongSan.hinhAnhBatDongSan[0].linkHinhAnh}
             style={{ width: "120px", height: "180px" }}
           />
         </>
       ),
     },
     {
+      title: "Tiêu đề",
+      dataIndex: "tieuDe",
+      key: "tieuDe",
+      width: "20%",
+      render: (tieuDe) => <span>{tieuDe}</span>,
+    },
+    {
       title: "Giá bán",
       dataIndex: "giaBan",
       key: "giaBan",
-      width: "10%",
-      sorter: (a, b) => a.giaBan - b.giaBan,
-      sortDirections: ["descend", "ascend"],
-      render: (giaBan) => <span>{fixMoney(giaBan)}</span>,
-    },
-    {
-      title: "Hoa hồng",
-      dataIndex: "giaTriHoaHongChiaNhanVien",
-      key: "giaTriHoaHongChiaNhanVien",
-      width: "10%",
+      width: "15%",
       sorter: (a, b) =>
-        a.giaTriHoaHongChiaNhanVien - b.giaTriHoaHongChiaNhanVien,
+        a.giaBan - b.giaBan,
       sortDirections: ["descend", "ascend"],
-      render: (giaTriHoaHongChiaNhanVien) => (
-        <span>{fixMoney(giaTriHoaHongChiaNhanVien)}</span>
+      render: (giaBan) => (
+        <span>{fixMoney(giaBan)}</span>
       ),
     },
     {
-      title: "Mặt tiền",
-      dataIndex: "chieuNgang",
-      key: "chieuNgang",
-      width: "5%",
-      sorter: (a, b) => a.chieuNgang - b.chieuNgang,
-      sortDirections: ["descend", "ascend"],
-      render: (chieuNgang) => <span>{chieuNgang}m</span>,
+      title: "Mô tả",
+      dataIndex: "moTa",
+      key: "moTa",
+      width: "20%",
+      render: (moTa) => <span>{moTa}</span>,
     },
     {
-      title: "Chiều dài",
-      dataIndex: "chieuDai",
-      key: "chieuDai",
+      title: "Ngày đăng",
+      dataIndex: "ngayTao",
+      key: "ngayTao",
       width: "5%",
-      sorter: (a, b) => a.chieuDai - b.chieuDai,
-      sortDirections: ["descend", "ascend"],
-      render: (chieuDai) => <span>{chieuDai}m</span>,
+      render: (ngayTao) => <span>{ngayTao}</span>,
     },
     {
-      title: "Diện tích",
-      dataIndex: "dienTich",
-      key: "dienTich",
-      width: "5%",
-      sorter: (a, b) => a.dienTich - b.dienTich,
-      sortDirections: ["descend", "ascend"],
-      render: (dienTich) => (
+      title: "Người đăng",
+      dataIndex: "nguoiDang",
+      key: "nguoiDang",
+      width: "7.5%",
+      render: (nguoiDang) => (
         <span>
-          {dienTich}m<sup>2</sup>{" "}
+          {nguoiDang.hoTenNguoiDung}
         </span>
       ),
-    },
-    {
-      title: "Số phòng ngủ",
-      dataIndex: "soPhongNgu",
-      key: "soPhongNgu",
-      width: "7.5%",
-      sorter: (a, b) => a.soPhongNgu - b.soPhongNgu,
-      sortDirections: ["descend", "ascend"],
-      render: (soPhongNgu) => <span>{soPhongNgu}</span>,
-    },
-    {
-      title: "Số nhà vệ sinh",
-      dataIndex: "soPhongVeSinh",
-      key: "soPhongVeSinh",
-      width: "7.5%",
-      sorter: (a, b) => a.soPhongVeSinh - b.soPhongVeSinh,
-      sortDirections: ["descend", "ascend"],
-      render: (soPhongVeSinh) => <span>{soPhongVeSinh}</span>,
-    },
-    {
-      title: "Địa chỉ",
-      dataIndex: "diaChi",
-      key: "diaChi",
-      width: "12.5%",
-      render: (diaChi) => <span>{diaChi}</span>,
-      // filters: filter.thietKe,
-      // filteredValue: filteredInfo.address || null,
-      // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
     },
     {
       title: "Loại BDS",
@@ -261,19 +239,6 @@ function Product() {
       // filteredValue: filteredInfo.address || null,
       // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
     },
-
-    {
-      title: "Thông tin Đầu chủ",
-      dataIndex: "dauChuTao",
-      key: "dauChuTao",
-      width: "10%",
-      render: (dauChuTao) => (
-        <span>{dauChuTao.hoTenNguoiDung + " - " + dauChuTao.soDienThoai}</span>
-      ),
-      // filters: filter.thietKe,
-      // filteredValue: filteredInfo.address || null,
-      // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
-    },
     {
       title: "Thao tác",
       dataIndex: "id",
@@ -299,7 +264,7 @@ function Product() {
   };
   useEffect(() => {
     // dispath(productSlice.actions.setIsLoading(true));
-    fetchData();
+    // fetchData();
   }, []);
   return (
     <>
@@ -325,4 +290,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default DangTin;
