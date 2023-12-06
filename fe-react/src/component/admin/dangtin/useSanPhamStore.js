@@ -23,5 +23,19 @@ export const useTinBan = {
 
             return await axiosIns.post(url, payload);
         },
+        async xoaTin(
+            payload
+        ) {
+            var url = "/TinBan/xoatin?tinBanId=" + payload;
+
+            return await axiosIns.get(url);
+        },
+        async suaTin(
+            payload
+        ) {
+            var url = "/TinBan/suatin";
+
+            return await axiosIns.post(url, payload);
+        },
     },
 }

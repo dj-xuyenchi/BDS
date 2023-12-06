@@ -15,6 +15,20 @@ export const useSanPhamStore = {
             var url = "/BatDongSan/themmoi";
 
             return await axiosIns.post(url, payload);
+        }, 
+        async suaBDS(
+            payload
+        ) {
+            var url = "/BatDongSan/suabds";
+
+            return await axiosIns.post(url, payload);
+        },
+        async xoaBDS(
+            payload
+        ) {
+            var url = "/BatDongSan/xoa?bdsId=" + payload;
+
+            return await axiosIns.get(url);
         },
     },
 }

@@ -12,6 +12,7 @@ namespace Core.Entities
         public string LinkBaiHoc { get; set; }
         public string MoTa { get; set; }
         public string TenBaiHoc { get; set; }
+        public string LinkHinhAnh { get; set; }
         public DateTime NgayTao { get; set; }
         public LoaiBaiHoc LoaiBaiHoc { get; set; }
         public TrangThaiBaiHoc TrangThai { get; set; }

@@ -93,6 +93,10 @@ namespace Core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LinkHinhAnh")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LoaiBaiHoc")
                         .HasColumnType("int");
 
@@ -662,6 +666,9 @@ namespace Core.Migrations
                     b.Property<int>("BatDongSanId")
                         .HasColumnType("int");
 
+                    b.Property<long>("GiaBan")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("MoTa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -674,6 +681,10 @@ namespace Core.Migrations
 
                     b.Property<int>("NguoiDangId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SoDienThoai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TieuDe")
                         .IsRequired()

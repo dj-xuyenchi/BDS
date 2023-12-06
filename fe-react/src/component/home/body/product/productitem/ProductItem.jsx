@@ -28,9 +28,7 @@ function ProductItem({ item }) {
               </span>
               <PiHeartStraight />
             </div>
-            <div className="product-cost">
-              {fixMoney(item.batDongSan.giaBan)}
-            </div>
+            <div className="product-cost">{fixMoney(item.giaBan)}</div>
             <div
               className=""
               style={{

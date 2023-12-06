@@ -16,6 +16,7 @@ namespace Core.DTO
         public string TenBaiHoc { get; set; }
         public DateTime NgayTao { get; set; }
         public LoaiBaiHoc LoaiBaiHoc { get; set; }
+        public string LinkHinhAnh { get; set; }
         public TrangThaiBaiHoc TrangThai { get; set; }
         public int NguoiTaoId { get; set; }
         public virtual NguoiDung NguoiTao { get; set; }
@@ -33,7 +34,8 @@ namespace Core.DTO
                 TrangThai = entity.TrangThai,
                 NguoiTaoId = entity.NguoiTaoId,
                 NguoiTao = entity.NguoiTao,
-                FileKienThuc = entity.FileKienThuc
+                FileKienThuc = entity.FileKienThuc,
+                LinkHinhAnh = entity.LinkHinhAnh
             };
         }
         public BaiHocDaoTao ToEntity()
@@ -49,7 +51,8 @@ namespace Core.DTO
                 TrangThai = this.TrangThai,
                 NguoiTaoId = this.NguoiTaoId,
                 NguoiTao = this.NguoiTao,
-                FileKienThuc = this.FileKienThuc
+                FileKienThuc = this.FileKienThuc,
+                LinkHinhAnh = this.LinkHinhAnh
             };
         }
     }

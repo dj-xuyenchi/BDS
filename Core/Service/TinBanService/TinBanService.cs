@@ -1,5 +1,6 @@
 ﻿using Core.Data;
 using Core.DTO;
+using Core.Entities;
 using Core.Enums;
 using Core.RequestModel;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace Core.Service.TinBanService
         {
             var query = _context.
                 TinBan.
-                Include(x=>x.NguoiDang).
+                Include(x => x.NguoiDang).
                 Include(x => x.BatDongSan).
                 ThenInclude(x => x.HinhAnhBatDongSan)
                 .AsNoTracking();
@@ -85,6 +86,20 @@ namespace Core.Service.TinBanService
             return query.Select(x => TinBanDTO.FromEntity(x));
         }
 
+        public async Task<TinBanDTO> SuaTin(TinBanDTO tinBan)
+        {
+            var tin = await _context.TinBan.FindAsync(tinBan.Id);
+            tin.NgayCapNhat = DateTime.Now;
+            tin.MoTa = tinBan.MoTa;
+            tin.GiaBan = tinBan.GiaBan;
+            tin.TieuDe= tinBan.TieuDe;
+            tin.BatDongSanId = tinBan.BatDongSanId;
+            tin.SoDienThoai= tinBan.SoDienThoai;
+            _context.TinBan.Update(tin);
+            await _context.SaveChangesAsync();
+            return tinBan;
+        }
+
         public async Task<TinBanDTO> TaoTin(TinBanDTO tinBan)
         {
             tinBan.NgayTao = DateTime.Now;
@@ -92,6 +107,14 @@ namespace Core.Service.TinBanService
             await _context.AddAsync(tinBan.ToEntity());
             await _context.SaveChangesAsync();
             return tinBan;
+        }
+
+        public async Task<TinBanDTO> XoaTin(int tinBanId)
+        {
+            var tinBan = await _context.TinBan.FindAsync(tinBanId);
+            _context.TinBan.Remove(tinBan);
+            await _context.SaveChangesAsync();
+            return TinBanDTO.FromEntity(tinBan);
         }
     }
 }

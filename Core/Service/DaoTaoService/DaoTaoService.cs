@@ -15,7 +15,7 @@ namespace Core.Service.DaoTaoService
         private readonly BDSContext _context = new BDSContext();
         public IQueryable<BaiHocDaoTaoDTO> LayHetBaiHocDaoTao(LoaiBaiHoc? loaiBaiHoc, int? nguoiTaoId)
         {
-            var query = _context.BaiHocDaoTao.AsNoTracking();
+            var query = _context.BaiHocDaoTao.Include(x=>x.NguoiTao).AsNoTracking();
             if (loaiBaiHoc.HasValue)
             {
                 query = query.Where(x => x.LoaiBaiHoc == loaiBaiHoc.Value);

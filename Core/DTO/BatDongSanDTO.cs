@@ -38,7 +38,7 @@ namespace Core.DTO
         public int? DauChuTaoId { get; set; }
         public virtual NguoiDung? DauChuTao { get; set; }
         public TrangThaiBatDongSan TrangThai { get; set; }
-        public LoaiBatDongSan LoaiBatDongSan { get; set; }
+        public int LoaiBatDongSan { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
         public DateTime? NgayBan { get; set; }
@@ -76,7 +76,7 @@ namespace Core.DTO
                 DauChuTaoId = entity.DauChuTaoId,
                 DauChuTao = entity.DauChuTao,
                 TrangThai = entity.TrangThai,
-                LoaiBatDongSan = entity.LoaiBatDongSan,
+                LoaiBatDongSan = (int)entity.LoaiBatDongSan,
                 NgayBan = entity.NgayBan,
                 NgayCapNhat = entity.NgayCapNhat,
                 NgayTao = entity.NgayTao,
@@ -113,7 +113,7 @@ namespace Core.DTO
                 DauChuTaoId = this.DauChuTaoId,
                 DauChuTao = this.DauChuTao,
                 TrangThai = this.TrangThai,
-                LoaiBatDongSan = this.LoaiBatDongSan,
+                LoaiBatDongSan = (LoaiBatDongSan)this.LoaiBatDongSan,
                 NgayBan = this.NgayBan,
                 NgayCapNhat = this.NgayCapNhat,
                 NgayTao = this.NgayTao,

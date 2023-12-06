@@ -29,5 +29,21 @@ namespace BDS.Apis
         {
             return Ok(await _batDongSanService.ThemBDS(data));
         }
+        [HttpPost("suabds")]
+        public async Task<IActionResult> SuaBDS(
+       [FromBody]
+            BatDongSanDTO data
+       )
+        {
+            return Ok(await _batDongSanService.SuaBDS(data));
+        }
+        [HttpGet("xoa")]
+        public async Task<IActionResult> XoaBDS(
+     [FromQuery]
+            int  bdsId
+     )
+        {
+            return Ok(await _batDongSanService.XoaBDS(bdsId));
+        }
     }
 }

@@ -53,7 +53,7 @@ function ModalView({ data }) {
       </Tooltip>
       <Modal
         width={768}
-        title={"Thông tin BDS"}
+        title={"Tin bài"}
         open={isModalOpen}
         onOk={() => {
           setIsModalOpen(false);
@@ -75,7 +75,6 @@ function ModalView({ data }) {
             maxWidth: 768,
           }}
         >
-
           <Form.Item label="Tiêu đề">
             <Input value={data.tieuDe} disabled />
           </Form.Item>
@@ -94,29 +93,16 @@ function ModalView({ data }) {
             />
           </Form.Item>
           <Form.Item label="Số điện thoại liên hệ">
-            <Input
-              value={data.soDienThoai}
-              disabled
-            />
+            <Input value={data.soDienThoai} disabled />
           </Form.Item>
           <Form.Item label="Mô tả">
-            <TextArea
-              value={data.moTa}
-              disabled
-              rows={4}
-            />
+            <TextArea value={data.moTa} disabled rows={4} />
           </Form.Item>
           <Form.Item label="Ngày đăng">
-            <Input
-              value={data.ngayTao}
-              disabled
-            />
+            <Input value={data.ngayTao} disabled />
           </Form.Item>
           <Form.Item label="Loại BDS">
-            <Input
-              value={fixLoaiBDS(data.loaiBatDongSan)}
-              disabled
-            />
+            <Input value={fixLoaiBDS(data.loaiBatDongSan)} disabled />
           </Form.Item>
         </Form>
       </Modal>

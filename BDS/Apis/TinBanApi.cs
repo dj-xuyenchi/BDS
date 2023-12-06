@@ -23,6 +23,15 @@ namespace BDS.Apis
         {
             return Ok( await _tinBan.TaoTin(tinBan));
         }
-       
+        [HttpPost("suatin")]
+        public async Task<IActionResult> SuaTin([FromBody] TinBanDTO tinBan)
+        {
+            return Ok(await _tinBan.SuaTin(tinBan));
+        }
+        [HttpGet("xoatin")]
+        public async Task<IActionResult> XoaTin([FromQuery] int tinBanId)
+        {
+            return Ok(await _tinBan.XoaTin(tinBanId));
+        }
     }
 }

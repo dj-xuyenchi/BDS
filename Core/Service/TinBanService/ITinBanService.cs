@@ -13,5 +13,7 @@ namespace Core.Service.TinBanService
     {
         IQueryable<TinBanDTO> LayHetTinBan(Filter filter);
         Task<TinBanDTO> TaoTin(TinBanDTO tinBan);
+        Task<TinBanDTO> XoaTin(int tinBanId);
+        Task<TinBanDTO> SuaTin(TinBanDTO tinBan);
     }
 }

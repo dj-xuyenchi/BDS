@@ -30,7 +30,8 @@ namespace BDS.Apis
         public IActionResult DownloadFile([FromQuery] string fileName)
         {
             // Đường dẫn tới file cần tải
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", fileName);
+         //   string filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", fileName);
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", "luat.pdf");
 
             // Kiểm tra xem file có tồn tại không
             if (System.IO.File.Exists(filePath))

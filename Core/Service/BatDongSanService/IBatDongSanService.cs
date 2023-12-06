@@ -13,5 +13,7 @@ namespace Core.Service.BatDongSanService
     {
         IQueryable<BatDongSanDTO> LayHetBatDongSan(Filter filter);
         Task<BatDongSanDTO> ThemBDS(BatDongSanDTO data);
+        Task<BatDongSanDTO> XoaBDS(int bdsId);
+        Task<BatDongSanDTO> SuaBDS(BatDongSanDTO data);
     }
 }

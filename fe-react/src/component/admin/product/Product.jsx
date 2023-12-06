@@ -14,6 +14,8 @@ import ModalView from "./ModalView";
 import { fixMoney } from "../../../extensions/fixMoney";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import ModalThem from "./ModalThem";
+import ModalXoa from "./ModalXoa";
+import ModalSua from "./ModalSua";
 function Product() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
@@ -142,7 +144,7 @@ function Product() {
         <>
           <Image
             src={hinhAnh[0].linkHinhAnh}
-            style={{ width: "120px", height: "180px" }}
+            style={{ width: "160px", height: "140px" }}
           />
         </>
       ),
@@ -254,9 +256,9 @@ function Product() {
         return value == record.loaiBatDongSan;
       },
       filterSearch: true,
-      render: (loaiBatDongSan) =>
+      render: (loaiBatDongSan) => (
         <Tag color="success">{fixLoaiBDS(loaiBatDongSan)}</Tag>
-      ,
+      ),
       // filters: filter.thietKe,
       // filteredValue: filteredInfo.address || null,
       // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
@@ -288,7 +290,8 @@ function Product() {
           }}
         >
           <ModalView data={record} />
-          {/* <ModalThemSua id={id} setData={setData} /> */}
+          <ModalSua data={record} fetchData={fetchData} />
+          <ModalXoa tinId={id} fetData={fetchData} />
         </div>
       ),
     },

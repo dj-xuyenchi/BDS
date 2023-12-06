@@ -15,6 +15,8 @@ namespace Core.Entities
         public virtual BatDongSan? BatDongSan { get; set; }
         public int NguoiDangId { get; set; }
         public virtual NguoiDung? NguoiDang { get; set; }
+        public long GiaBan { get; set; }
+        public string SoDienThoai { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
         public TrangThaiTinBan TrangThai { get; set; }

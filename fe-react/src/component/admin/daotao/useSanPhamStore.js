@@ -1,20 +1,25 @@
 import axiosIns from "../../../plugins/axios"
 
-export const useSanPhamStore = {
+export const useBaiHoc = {
     actions: {
-        async fetchSanPham(
+        async taiFile(
             payload
         ) {
-            var url = "/BatDongSan/laybatdongsan";
+            var url = "/BaiHocDaoTao/taifile?fileName=" + payload;
 
-            return await axiosIns.post(url, payload);
+            return await axiosIns.get(url);
         },
-        async theMoi(
+        async layBaiHoc(
             payload
         ) {
-            var url = "/BatDongSan/themmoi";
-
-            return await axiosIns.post(url, payload);
+            var url = "/BaiHocDaoTao/layhetbaihoc?";
+            if (payload.loaiBaiHoc) {
+                url += url + payload.loaiBaiHoc
+            }
+            if (payload.nguoiTaoId) {
+                url += url + payload.nguoiTaoId
+            }
+            return await axiosIns.get(url);
         },
     },
 }

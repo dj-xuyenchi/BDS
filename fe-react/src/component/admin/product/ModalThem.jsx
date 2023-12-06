@@ -233,6 +233,47 @@ function ModalThem({ fetchData }) {
               }
               parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
             />
+          </Form.Item>{" "}
+          <Form.Item
+            name="batDongSan"
+            label="Loại bất động sản"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              optionLabelProp="children"
+              style={{
+                width: "100%",
+              }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  loaiBatDongSan: e.value,
+                });
+              }}
+            >
+              <Select.Option key={1} value={1}>
+                Nhà phố
+              </Select.Option>
+              <Select.Option key={2} value={2}>
+                Đất thổ cư
+              </Select.Option>
+              <Select.Option key={3} value={3}>
+                Đất nền
+              </Select.Option>
+              <Select.Option key={4} value={4}>
+                Chung cư
+              </Select.Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name="namXayDung"
@@ -438,12 +479,12 @@ function ModalThem({ fetchData }) {
           </Form.Item>
           <Form.Item name="moTa" label="Mô tả">
             <TextArea
-              value={data.moTa}
+              value={data.moTaChiTiet}
               rows={4}
               onChange={(e) => {
                 setData({
                   ...data,
-                  moTa: e.target.value,
+                  moTaChiTiet: e.target.value,
                 });
               }}
             />

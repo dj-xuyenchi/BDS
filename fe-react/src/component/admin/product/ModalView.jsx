@@ -14,8 +14,8 @@ import React, { useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { IoEyeSharp } from "react-icons/io5";
 import TextArea from "antd/es/input/TextArea";
+import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 function ModalView({ data }) {
-  console.log(data);
   const [form] = useForm();
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (type, title, des, placement) => {
@@ -207,6 +207,9 @@ function ModalView({ data }) {
           </Form.Item>
           <Form.Item label="Địa chỉ">
             <Input value={data.diaChi} disabled />
+          </Form.Item>
+          <Form.Item label="Loại BDS">
+            <Input value={fixLoaiBDS(data.loaiBatDongSan)} disabled />
           </Form.Item>
           <Form.Item label="Mô tả">
             <TextArea value={data.moTaChiTiet} rows={4} disabled />

@@ -87,6 +87,31 @@ namespace Core.Service.BatDongSanService
             return query.Where(x => x.TrangThai != TrangThaiBatDongSan.LOCK).Select(x => BatDongSanDTO.FromEntity(x));
         }
 
+        public async Task<BatDongSanDTO> SuaBDS(BatDongSanDTO data)
+        {
+            var bds = await _context.BatDongSan.FindAsync(data.Id);
+            bds.NgayCapNhat = DateTime.Now;
+            bds.TenChuNha = data.TenChuNha;
+            bds.SoDienThoaiChuNha = data.TenChuNha;
+            bds.GiaBan = data.GiaBan;
+            bds.GiaTriHoaHong = data.GiaTriHoaHong;
+            bds.GiaTriHoaHongChiaNhanVien = data.GiaTriHoaHongChiaNhanVien;
+            bds.NamXayDung = data.NamXayDung;
+            bds.SoPhongNgu = data.SoPhongNgu;
+            bds.SoPhongVeSinh = data.SoPhongVeSinh;
+            bds.ChieuDai = data.ChieuDai;
+            bds.ChieuNgang = data.ChieuNgang;
+            bds.DienTich = data.DienTich;
+            bds.DienTichSuDung = data.DienTichSuDung;
+            bds.DiaChi = data.DiaChi;
+            bds.DiaChiGoogleMap = data.DiaChiGoogleMap;
+            bds.MoTaChiTiet = data.MoTaChiTiet;
+            bds.LoaiBatDongSan = (LoaiBatDongSan)data.LoaiBatDongSan;
+            _context.BatDongSan.Update(bds);
+            await _context.SaveChangesAsync();
+            return BatDongSanDTO.FromEntity(bds);
+        }
+
         public async Task<BatDongSanDTO> ThemBDS(BatDongSanDTO data)
         {
             HinhAnhBatDongSan hinh = new HinhAnhBatDongSan();
@@ -99,6 +124,15 @@ namespace Core.Service.BatDongSanService
             await _context.HinhAnhBatDongSan.AddAsync(hinh);
             await _context.SaveChangesAsync();
             return data;
+        }
+
+        public async Task<BatDongSanDTO> XoaBDS(int bdsId)
+        {
+            var bds = await _context.BatDongSan.FindAsync(bdsId);
+            bds.TrangThai = TrangThaiBatDongSan.LOCK;
+            _context.BatDongSan.Update(bds);
+            await _context.SaveChangesAsync();
+            return BatDongSanDTO.FromEntity(bds);
         }
     }
 }

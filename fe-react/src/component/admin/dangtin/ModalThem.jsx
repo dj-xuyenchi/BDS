@@ -184,6 +184,52 @@ function ModalThem({ fetchData }) {
               <Image src={hinhAnhBDSchon.hinhAnhBatDongSan[0].linkHinhAnh} />
             </Form.Item>
           )}
+          <Form.Item
+            name="giaBan"
+            label="Giá bán"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <InputNumber
+              value={data.tieuDe}
+              style={{
+                width: "100%",
+              }}
+              min={1}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  giaBan: e,
+                });
+              }}
+              formatter={(value) =>
+                `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
+            />
+          </Form.Item>
+          <Form.Item
+            name="soDienThoai"
+            label="Số điện thoại liên hệ"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              value={data.tieuDe}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  soDienThoai: e.target.value,
+                });
+              }}
+            />
+          </Form.Item>
           <Form.Item name="moTa" label="Mô tả">
             <TextArea
               value={data.moTa}

@@ -13,6 +13,8 @@ import { fixMoney } from "../../../extensions/fixMoney";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import ModalThem from "./ModalThem";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
+import ModalXoa from "./ModalXoa";
+import ModalSua from "./ModalSua";
 function DangTin() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
@@ -141,7 +143,7 @@ function DangTin() {
         <>
           <Image
             src={batDongSan.hinhAnhBatDongSan[0].linkHinhAnh}
-            style={{ width: "120px", height: "180px" }}
+            style={{ width: "160px", height: "170px" }}
           />
         </>
       ),
@@ -155,12 +157,12 @@ function DangTin() {
     },
     {
       title: "Giá bán",
-      dataIndex: "moTa",
-      key: "moTa",
+      dataIndex: "giaBan",
+      key: "giaBan",
       width: "15%",
       sorter: (a, b) => a.giaBan - b.giaBan,
       sortDirections: ["descend", "ascend"],
-      render: (moTa) => <span>{moTa}</span>,
+      render: (giaBan) => <span>{fixMoney(giaBan)}</span>,
     },
     {
       title: "Mô tả",
@@ -231,7 +233,8 @@ function DangTin() {
           }}
         >
           <ModalView data={record} />
-          {/* <ModalThemSua id={id} setData={setData} /> */}
+          <ModalSua data={record} fetData={fetchData} />
+          <ModalXoa tinId={id} fetData={fetchData} />
         </div>
       ),
     },

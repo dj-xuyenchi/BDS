@@ -16,6 +16,8 @@ namespace Core.DTO
         public int BatDongSanId { get; set; }
         public virtual BatDongSan? BatDongSan { get; set; }
         public int NguoiDangId { get; set; }
+        public long GiaBan { get; set; }
+        public string SoDienThoai { get; set; }
         public virtual NguoiDung? NguoiDang { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
@@ -33,7 +35,9 @@ namespace Core.DTO
                 NguoiDang = entity.NguoiDang,
                 NgayTao = entity.NgayTao,
                 NgayCapNhat = entity.NgayCapNhat,
-                TrangThai = entity.TrangThai
+                TrangThai = entity.TrangThai,
+                GiaBan=entity.GiaBan,
+                SoDienThoai =entity.SoDienThoai,
             };
         }
         public TinBan ToEntity()
@@ -50,6 +54,8 @@ namespace Core.DTO
                 TrangThai = this.TrangThai,
                 BatDongSanId = this.BatDongSanId,
                 BatDongSan = this.BatDongSan,
+                GiaBan = this.GiaBan,
+                SoDienThoai = this.SoDienThoai,
             };
         }
     }

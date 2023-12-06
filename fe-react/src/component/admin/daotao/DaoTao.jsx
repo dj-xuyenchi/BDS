@@ -4,21 +4,20 @@ import Header from "../layout/header/Header";
 import MenuAdmin from "../layout/menu/MenuAdmin";
 import { selectLanguage } from "../../../language/selectLanguage";
 import React, { useEffect, useRef, useState } from "react";
-import { useSanPhamStore } from "./useSanPhamStore";
 import PhanHoc from "./PhanHoc";
+import { useBaiHoc } from "./useSanPhamStore";
 function DaoTao() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
   const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-
+  const [data, setData] = useState(undefined);
 
   const fetchData = async () => {
-    const data = await useSanPhamStore.actions.fetchSanPham({});
+    const data = await useBaiHoc.actions.layBaiHoc({});
+    setData(data.data);
   };
   useEffect(() => {
-    // dispath(productSlice.actions.setIsLoading(true));
-    // fetchData();
+    fetchData();
   }, []);
   return (
     <>
@@ -28,11 +27,11 @@ function DaoTao() {
         <div className="body-container">
           <div className="content">
             <div className="table-sanpham background-color">
-              <div style={{
-              }}>
-                <PhanHoc />
-                <PhanHoc />
-                <PhanHoc />
+              <div style={{}}>
+                {data &&
+                  data.map((item) => {
+                    return <PhanHoc data={item} />;
+                  })}
               </div>
             </div>
           </div>
