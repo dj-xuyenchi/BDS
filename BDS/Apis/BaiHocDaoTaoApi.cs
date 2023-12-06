@@ -1,4 +1,6 @@
-﻿using Core.Enums;
+﻿using Core.Data;
+using Core.DTO;
+using Core.Enums;
 using Core.RequestModel;
 using Core.Service.BatDongSanService;
 using Core.Service.DaoTaoService;
@@ -12,7 +14,7 @@ namespace BDS.Apis
     public class BaiHocDaoTaoApi : ControllerBase
     {
         private readonly IDaoTaoService _daoTao = new DaoTaoService();
-
+        private readonly BDSContext _context = new BDSContext();
         [HttpGet("layhetbaihoc")]
         public IActionResult LayHetBatDongSan(
             LoaiBaiHoc? loaiBaiHoc,
@@ -25,10 +27,10 @@ namespace BDS.Apis
               ));
         }
         [HttpGet("taifile")]
-        public IActionResult DownloadFile()
+        public IActionResult DownloadFile([FromQuery] string fileName)
         {
             // Đường dẫn tới file cần tải
-            string filePath = "D:\\excel2.xlsx";
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", fileName);
 
             // Kiểm tra xem file có tồn tại không
             if (System.IO.File.Exists(filePath))
@@ -44,22 +46,25 @@ namespace BDS.Apis
             }
         }
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile([FromForm] IFormFile file)
+        public async Task<IActionResult> UploadFile([FromForm] IFormFile file, [FromForm] BaiHocDaoTaoDTO baiHocDaoTao)
         {
+            string id = Guid.NewGuid().ToString();
             if (file == null || file.Length == 0)
             {
-                return BadRequest("No file uploaded");
-            }
 
-            // Lấy tên file và đường dẫn lưu trữ (có thể thay đổi tùy theo yêu cầu của bạn)
-            var fileName = file.FileName;
-            var filePath = "C:";
+                id = id+ file.FileName;
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id);
 
-            // Lưu file vào đường dẫn
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
+                // Lưu file vào đường dẫn
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
             }
+            baiHocDaoTao.FileKienThuc = id;
+            await _context.AddAsync(baiHocDaoTao.ToEntity());
+
 
             return Ok("File uploaded successfully");
         }

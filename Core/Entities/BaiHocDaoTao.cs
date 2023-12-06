@@ -17,5 +17,6 @@ namespace Core.Entities
         public TrangThaiBaiHoc TrangThai { get; set; }
         public int NguoiTaoId { get; set; }
         public virtual NguoiDung NguoiTao { get; set; }
+        public string? FileKienThuc { get; set; }
     }
 }

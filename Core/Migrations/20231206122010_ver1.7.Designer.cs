@@ -4,6 +4,7 @@ using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(BDSContext))]
-    partial class BDSContextModelSnapshot : ModelSnapshot
+    [Migration("20231206122010_ver1.7")]
+    partial class ver17
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -381,9 +383,11 @@ namespace Core.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("DiaChi")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HinhDaiDien")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoTenNguoiDung")
@@ -393,12 +397,6 @@ namespace Core.Migrations
                     b.Property<string>("MatKhau")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("NgayCapNhat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("NgayTao")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("NgayThangNamSinh")
                         .HasColumnType("datetime2");
@@ -410,6 +408,7 @@ namespace Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SoCanCuoc")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoai")

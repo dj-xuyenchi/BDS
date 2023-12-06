@@ -4,6 +4,7 @@ using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(BDSContext))]
-    partial class BDSContextModelSnapshot : ModelSnapshot
+    [Migration("20231206132503_ver1.9")]
+    partial class ver19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -384,6 +386,7 @@ namespace Core.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HinhDaiDien")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoTenNguoiDung")
@@ -410,6 +413,7 @@ namespace Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SoCanCuoc")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDienThoai")

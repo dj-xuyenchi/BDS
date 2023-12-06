@@ -14,17 +14,19 @@ namespace Core.Entities
         public string HoTenNguoiDung { get; set; }
         public string? SoDienThoai { get; set; }
         public DateTime NgayThangNamSinh { get; set; }
+        public DateTime NgayTao { get; set; }
+        public DateTime NgayCapNhat { get; set; }
         public int SoBatDongSanDaBan { get; set; }
-        public string HinhDaiDien { get; set; }
-        public string SoCanCuoc { get; set; }
-        public string DiaChi { get; set; }
+        public string? HinhDaiDien { get; set; }
+        public string? SoCanCuoc { get; set; }
+        public string? DiaChi { get; set; }
         public int? PhongBanId { get; set; }
         public virtual PhongBan? PhongBan { get; set; }
         public TrangThaiNguoiDung TrangThai { get; set; }
-        public virtual IEnumerable<HopDongMuaBatDongSan> HopDongMuaBatDongSan { get; set; }
-        public virtual IEnumerable<BaiHocDaoTao> BaiHocDaoTao { get; set; }
-        public virtual IEnumerable<TinBan> TinBan { get; set; }
-        public virtual IEnumerable<NguoiDungRole> NguoiDungRole { get; set; }
-        public virtual IEnumerable<BatDongSan> DauChuTao { get; set; }
+        public virtual IEnumerable<HopDongMuaBatDongSan>? HopDongMuaBatDongSan { get; set; }
+        public virtual IEnumerable<BaiHocDaoTao>? BaiHocDaoTao { get; set; }
+        public virtual IEnumerable<TinBan>? TinBan { get; set; }
+        public virtual IEnumerable<NguoiDungRole>? NguoiDungRole { get; set; }
+        public virtual IEnumerable<BatDongSan>? DauChuTao { get; set; }
     }
 }

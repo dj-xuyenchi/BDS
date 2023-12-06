@@ -10,6 +10,7 @@ namespace Core.Enums
     {
         CHOXACNHAN = 1,
         DANGHOATDONG = 2,
-        DAKHOA = 3
+        DAKHOA = 3,
+        LOCK = 4, // dang ky moi mac dinh la lock
     }
 }

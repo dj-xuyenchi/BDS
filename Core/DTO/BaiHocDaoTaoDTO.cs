@@ -19,6 +19,7 @@ namespace Core.DTO
         public TrangThaiBaiHoc TrangThai { get; set; }
         public int NguoiTaoId { get; set; }
         public virtual NguoiDung NguoiTao { get; set; }
+        public string? FileKienThuc { get; set; }
         public static BaiHocDaoTaoDTO FromEntity(BaiHocDaoTao entity)
         {
             return new BaiHocDaoTaoDTO()
@@ -32,6 +33,7 @@ namespace Core.DTO
                 TrangThai = entity.TrangThai,
                 NguoiTaoId = entity.NguoiTaoId,
                 NguoiTao = entity.NguoiTao,
+                FileKienThuc = entity.FileKienThuc
             };
         }
         public BaiHocDaoTao ToEntity()
@@ -47,6 +49,7 @@ namespace Core.DTO
                 TrangThai = this.TrangThai,
                 NguoiTaoId = this.NguoiTaoId,
                 NguoiTao = this.NguoiTao,
+                FileKienThuc = this.FileKienThuc
             };
         }
     }
