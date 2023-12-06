@@ -11,8 +11,7 @@ namespace Core.Service.TinBanService
 {
     public interface ITinBanService
     {
-        IQueryable<TinBanDTO> LayHetTinBan(
-          Filter filter
-            );
+        IQueryable<TinBanDTO> LayHetTinBan(Filter filter);
+        Task<TinBanDTO> TaoTin(TinBanDTO tinBan);
     }
 }

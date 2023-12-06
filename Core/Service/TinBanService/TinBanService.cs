@@ -83,5 +83,15 @@ namespace Core.Service.TinBanService
             }
             return query.Select(x => TinBanDTO.FromEntity(x));
         }
+
+        public async Task<TinBanDTO> TaoTin(TinBanDTO tinBan)
+        {
+            tinBan.NgayTao = DateTime.Now;
+            tinBan.TrangThai = TrangThaiTinBan.DANGHIENTHI;
+            tinBan.NguoiDangId = 1;
+            await _context.AddAsync(tinBan.ToEntity());
+            await _context.SaveChangesAsync();
+            return tinBan;
+        }
     }
 }
