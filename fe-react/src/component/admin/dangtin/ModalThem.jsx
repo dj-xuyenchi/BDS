@@ -198,7 +198,7 @@ function ModalThem({ fetchData }) {
           </Form.Item>
           <Form.Item label="Thao tác">
             <Button
-              //  htmlType="submit"
+              htmlType="submit"
               loading={isLoading}
               onClick={() => {
                 handleThem();
