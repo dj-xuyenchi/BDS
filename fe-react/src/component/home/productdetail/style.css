@@ -28,6 +28,15 @@
 .image-gallery-right-nav {
     display: none;
 } */
+.image-gallery-image {
+    height: 360px;
+}
+
+.info {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 .slider-img {
     display: block;
     height: 120px;

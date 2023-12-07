@@ -12,7 +12,7 @@ function ProductItem({ item }) {
     <>
       <div className="product-item-container">
         <div className="product-item-detail">
-          <Link to={"/sanpham/" + item.id}>
+          <Link to={"/bds/" + item.id}>
             <div className="product-imgs">
               <img
                 src={item.batDongSan.hinhAnhBatDongSan[0].linkHinhAnh}

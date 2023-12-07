@@ -3,9 +3,9 @@ import "./style.css";
 import Header from "../../common/header/Header";
 import ProductImgSlider from "./ProductImgSlider";
 import { fixMoney } from "../../../extensions/fixMoney";
-import { CiRuler } from "react-icons/ci";
+import { CiClock2, CiLocationOn, CiRuler } from "react-icons/ci";
 import { AiOutlineHeart } from "react-icons/ai";
-import {  useNumberInput } from "@chakra-ui/react";
+import { useNumberInput } from "@chakra-ui/react";
 import { Rate, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -13,6 +13,11 @@ import { useSanPhamChiTiet } from "./useSanPhamChiTiet";
 import { selectUser } from "../../login/selectUser";
 import { selectLanguage } from "../../../language/selectLanguage";
 import QuantityField from "./QuantityField";
+import { BiSolidShoppingBag } from "react-icons/bi";
+import { FaPhoneVolume, FaRegClock, FaRestroom } from "react-icons/fa";
+import { GoLaw, GoShieldCheck } from "react-icons/go"; import { GiNightSleep, GiResize, GiTempleGate } from "react-icons/gi";
+import { IoArrowForwardOutline, IoArrowUpOutline } from "react-icons/io5";
+import { MdOutlineTypeSpecimen } from "react-icons/md";
 function ProductDetail() {
   const language = useSelector(selectLanguage);
   const [api, contextHolder] = notification.useNotification();
@@ -27,25 +32,7 @@ function ProductDetail() {
       max: 6,
     });
 
-  const [quantity, setQuantity] = useState(0);
   const [sanPham, setSanPham] = useState({});
-  const [mauSacList, setMauSacList] = useState([]);
-  const [soLuongTon, setSoLuongTon] = useState(0);
-  const [sizeList, setSizeList] = useState([]);
-  const [sanPhamChon, setSanPhamChon] = useState({
-    id: -1,
-    mauSac: {
-      id: -1,
-      maMau: "RED",
-      tenMau: "Chưa chọn",
-      maMauCss: null,
-    },
-    kichThuoc: {
-      id: -1,
-      maKichThuoc: "S",
-      tenKichThuoc: "Chưa chọn",
-    },
-  });
   function handleGetOption(sanPhamChiTietList) {
     const mauSac = [];
     const size = [];
@@ -65,49 +52,6 @@ function ProductDetail() {
         size.push(item.kichThuoc);
       }
     }
-    setMauSacList(mauSac);
-    setSizeList(size);
-  }
-  function handleChonMauSac(mauSac) {
-    setSanPhamChon({
-      ...sanPhamChon,
-      mauSac: mauSac,
-    });
-    handleSetSoLuongTon(sanPhamChon.kichThuoc.id, mauSac.id);
-  }
-  function handleChonKichThuoc(kichThuoc) {
-    setSanPhamChon({
-      ...sanPhamChon,
-      kichThuoc: kichThuoc,
-    });
-    handleSetSoLuongTon(kichThuoc.id, sanPhamChon.mauSac.id);
-  }
-  function handleSetSoLuongTon(kichThuocId, mauSacId) {
-    const sanPhamTimKiem = sanPham.sanPhamChiTietDTOList.find((item) => {
-      return item.kichThuoc.id == kichThuocId && item.mauSac.id == mauSacId;
-    });
-    if (sanPhamTimKiem) {
-      setSoLuongTon(sanPhamTimKiem.soLuongTon);
-    } else {
-      setSoLuongTon("Hết hàng");
-    }
-  }
-  var sanPhamDangTim = null;
-  function handleSetSanPhamTuOption() {
-    if (sanPhamChon.kichThuoc.id == -1 || sanPhamChon.mauSac.id == -1) {
-      return false;
-    }
-    const sanPhamTimKiem = sanPham.sanPhamChiTietDTOList.find((item) => {
-      return (
-        item.kichThuoc.id == sanPhamChon.kichThuoc.id &&
-        item.mauSac.id == sanPhamChon.mauSac.id
-      );
-    });
-    if (sanPhamTimKiem) {
-      sanPhamDangTim = sanPhamTimKiem;
-      return true;
-    }
-    return false;
   }
   const openNotification = (type, title, des, placement) => {
     if (type === "error") {
@@ -124,83 +68,8 @@ function ProductDetail() {
       });
     }
   };
-  async function handleThemVaoGioHang() {
-    if (!handleSetSanPhamTuOption()) {
-      if (sanPhamChon.kichThuocId == -1) {
-        openNotification(
-          "error",
-          language.systemNotification.system,
-          language.chiTietSanPham.vuiLongChonKichThuoc,
-          "bottomRight"
-        );
-      }
-      if (sanPhamChon.mauSacId == -1) {
-        openNotification(
-          "error",
-          language.systemNotification.system,
-          language.chiTietSanPham.vuiLongChonMau,
-          "bottomRight"
-        );
-      }
-      if (sanPhamDangTim == null) {
-        openNotification(
-          "error",
-          language.systemNotification.system,
-          language.chiTietSanPham.chonSanPham,
-          "bottomRight"
-        );
-      }
-      return;
-    }
-    if (user.nguoiDung.id === -1) {
-      openNotification(
-        "error",
-        language.systemNotification.system,
-        language.chiTietSanPham.chuaDangNhap,
-        "bottomRight"
-      );
-      return;
-    }
-    if (quantity <= 0) {
-      openNotification(
-        "error",
-        language.systemNotification.system,
-        language.chiTietSanPham.chonSoLuong,
-        "bottomRight"
-      );
-      return;
-    }
-    if (quantity > sanPhamDangTim.soLuongTon) {
-      openNotification(
-        "error",
-        language.systemNotification.system,
-        language.chiTietSanPham.khongDuSoLuong,
-        "bottomRight"
-      );
-      return;
-    }
-
-    const themSanPham = await useSanPhamChiTiet.actions.themVaoGioHang({
-      nguoiDungId: user.nguoiDung.id,
-      soLuong: quantity,
-      sanPhamChiTietId: sanPhamDangTim.id,
-    });
-    if (themSanPham.data.status === "THANHCONG") {
-      openNotification(
-        "success",
-        language.systemNotification.system,
-        language.chiTietSanPham.thanhCong,
-        "bottomRight"
-      );
-    }
-  }
   useEffect(() => {
-    async function handleLayDuLieu() {
-      const data = await useSanPhamChiTiet.actions.layThongTinSanPham(id);
-      setSanPham(data.data);
-      handleGetOption(data.data.sanPhamChiTietDTOList);
-    }
-    handleLayDuLieu();
+
   }, []);
   return (
     <>
@@ -208,266 +77,386 @@ function ProductDetail() {
       <Header />
       <div
         style={{
-          width: "96%",
+          width: "60%",
           marginLeft: "2%",
           display: "flex",
           marginTop: "24px",
+          marginLeft: "20%"
         }}
       >
-        <div
-          style={{
-            width: "40%",
-          }}
-        >
-          <ProductImgSlider
-            imgs={
-              sanPham.sanPhamDTO ? sanPham.sanPhamDTO.hinhAnhSanPhamList : ""
-            }
-          />
-        </div>
-        <div
-          style={{
-            width: "58%",
-            marginLeft: "2%",
-          }}
-        >
+        <div style={{
+          width: "60%",
+          display: 'flex',
+          flexDirection: "column"
+        }}>
           <div
             style={{
-              marginTop: "20px",
-              marginBottom: "20px",
+              width: "100%",
             }}
           >
-            <h1
-              style={{
-                fontSize: "20px",
-                fontWeight: 500,
-                lineHeight: "24px",
-                textTransform: "uppercase",
-              }}
-            >
-              {sanPham.sanPhamDTO ? sanPham.sanPhamDTO.tenSanPham : ""}
-            </h1>
+            <ProductImgSlider
+              imgs={
+                [{
+                  linkHinhAnh: "https://mogi.vn/news/wp-content/uploads/2018/12/anh-nha-dep-8.jpg"
+                }, {
+                  linkHinhAnh: "https://homehome.vn/wp-content/uploads/6-mau-hinh-anh-noi-that-nha-dep-theo-phong-cach-hien-dai-2.jpg"
+                }]
+              }
+            />
+
           </div>
-          <div
-            style={{
-              marginTop: "20px",
-              marginBottom: "20px",
-            }}
-          >
-            <span
-              style={{
-                fontWeight: 700,
-                lineHeight: "28px",
-                fontSize: "24px",
-              }}
-            >
-              {fixMoney(sanPham.sanPhamDTO ? sanPham.sanPhamDTO.giaBan : 0)}
-            </span>
-          </div>
-          <div>
-            <span>Chọn màu sắc:</span>
-            <span
-              style={{
-                fontWeight: 700,
+          <div style={{
+            width: "100%",
+            backgroundColor: "#F4F4F4",
+            marginTop: "20px",
+            padding: "12px"
+          }}>
+            <div><img src="https://static.chotot.com/storage/chotot-icons/svg/protected_icon_v2.svg" alt="s" />
+              <span style={{
                 fontSize: "15px",
-                lineHeight: "18px",
-                marginLeft: "12px",
-              }}
-            >
-              {sanPhamChon.mauSac.tenMau}
-            </span>
+                marginLeft: "4px",
+                fontWeight: 550
+              }}>Cần bán căn nhà siêu đẹp Bùi Xương Trạch 35m2</span>
+            </div>
             <div
               style={{
-                marginTop: "20px",
+                marginBottom: "10px"
+              }}
+            ><span style={{
+              color: "red"
+            }}>{fixMoney(3000000000)}</span> - 70m2</div>
+            <div>
+              <CiLocationOn />
+              Bùi Xương Trạch - Thanh Xuân - Hà Nội
+            </div>
+            <div>
+              <CiClock2 />
+              Đăng 4 phút trước
+            </div>
+            <div>
+              <GoShieldCheck />
+              Tin đã được kiểm duyệt
+            </div>
+          </div>
+          <div style={{
+            width: "100%",
+            backgroundColor: "#F4F4F4",
+            marginTop: "8px",
+            padding: "12px"
+          }}>
+            <div>
+              <span style={{
+                fontSize: "15px",
+                marginLeft: "4px",
+                fontWeight: 550
+              }}>Đặc điểm BDS</span>
+            </div>
+            <div style={{
+              display: "flex",
+              justifyContent: 'center'
+            }}>
+              <div style={{
+                width: "50%",
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                <div className="info">
+                  <GiResize />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Diện tích: 35m2</span>
+                </div>
+                <div className="info">
+                  <GiNightSleep />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Số phòng ngủ: 5</span>
+                </div>
+              </div>
+              <div style={{
+                width: "50%",
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                <div className="info">
+                  <FaRestroom />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Số nhà vệ sinh: 5</span>
+                </div>
+                <div className="info">
+                  <GiTempleGate />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Diện tích sử dụng: 70m2</span>
+                </div>
+              </div>
+            </div>
+            <div style={{
+              display: "flex",
+              justifyContent: 'center'
+            }}>
+              <div style={{
+                width: "50%",
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                <div className="info">
+                  <GoLaw />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Pháp lý: Giấy tờ chính chủ</span>
+                </div>
+                <div className="info">
+                  <MdOutlineTypeSpecimen />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Loại hình nhà ở: Nhà phố</span>
+                </div>
+              </div>
+              <div style={{
+                width: "50%",
+                display: 'flex',
+                flexDirection: 'column'
+              }}>
+                <div className="info">
+                  <IoArrowUpOutline />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Chiều dài: 5m</span>
+                </div>
+                <div className="info">
+                  <IoArrowForwardOutline />
+                  <span style={{
+                    marginLeft: "4px",
+                    fontSize: "12p",
+                    lineHeight: "20px"
+                  }}>Chiều ngang: 7m</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style={{
+            width: "100%",
+            backgroundColor: "#F4F4F4",
+            marginTop: "8px",
+            height: "200px",
+            padding: "12px"
+          }}>
+            <div>
+              <span style={{
+                fontSize: "15px",
+                marginLeft: "4px",
+                fontWeight: 550
+              }}>Mô tả chi tiết</span>
+            </div>
+            <p style={{
+              fontSize: "12px"
+            }}>Cần bán căn nhà ở Bùi Xương Trạch</p>
+          </div>
+        </div>
+
+        <div
+          style={{
+            width: "40%"
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#F4F4F4",
+              width: "95%",
+              marginLeft: "2.5%"
+            }}>
+            <div
+              style={{
                 display: "flex",
-                flexDirection: "row",
-              }}
-            >
-              {mauSacList.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      handleChonMauSac(item);
-                    }}
-                    className="color-type"
-                    style={{
-                      backgroundColor: item.maMauCss,
-                    }}
-                  ></div>
-                );
-              })}
-            </div>
-            <div
-              style={{
-                marginTop: "20px",
-              }}
-            >
-              <div
-                style={{
-                  position: "relative",
-                }}
-              >
-                <span>Chọn size:</span>
-                <span
-                  style={{
-                    fontWeight: 700,
-                    fontSize: "15px",
-                    lineHeight: "18px",
-                    marginLeft: "12px",
-                  }}
-                >
-                  {sanPhamChon.kichThuoc.tenKichThuoc}
-                </span>
-                <span
-                  style={{
-                    position: "absolute",
-                    right: 0,
-                    fontSize: "14px",
-                    textDecoration: "underline",
-                    fontWeight: 400,
-                  }}
-                >
-                  <CiRuler
-                    style={{
-                      fontSize: "24px",
-                    }}
-                  />
-                  Hướng dẫn chọn size
-                </span>
+                alignItems: 'center',
+                height: "70px",
+                padding: "12px"
+              }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '50px',
+                width: "50px",
+                overflow: "hidden",
+                borderRadius: "50%",
+              }}>
+                <img style={{
+                  height: '50px',
+                  width: "auto"
+                }} src="https://www.pokemon.com/static-assets/app/static3/img/og-default-image.jpeg" alt="s" />
               </div>
-              <div
-                style={{
-                  marginTop: "20px",
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-              >
-                {sizeList.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="size-type"
-                      onClick={() => {
-                        handleChonKichThuoc(item);
-                      }}
-                    >
-                      <span>{item.maKichThuoc}</span>
-                    </div>
-                  );
-                })}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '50px',
+                flexDirection: "column"
+
+              }}>
+                <p style={{
+                  marginLeft: "12px",
+                  marginBottom: "2px"
+                }}>Tiến Anh</p>
+                <div style={{
+                  marginLeft: "16px",
+                  color: "#628FE2",
+                  fontSize: "14px"
+                }}>
+                  <BiSolidShoppingBag /> <span>Môi giới</span>
+                </div>
               </div>
             </div>
-            <div
-              style={{
-                marginTop: "20px",
-              }}
-            >
+            <hr style={{
+              margin: "unset"
+            }} />
+            <div style={{
+              padding: "12px"
+            }}>
               <div>
-                <span>Chọn số lượng:</span>
-                <span
-                  style={{
-                    fontWeight: 700,
-                    fontSize: "15px",
-                    lineHeight: "18px",
-                    marginLeft: "12px",
-                  }}
-                >
-                  {quantity}
-                </span>
+                <img style={{
+                  height: "30px",
+                  width: 'auto'
+                }} src="https://cdn2.iconfinder.com/data/icons/Siena/256/protect%20red.png" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontWeight: 550,
+                  fontSize: "15px"
+                }}>Là đối tác của nhà tốt</span>
               </div>
-              <div
-                style={{
-                  marginTop: "20px",
-                  display: "flex",
-                  flexDirection: "row",
-                  marginBottom: "8px",
-                }}
-              >
-                <QuantityField
-                  quantity={quantity}
-                  setQuantity={setQuantity}
-                  style={{
-                    height: "52px",
-                    width: "52px",
-                    size: "20px",
-                  }}
-                />
+              <div>
+                <img style={{
+                  height: "18px",
+                  width: 'auto',
+                  marginLeft: "6px",
+                  marginRight: "6px"
+                }} src="https://static.chotot.com/storage/icons/svg/check.svg" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontSize: "14px"
+                }}>Cam kết thông tin BDS chính xác như tin đăng</span>
               </div>
-              <span>
-                Số lượng còn lại:
-                <span
-                  style={{
-                    fontSize: "15px",
-                    fontWeight: 700,
-                  }}
-                >
-                  {" " + soLuongTon}
-                </span>
-              </span>
-            </div>
-            <div
-              style={{
-                marginTop: "20px",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <div
-                className="btn-add-2-cart"
-                onClick={() => {
-                  handleThemVaoGioHang();
-                }}
-              >
-                <span>Thêm vào giỏ hàng</span>
+              <div>
+                <img style={{
+                  height: "18px",
+                  width: 'auto',
+                  marginLeft: "6px",
+                  marginRight: "6px"
+                }} src="https://static.chotot.com/storage/icons/svg/check.svg" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontSize: "14px"
+                }}>Cam kết thông tin cá nhân môi giới</span>
               </div>
-              <div
-                style={{
-                  fontSize: "36px",
-                  marginLeft: "20px",
-                  height: "46px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyItems: "center",
-                }}
-              >
-                <AiOutlineHeart />
+              <div>
+                <img style={{
+                  height: "18px",
+                  width: 'auto',
+                  marginLeft: "6px",
+                  marginRight: "6px"
+                }} src="https://static.chotot.com/storage/icons/svg/check.svg" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontSize: "14px"
+                }}>Cam kết đảm báo chất lượng tư vấn</span>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        style={{
-          width: "96%",
-          marginLeft: "2%",
-          backgroundColor: "#F5F5F5",
-          marginTop: "40px",
-          minHeight: "200px",
-          padding: "30px",
-        }}
-      >
-        <div className="danh-gia">
-          <h3>Đánh giá sản phẩm</h3>
-          <div className="star">
-            <div
-              style={{
-                width: "30%",
-              }}
-            >
-              <Rate allowHalf defaultValue={2.5} />
-            </div>
-            <div
-              style={{
-                width: "70%",
-              }}
-            >
-              <Rate allowHalf defaultValue={2.5} />
+              <div>
+                <img style={{
+                  height: "18px",
+                  width: 'auto',
+                  marginLeft: "6px",
+                  marginRight: "6px"
+                }} src="https://static.chotot.com/storage/icons/svg/check.svg" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontSize: "14px"
+                }}>Cam kết đảm bảo năng lực tư vấn</span>
+              </div>
+              <div>
+                <img style={{
+                  height: "18px",
+                  width: 'auto',
+                  marginLeft: "6px",
+                  marginRight: "6px"
+                }} src="https://static.chotot.com/storage/icons/svg/check.svg" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontSize: "14px"
+                }}>Cam kết đảm bảo quyền lợi khách hàng</span>
+              </div>
+              <div>
+                <img style={{
+                  height: "18px",
+                  width: 'auto',
+                  marginLeft: "6px",
+                  marginRight: "6px"
+                }} src="https://static.chotot.com/storage/icons/svg/check.svg" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontSize: "14px"
+                }}>Cam kết hình ảnh là đúng</span>
+              </div>
+              <div>
+                <img style={{
+                  height: "18px",
+                  width: 'auto',
+                  marginLeft: "6px",
+                  marginRight: "6px"
+                }} src="https://static.chotot.com/storage/icons/svg/check.svg" alt="ss" />
+                <span style={{
+                  marginLeft: "4px",
+                  fontSize: "14px"
+                }}>Cam kết đảm báo chất lượng tư vấn</span>
+              </div>
             </div>
           </div>
+          <div
+            style={{
+              marginTop: "12px",
+              backgroundColor: "#F4F4F4",
+              width: "95%",
+              marginLeft: "2.5%",
+              padding: "12px"
+            }}
+          >
+
+            <h4 style={{
+              fontSize: "24px"
+            }}>Liên hệ với người bán</h4>
+            <div style={{
+              backgroundColor: "#589F39",
+              borderRadius: "5px",
+              fontSize: "20px",
+              justifyContent: 'center',
+              color: "white",
+              display: "flex",
+              alignItems: 'center',
+              height: "50px",
+              marginTop: "12px"
+            }}><FaPhoneVolume /> <span style={{
+              marginLeft: "4px"
+            }}>Click để hiện số</span></div>
+          </div>
         </div>
+
       </div>
+
+
     </>
   );
 }

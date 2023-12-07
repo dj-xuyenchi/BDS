@@ -44,6 +44,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin/dangtin" element={<DangTin />} />
+        <Route path="/bds/:id" element={<ProductDetail />} />
         <Route path="/admin/daotao" element={<DaoTao />} />
         <Route path="/admin/sanpham" element={<Product />} />
         <Route path="/profile/:id" element={<Profile />} />
