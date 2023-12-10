@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.Entities;
 using Core.Enums;
 using Core.RequestModel;
+using Core.ResponModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -86,15 +87,44 @@ namespace Core.Service.TinBanService
             return query.Select(x => TinBanDTO.FromEntity(x));
         }
 
+        public async Task<KhuVucFilterModel> LayKhuVucFilterModel()
+        {
+            KhuVucFilterModel res = new KhuVucFilterModel();
+            res.Districts = LayDistricte().ToList();
+            res.Provinces = LayProvince().ToList();
+            res.Wards= LayWard().ToList();
+            return res;
+
+        }
+        private IQueryable<Province> LayProvince()
+        {
+            var query = _context.Province;
+            return query;
+        }
+        private IQueryable<Ward> LayWard()
+        {
+            var query = _context.Ward;
+            return query;
+        }
+        private IQueryable<District> LayDistricte()
+        {
+            var query = _context.District;
+            return query;
+        }
+        public async Task<TinBanDTO> LayTinById(int tinBanId)
+        {
+            return TinBanDTO.FromEntity(await _context.TinBan.Include(x => x.BatDongSan).ThenInclude(x => x.HinhAnhBatDongSan).Include(x => x.NguoiDang).Where(x => x.Id == tinBanId).FirstOrDefaultAsync());
+        }
+
         public async Task<TinBanDTO> SuaTin(TinBanDTO tinBan)
         {
             var tin = await _context.TinBan.FindAsync(tinBan.Id);
             tin.NgayCapNhat = DateTime.Now;
             tin.MoTa = tinBan.MoTa;
             tin.GiaBan = tinBan.GiaBan;
-            tin.TieuDe= tinBan.TieuDe;
+            tin.TieuDe = tinBan.TieuDe;
             tin.BatDongSanId = tinBan.BatDongSanId;
-            tin.SoDienThoai= tinBan.SoDienThoai;
+            tin.SoDienThoai = tinBan.SoDienThoai;
             _context.TinBan.Update(tin);
             await _context.SaveChangesAsync();
             return tinBan;

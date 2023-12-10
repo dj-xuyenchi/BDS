@@ -7,15 +7,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { VscLaw } from "react-icons/vsc";
 import { Button, Col, Modal, Row, Tag } from "antd";
 import { MdDownload } from "react-icons/md";
-function PhanHoc2() {
+import { IoIosVideocam } from "react-icons/io";
+import { fixLoaibaiHoc } from "../../../extensions/fixLoaiBaiHoc";
+function PhanHoc2({ data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
 
-  const fetchData = async () => {};
-  useEffect(() => {
-    // dispath(productSlice.actions.setIsLoading(true));
-    // fetchData();
-  }, []);
   return (
     <>
       <div
@@ -46,7 +42,7 @@ function PhanHoc2() {
                 height: "180px",
                 width: "320px",
               }}
-              src="https://i.ytimg.com/vi/sH7GdUY0YPU/maxresdefault.jpg"
+              src={data.linkHinhAnh}
               alt=""
             />
           </Col>
@@ -66,7 +62,7 @@ function PhanHoc2() {
                   marginLeft: "4px",
                 }}
               >
-                Luật
+                {fixLoaibaiHoc(data.loaiBaiHoc)}
               </span>
             </Tag>
           </Col>
@@ -85,8 +81,7 @@ function PhanHoc2() {
                 fontWeight: 500,
               }}
             >
-              Luật đất đai sửa đổi năm 2023 những điều cần chú ý quân tâm khi tư
-              vấn cho khách
+              {data.tenBaiHoc}
             </span>
           </Col>
         </Row>
@@ -115,7 +110,7 @@ function PhanHoc2() {
                   height: "40px",
                   width: "auto",
                 }}
-                src="https://images2.thanhnien.vn/528068263637045248/2023/3/10/01-16784216317551521798726.jpeg"
+                src={data.nguoiTao.hinhDaiDien}
                 alt=""
               />
             </div>
@@ -128,7 +123,7 @@ function PhanHoc2() {
                 alignItems: "center",
               }}
             >
-              Taylor
+              {data.nguoiTao.hoTenNguoiDung}
             </span>
           </Col>
         </Row>
@@ -148,7 +143,7 @@ function PhanHoc2() {
         <iframe
           width="720"
           height="500"
-          src="https://www.youtube.com/embed/eRllcUtAl54?si=taG3pLTOKHm0pi3c"
+          src={"https://www.youtube.com/embed/" + data.linkBaiHoc}
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -163,21 +158,19 @@ function PhanHoc2() {
             span={24}
           >
             <p>
-              Luật đất đai sửa đổi{" "}
-              <Button
+              {data.tenBaiHoc}
+              <a
                 style={{
                   marginLeft: "12px",
                 }}
+                href={
+                  "https://localhost:44364/BaiHocDaoTao/taifile?fileName=" +
+                  data.fileKienThuc
+                }
+                target="_blank"
               >
-                <MdDownload />
-                <span
-                  style={{
-                    marginLeft: "4px",
-                  }}
-                >
-                  Tải tài liệu mềm
-                </span>
-              </Button>
+                <MdDownload /> Tải tài liệu mềm
+              </a>
             </p>
           </Col>
         </Row>
@@ -205,7 +198,7 @@ function PhanHoc2() {
                   height: "40px",
                   width: "auto",
                 }}
-                src="https://images2.thanhnien.vn/528068263637045248/2023/3/10/01-16784216317551521798726.jpeg"
+                src={data.nguoiTao.hinhDaiDien}
                 alt=""
               />
             </div>
@@ -218,7 +211,7 @@ function PhanHoc2() {
                 alignItems: "center",
               }}
             >
-              Taylor
+              {data.nguoiTao.hoTenNguoiDung}
             </span>
           </Col>
         </Row>

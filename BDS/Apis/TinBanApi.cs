@@ -33,5 +33,15 @@ namespace BDS.Apis
         {
             return Ok(await _tinBan.XoaTin(tinBanId));
         }
+        [HttpGet("laytinbyid")]
+        public async Task<IActionResult> LayTin([FromQuery] int tinBanId)
+        {
+            return Ok(await _tinBan.LayTinById(tinBanId));
+        }
+        [HttpGet("laykhuvucfiltermodel")]
+        public async Task<IActionResult> LayKhuVucFilter()
+        {
+            return Ok(await _tinBan.LayKhuVucFilterModel());
+        }
     }
 }

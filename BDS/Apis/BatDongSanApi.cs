@@ -3,6 +3,7 @@ using Core.Enums;
 using Core.RequestModel;
 using Core.Service.BatDongSanService;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace BDS.Apis
 {
@@ -44,6 +45,25 @@ namespace BDS.Apis
      )
         {
             return Ok(await _batDongSanService.XoaBDS(bdsId));
+        }
+
+        [HttpGet("layhinhanhbyid")]
+        public async Task<IActionResult> LayHinhAnhBDSById(
+  [FromQuery]
+            int  bdsId
+  )
+        {
+            return Ok(_batDongSanService.LayHinhAnhCuaBDSById(bdsId));
+        }
+        [HttpPost("themhinhanhchobds")]
+        public async Task<IActionResult> ThemHinhAnh([FromForm] IFormFile img, [FromForm] int data)
+        {
+            return Ok(await _batDongSanService.ThemHinhAnhChoBDS(img, data));
+        }
+        [HttpGet("xoahinhanh")]
+        public async Task<IActionResult> XoaHinhAnh([FromQuery] int hinhAnhId, [FromQuery] int bdsId)
+        {
+            return Ok(await _batDongSanService.XoaHinhAnhById(hinhAnhId, bdsId));
         }
     }
 }

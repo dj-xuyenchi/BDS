@@ -21,7 +21,7 @@ function Body() {
   };
   const disPath = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
-
+  const [tinhHuyen, setTinhHuyen] = useState(undefined);
   async function handleFilter(payload) {
     disPath(productSlice.actions.setIsLoading(true));
     const data = await useFilterStore.actions.filter({
@@ -39,9 +39,11 @@ function Body() {
     );
     setData(data.data);
   }
+
   useEffect(() => {
     handleLayDuLieu(null);
   }, []);
+
   return (
     <>
       <div className="header-banner">
@@ -80,8 +82,13 @@ function Body() {
           handleLayDuLieu={handleLayDuLieu}
           page={current}
           pageSize={20}
+          tinhHuyen={tinhHuyen}
         />
-        <Product data={data} />
+        <Product
+          data={data}
+          tinhHuyen={tinhHuyen}
+          setTinhHuyen={setTinhHuyen}
+        />
       </div>
       <Row
         style={{

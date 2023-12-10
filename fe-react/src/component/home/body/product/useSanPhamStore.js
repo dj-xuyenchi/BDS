@@ -6,8 +6,15 @@ export const useSanPhamStore = {
             payload
         ) {
             var url = "/TinBan/laytinban";
-           
-            return await axiosIns.post(url,payload);
+
+            return await axiosIns.post(url, payload);
+        },
+        async layKhuVucFilter(
+
+        ) {
+            var url = "/TinBan/laykhuvucfiltermodel";
+
+            return await axiosIns.get(url);
         },
     },
 };

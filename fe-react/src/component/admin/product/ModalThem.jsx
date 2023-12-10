@@ -17,7 +17,7 @@ import {
 import { InboxOutlined } from "@ant-design/icons";
 import "./style.css";
 import { PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { Option } from "antd/es/mentions";
 import { useSanPhamStore } from "./useSanPhamStore";
@@ -77,6 +77,16 @@ function ModalThem({ fetchData }) {
     setIsModalOpen(false);
     fetchData();
   }
+  const [khuVuc, setKhuVuc] = useState(undefined);
+  const [huyen, setHuyen] = useState(undefined);
+  const [xa, setXa] = useState(undefined);
+  const layKhuVuc = async () => {
+    const data = await useSanPhamStore.actions.layDiaChiOption();
+    setKhuVuc(data.data);
+  };
+  useEffect(() => {
+    layKhuVuc();
+  }, []);
   return (
     <>
       {contextHolder}
@@ -234,6 +244,127 @@ function ModalThem({ fetchData }) {
               parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
             />
           </Form.Item>{" "}
+          <Form.Item
+            name="tinhCode"
+            label="Tỉnh/TP"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              optionLabelProp="children"
+              style={{
+                width: "100%",
+              }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  provinceCode: e.value,
+                });
+                setHuyen(
+                  khuVuc.districts.filter((item) => {
+                    return item.province_code === e.value;
+                  })
+                );
+              }}
+            >
+              {khuVuc &&
+                khuVuc.provinces.map((item) => {
+                  return (
+                    <Select.Option key={item.code} value={item.code}>
+                      {item.full_name}
+                    </Select.Option>
+                  );
+                })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="huyenCode"
+            label="Quận/Huyện"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              optionLabelProp="children"
+              style={{
+                width: "100%",
+              }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  districtCode: e.value,
+                });
+                setXa(
+                  khuVuc.wards.filter((item) => {
+                    return item.district_code === e.value;
+                  })
+                );
+              }}
+            >
+              {huyen &&
+                huyen.map((item) => {
+                  return (
+                    <Select.Option key={item.code} value={item.code}>
+                      {item.full_name}
+                    </Select.Option>
+                  );
+                })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="xaCode"
+            label="Xã/Phường"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              optionLabelProp="children"
+              style={{
+                width: "100%",
+              }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  wardCode: e.value,
+                });
+              }}
+            >
+              {xa &&
+                xa.map((item) => {
+                  return (
+                    <Select.Option key={item.code} value={item.code}>
+                      {item.full_name}
+                    </Select.Option>
+                  );
+                })}
+            </Select>
+          </Form.Item>
           <Form.Item
             name="batDongSan"
             label="Loại bất động sản"

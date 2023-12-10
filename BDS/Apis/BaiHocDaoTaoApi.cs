@@ -5,6 +5,7 @@ using Core.RequestModel;
 using Core.Service.BatDongSanService;
 using Core.Service.DaoTaoService;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.IO;
 
 namespace BDS.Apis
@@ -16,22 +17,23 @@ namespace BDS.Apis
         private readonly IDaoTaoService _daoTao = new DaoTaoService();
         private readonly BDSContext _context = new BDSContext();
         [HttpGet("layhetbaihoc")]
-        public IActionResult LayHetBatDongSan(
-            LoaiBaiHoc? loaiBaiHoc,
-            int? nguoiTaoId
+        public IActionResult layhetbaihoc(
+        [FromQuery] int? loaiBaiHoc,
+        [FromQuery] int? nguoiTaoId
             )
         {
             return Ok(_daoTao.LayHetBaiHocDaoTao(
-                  loaiBaiHoc,
+                  (LoaiBaiHoc?)loaiBaiHoc,
           nguoiTaoId
               ));
         }
         [HttpGet("taifile")]
         public IActionResult DownloadFile([FromQuery] string fileName)
         {
+            string directoryPath = @"D:\uploads";
             // Đường dẫn tới file cần tải
-         //   string filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", fileName);
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", "luat.pdf");
+            //   string filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", fileName);
+            string filePath = Path.Combine(directoryPath, fileName);
 
             // Kiểm tra xem file có tồn tại không
             if (System.IO.File.Exists(filePath))
@@ -46,28 +48,25 @@ namespace BDS.Apis
                 return NotFound("File not found");
             }
         }
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile([FromForm] IFormFile file, [FromForm] BaiHocDaoTaoDTO baiHocDaoTao)
+       
+        [HttpPost("thembaihoc")]
+        public async Task<IActionResult> ThemBaiHoc([FromForm] List<IFormFile> file, [FromForm] string data)
         {
-            string id = Guid.NewGuid().ToString();
-            if (file == null || file.Length == 0)
-            {
-
-                id = id+ file.FileName;
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "uploads", id);
-
-                // Lưu file vào đường dẫn
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-            }
-            baiHocDaoTao.FileKienThuc = id;
-            await _context.AddAsync(baiHocDaoTao.ToEntity());
+            BaiHocDaoTaoDTO bh = JsonConvert.DeserializeObject<BaiHocDaoTaoDTO>(data);
+            return Ok(await _daoTao.ThemBaiHoc(file[0], file[1],bh));
+        }
 
 
-            return Ok("File uploaded successfully");
+        [HttpGet("xoabaihoc")]
+        public async Task<IActionResult> XoaBaiHoc(int baiHocId)
+        {
+            return Ok(await _daoTao.XoaBaiHoc(baiHocId));
+        }
+        [HttpPost("suabaihoc")]
+        public async Task<IActionResult> SuaBaiHoc([FromForm] List<IFormFile> file, [FromForm] string data)
+        {
+            BaiHocDaoTaoDTO bh = JsonConvert.DeserializeObject<BaiHocDaoTaoDTO>(data);
+            return Ok(await _daoTao.SuaBaiHoc(file[0], file[1], bh));
         }
     }
 }

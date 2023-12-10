@@ -15,11 +15,11 @@ namespace Core.DTO
         public string MoTa { get; set; }
         public string TenBaiHoc { get; set; }
         public DateTime NgayTao { get; set; }
-        public LoaiBaiHoc LoaiBaiHoc { get; set; }
+        public int LoaiBaiHoc { get; set; }
         public string LinkHinhAnh { get; set; }
         public TrangThaiBaiHoc TrangThai { get; set; }
         public int NguoiTaoId { get; set; }
-        public virtual NguoiDung NguoiTao { get; set; }
+        public virtual NguoiDung? NguoiTao { get; set; }
         public string? FileKienThuc { get; set; }
         public static BaiHocDaoTaoDTO FromEntity(BaiHocDaoTao entity)
         {
@@ -30,7 +30,7 @@ namespace Core.DTO
                 MoTa = entity.MoTa,
                 TenBaiHoc = entity.TenBaiHoc,
                 NgayTao = entity.NgayTao,
-                LoaiBaiHoc = entity.LoaiBaiHoc,
+                LoaiBaiHoc = (int)entity.LoaiBaiHoc,
                 TrangThai = entity.TrangThai,
                 NguoiTaoId = entity.NguoiTaoId,
                 NguoiTao = entity.NguoiTao,
@@ -47,7 +47,7 @@ namespace Core.DTO
                 MoTa = this.MoTa,
                 TenBaiHoc = this.TenBaiHoc,
                 NgayTao = this.NgayTao,
-                LoaiBaiHoc = this.LoaiBaiHoc,
+                LoaiBaiHoc = (LoaiBaiHoc)this.LoaiBaiHoc,
                 TrangThai = this.TrangThai,
                 NguoiTaoId = this.NguoiTaoId,
                 NguoiTao = this.NguoiTao,

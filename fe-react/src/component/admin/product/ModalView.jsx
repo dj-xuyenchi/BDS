@@ -132,6 +132,36 @@ function ModalView({ data }) {
               parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
             />
           </Form.Item>
+          <Form.Item label="Tỉnh/TP">
+            <Input
+              value={data.giaTriHoaHongChiaNhanVien}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
+          </Form.Item>
+          <Form.Item label="Quận/Huyện">
+            <Input
+              value={data.giaTriHoaHongChiaNhanVien}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
+          </Form.Item>
+          <Form.Item label="Xã/Phường">
+            <Input
+              value={data.giaTriHoaHongChiaNhanVien}
+              min={1}
+              style={{
+                width: "100%",
+              }}
+              disabled
+            />
+          </Form.Item>
           <Form.Item label="Năm xây dựng">
             <InputNumber
               value={data.namXayDung}

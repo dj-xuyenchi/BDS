@@ -15,7 +15,7 @@ export const useSanPhamStore = {
             var url = "/BatDongSan/themmoi";
 
             return await axiosIns.post(url, payload);
-        }, 
+        },
         async suaBDS(
             payload
         ) {
@@ -23,12 +23,34 @@ export const useSanPhamStore = {
 
             return await axiosIns.post(url, payload);
         },
-        async xoaBDS(
-            payload
-        ) {
+        async xoaBDS(payload) {
             var url = "/BatDongSan/xoa?bdsId=" + payload;
 
             return await axiosIns.get(url);
+        },
+        async layHinhAnh(payload) {
+            var url = "/BatDongSan/layhinhanhbyid?bdsId=" + payload;
+
+            return await axiosIns.get(url);
+        },
+        async xoaHinhAnh(payload) {
+            var url = "/BatDongSan/xoahinhanh?bdsId=" + payload.bdsId + "&hinhAnhId=" + payload.hinhAnhId;
+
+            return await axiosIns.get(url);
+        },
+        async layDiaChiOption() {
+            var url = "/TinBan/laykhuvucfiltermodel";
+
+            return await axiosIns.get(url);
+        },
+        async themHinhAnh(payload) {
+            var url = "/BatDongSan/themhinhanhchobds";
+
+            return await axiosIns.post(url, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
         },
     },
 }

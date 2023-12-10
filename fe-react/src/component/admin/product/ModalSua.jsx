@@ -17,7 +17,7 @@ import {
 import { InboxOutlined } from "@ant-design/icons";
 import "./style.css";
 import { PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { Option } from "antd/es/mentions";
 import { useSanPhamStore } from "./useSanPhamStore";
@@ -25,6 +25,7 @@ import { useForm } from "antd/es/form/Form";
 import Dragger from "antd/es/upload/Dragger";
 import { FaRegEdit } from "react-icons/fa";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
+import Media from "./Media";
 function ModalSua({ data, fetchData }) {
   const [form] = useForm();
   const [api, contextHolder] = notification.useNotification();
@@ -83,6 +84,16 @@ function ModalSua({ data, fetchData }) {
     setIsModalOpen(false);
     fetchData();
   }
+    const [khuVuc, setKhuVuc] = useState(undefined);
+    const [huyen, setHuyen] = useState(undefined);
+    const [xa, setXa] = useState(undefined);
+    const layKhuVuc = async () => {
+      const data = await useSanPhamStore.actions.layDiaChiOption();
+      setKhuVuc(data.data);
+    };
+    useEffect(() => {
+      layKhuVuc();
+    }, []);
   return (
     <>
       {contextHolder}
@@ -234,7 +245,128 @@ function ModalSua({ data, fetchData }) {
               }
               parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
             />
-          </Form.Item>{" "}
+          </Form.Item>
+          <Form.Item
+            name="tinhCode"
+            label="Tỉnh/TP"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              optionLabelProp="children"
+              style={{
+                width: "100%",
+              }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              onChange={(e) => {
+                setData({
+                  ...data2,
+                  provinceCode: e.value,
+                });
+                setHuyen(
+                  khuVuc.districts.filter((item) => {
+                    return item.province_code === e.value;
+                  })
+                );
+              }}
+            >
+              {khuVuc &&
+                khuVuc.provinces.map((item) => {
+                  return (
+                    <Select.Option key={item.code} value={item.code}>
+                      {item.full_name}
+                    </Select.Option>
+                  );
+                })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="huyenCode"
+            label="Quận/Huyện"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              optionLabelProp="children"
+              style={{
+                width: "100%",
+              }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              onChange={(e) => {
+                setData({
+                  ...data2,
+                  districtCode: e.value,
+                });
+                setXa(
+                  khuVuc.wards.filter((item) => {
+                    return item.district_code === e.value;
+                  })
+                );
+              }}
+            >
+              {huyen &&
+                huyen.map((item) => {
+                  return (
+                    <Select.Option key={item.code} value={item.code}>
+                      {item.full_name}
+                    </Select.Option>
+                  );
+                })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="xaCode"
+            label="Xã/Phường"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              labelInValue
+              optionLabelProp="children"
+              style={{
+                width: "100%",
+              }}
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+              onChange={(e) => {
+                setData({
+                  ...data2,
+                  wardCode: e.value,
+                });
+              }}
+            >
+              {xa &&
+                xa.map((item) => {
+                  return (
+                    <Select.Option key={item.code} value={item.code}>
+                      {item.full_name}
+                    </Select.Option>
+                  );
+                })}
+            </Select>
+          </Form.Item>
           <Form.Item
             label="Loại bất động sản"
             rules={[
@@ -491,6 +623,7 @@ function ModalSua({ data, fetchData }) {
             >
               Cập nhật BDS
             </Button>
+            <Media bdsId={data2.id} fetchData={fetchData} />
           </Form.Item>
         </Form>
       </Modal>

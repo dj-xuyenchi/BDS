@@ -2,7 +2,9 @@
 using Core.DTO;
 using Core.Entities;
 using Core.Enums;
+using Core.plugins;
 using Core.RequestModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -87,6 +89,13 @@ namespace Core.Service.BatDongSanService
             return query.Where(x => x.TrangThai != TrangThaiBatDongSan.LOCK).Select(x => BatDongSanDTO.FromEntity(x));
         }
 
+        public IQueryable<HinhAnhBDSDTO> LayHinhAnhCuaBDSById(int bdsId)
+        {
+            var query = _context.HinhAnhBatDongSan.AsNoTracking();
+            query = query.Where(x => x.BatDongSanId == bdsId);
+            return query.Select(x => HinhAnhBDSDTO.FromEntity(x));
+        }
+
         public async Task<BatDongSanDTO> SuaBDS(BatDongSanDTO data)
         {
             var bds = await _context.BatDongSan.FindAsync(data.Id);
@@ -107,6 +116,9 @@ namespace Core.Service.BatDongSanService
             bds.DiaChiGoogleMap = data.DiaChiGoogleMap;
             bds.MoTaChiTiet = data.MoTaChiTiet;
             bds.LoaiBatDongSan = (LoaiBatDongSan)data.LoaiBatDongSan;
+            bds.WardCode = data.WardCode;
+            bds.ProvinceCode= data.ProvinceCode;
+            bds.DistrictCode= data.DistrictCode;
             _context.BatDongSan.Update(bds);
             await _context.SaveChangesAsync();
             return BatDongSanDTO.FromEntity(bds);
@@ -126,6 +138,19 @@ namespace Core.Service.BatDongSanService
             return data;
         }
 
+        public async Task<bool> ThemHinhAnhChoBDS(IFormFile img, int bdsId)
+        {
+            string link = await CloudinaryUpload.UploadFile(img);
+            HinhAnhBatDongSan hinhAnh = new HinhAnhBatDongSan();
+            hinhAnh.LinkHinhAnh = link;
+            hinhAnh.NgayTao = DateTime.Now;
+            hinhAnh.BatDongSanId = bdsId;
+            await _context.AddAsync(hinhAnh);
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
+
         public async Task<BatDongSanDTO> XoaBDS(int bdsId)
         {
             var bds = await _context.BatDongSan.FindAsync(bdsId);
@@ -133,6 +158,19 @@ namespace Core.Service.BatDongSanService
             _context.BatDongSan.Update(bds);
             await _context.SaveChangesAsync();
             return BatDongSanDTO.FromEntity(bds);
+        }
+
+        public async Task<bool> XoaHinhAnhById(int hinhAnhId, int bdsId)
+        {
+            if (_context.HinhAnhBatDongSan.Where(x => x.BatDongSanId == bdsId).Count() == 1)
+            {
+                return false;
+
+            }
+            var hinhAnh = await _context.HinhAnhBatDongSan.FindAsync(hinhAnhId);
+            _context.Remove(hinhAnh);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

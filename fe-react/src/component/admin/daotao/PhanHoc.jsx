@@ -14,15 +14,20 @@ import { fixLoaibaiHoc } from "../../../extensions/fixLoaiBaiHoc";
 function PhanHoc({ data }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
-
-  const fetchData = async () => {};
+  const [dataLienQuan, setDataLienQuan] = useState(undefined);
+  const fetchData = async () => {
+    const data2 = await useBaiHoc.actions.layBaiHoc({
+      loaiBaiHoc: data.loaiBaiHoc,
+    });
+    setDataLienQuan(data2.data);
+  };
   useEffect(() => {
     // dispath(productSlice.actions.setIsLoading(true));
-    // fetchData();
-  }, []);
-  async function handleTaiFile() {
-    const data = await useBaiHoc.actions.taiFile("s");
-  }
+    if (isModalOpen) {
+      fetchData();
+    }
+  }, [isModalOpen]);
+
   return (
     <>
       <div
@@ -174,7 +179,10 @@ function PhanHoc({ data }) {
                 style={{
                   marginLeft: "12px",
                 }}
-                href="https://localhost:44364/BaiHocDaoTao/taifile?fileName=s"
+                href={
+                  "https://localhost:44364/BaiHocDaoTao/taifile?fileName=" +
+                  data.fileKienThuc
+                }
                 target="_blank"
               >
                 <MdDownload /> Tải tài liệu mềm
@@ -193,11 +201,11 @@ function PhanHoc({ data }) {
                     marginLeft: "4px",
                   }}
                 >
-                  Xem thêm bài học về
+                  {"Xem thêm bài học về " + fixLoaibaiHoc(data.loaiBaiHoc)}
                 </span>
               </Button>
               <Modal
-                title="Bài học liên quan"
+                title={"Bài học liên quan về " + fixLoaibaiHoc(data.loaiBaiHoc)}
                 open={isModalOpen2}
                 onOk={() => {
                   setIsModalOpen2(false);
@@ -208,12 +216,10 @@ function PhanHoc({ data }) {
                   setIsModalOpen2(false);
                 }}
               >
-                <PhanHoc2 />
-                <PhanHoc2 />
-                <PhanHoc2 />
-                <PhanHoc2 />
-                <PhanHoc2 />
-                <PhanHoc2 />
+                {dataLienQuan &&
+                  dataLienQuan.map((item) => {
+                    return <PhanHoc2 data={item} />;
+                  })}
               </Modal>
             </p>
           </Col>

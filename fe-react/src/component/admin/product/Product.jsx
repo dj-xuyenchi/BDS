@@ -300,6 +300,7 @@ function Product() {
     const data = await useSanPhamStore.actions.fetchSanPham({});
     setData(data.data);
   };
+
   useEffect(() => {
     // dispath(productSlice.actions.setIsLoading(true));
     fetchData();

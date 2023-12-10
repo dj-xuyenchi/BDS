@@ -1,11 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const INIT_PRODUCT = {
     isLoading: true,
-    data: [{}, {}, {}, {}, {}],
-    pageSize: 5,
-    pageTotal: 0,
-    pageItem: 4,
-    pageNumber: 1
+    tinhCode: null,
+    huyenCode: null
 }
 export default createSlice({
     name: "product",
@@ -16,6 +13,12 @@ export default createSlice({
         },
         setSanPham: (state, action) => {
             state.data = action;
+        },
+        setTinh: (state, action) => {
+            state.tinhCode = action.payload;
+        },
+        setHuyen: (state, action) => {
+            state.huyenCode = action.payload;
         }
     }
 })

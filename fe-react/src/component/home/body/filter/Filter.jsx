@@ -17,12 +17,13 @@ import { useEffect, useState } from "react";
 import { fixMoney } from "../../../../extensions/fixMoney";
 import Tag1 from "../../../common/tag/Tag1";
 import { useFilterStore } from "./useFilter";
-function Filter({ page, pageSize, handleLayDuLieu }) {
+import { selectProduct } from "../product/selectProduct";
+function Filter({ tinhHuyen, page, pageSize, handleLayDuLieu }) {
   const language = useSelector(selectLanguage);
+
   const [value, setValue] = useState(undefined);
   const [optionFilter, setOptionFilter] = useState();
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
   const formatter = (value) => {
@@ -49,8 +50,13 @@ function Filter({ page, pageSize, handleLayDuLieu }) {
       chieuDai: dai ? dai : chieuDai,
       min: gia ? gia[0] : giaTien[0],
       max: gia ? gia[1] : giaTien[1],
+      tinhCode: tinhHuyen ? tinhHuyen.tinhCode : null,
+      huyenCode: tinhHuyen ? tinhHuyen.huyenCode : null,
     });
   }
+  useEffect(() => {
+    handleFilter(null, null, null, null, null, null);
+  }, [tinhHuyen]);
   return (
     <>
       <div className="filter-container">

@@ -6,6 +6,7 @@ import { fixMoney } from "../../../../../extensions/fixMoney";
 import { Link } from "react-router-dom";
 import { LiaBusinessTimeSolid } from "react-icons/lia";
 import { tinhThoiGianCachHienTai } from "../../../../../extensions/fixThoiGian";
+import { fixDoDai } from "../../../../../extensions/fixDoDai";
 function ProductItem({ item }) {
   const language = useSelector(selectLanguage);
   return (
@@ -21,6 +22,7 @@ function ProductItem({ item }) {
             </div>
           </Link>
           <div className="product-detail">
+            {fixDoDai(item.tieuDe)}
             <div className="product-name-container">
               <span>
                 {item.batDongSan.dienTich + "M"}
