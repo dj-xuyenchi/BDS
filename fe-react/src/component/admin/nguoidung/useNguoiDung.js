@@ -1,6 +1,6 @@
 import axiosIns from "../../../plugins/axios"
 
-export const useKyGui = {
+export const useNguoiDung = {
     actions: {
         async suaTin(payload) {
             var url = "/TinBan/suatin";
