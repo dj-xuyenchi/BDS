@@ -17,7 +17,7 @@ import DangTin from "./component/admin/dangtin/DangTin";
 import DaoTao from "./component/admin/daotao/DaoTao";
 import QuanLyBaiHoc from "./component/admin/daotao/qldaotao/QuanLyBaiHoc";
 import KyGui from "./component/admin/kygui/KyGui";
-import NguoiDung from "./component/admin/nguoidung/KyGui";
+import NguoiDung from "./component/admin/nguoidung/NguoiDung";
 function App() {
   const dispath = useDispatch();
   const disPath = useDispatch();

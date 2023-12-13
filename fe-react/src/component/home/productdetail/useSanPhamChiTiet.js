@@ -9,5 +9,12 @@ export const useTinChiTiet = {
 
             return await axiosIns.get(url);
         },
+        async laySanPhamTuongTu(
+            payload
+        ) {
+            var url = "/TinBan/laytinban";
+
+            return await axiosIns.post(url, payload);
+        },
     },
 }

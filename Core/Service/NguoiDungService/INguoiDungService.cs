@@ -12,6 +12,8 @@ namespace Core.Service.NguoiDungService
     {
         Task<NguoiDungDTO> DangKy(NguoiDungDTO nguoiDungDTO);
         Task<NguoiDungDTO> DangNhap(DangNhapRequest nguoiDungDTO);
-        Task<NguoiDungDTO> TaoNguoiDung(NguoiDungDTO nguoiDungDTO);
+        Task<NguoiDungDTO> TaoNguoiDung(NguoiDungDTO nguoiDungDTO); 
+        Task<NguoiDungDTO> SuaNguoiDung(NguoiDungDTO nguoiDungDTO);
+        IQueryable<NguoiDungDTO> LayHetNguoiDung();
     }
 }

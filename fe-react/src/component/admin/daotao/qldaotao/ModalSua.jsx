@@ -16,6 +16,8 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useBaiHoc } from "../useSanPhamStore";
 import TextArea from "antd/es/input/TextArea";
 import { FaRegEdit } from "react-icons/fa";
+import { fixLoaiBDS } from "../../../../extensions/fixLoaiBDS";
+import { fixLoaibaiHoc } from "../../../../extensions/fixLoaiBaiHoc";
 function ModalSua({ data2, fetchData }) {
   const [form] = useForm();
   const user = JSON.parse(localStorage.getItem("user"));
@@ -214,6 +216,7 @@ function ModalSua({ data2, fetchData }) {
           >
             <Select
               labelInValue
+              defaultValue={fixLoaibaiHoc(data.loaiBaiHoc)}
               optionLabelProp="children"
               style={{
                 width: "100%",

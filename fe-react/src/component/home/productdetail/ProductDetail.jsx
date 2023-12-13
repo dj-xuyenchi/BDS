@@ -22,6 +22,7 @@ import { MdOutlineTypeSpecimen } from "react-icons/md";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import { tinhThoiGianCachHienTai } from "../../../extensions/fixThoiGian";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
+import Slide from "./Slide";
 function ProductDetail() {
   const language = useSelector(selectLanguage);
   const [api, contextHolder] = notification.useNotification();
@@ -367,7 +368,6 @@ function ProductDetail() {
             </p>
           </div>
         </div>
-
         <div
           style={{
             width: "40%",
@@ -645,11 +645,26 @@ function ProductDetail() {
                   marginLeft: "4px",
                 }}
               >
-                {hienSo ? tinBan && tinBan.soDienThoai : "Click để hiện số"}
+                {hienSo ? tinBan.soDienThoai : "Click để hiện số"}
               </span>
             </div>
           </div>
         </div>
+      </div>
+      <div
+        style={{
+          width: "60%",
+          marginLeft: "auto",
+          marginRight: "auto",
+          backgroundColor: "#F4F4F4",
+          marginTop: "12px",
+          padding: "12px",
+        }}
+      >
+        <Slide
+          tinhCode={tinBan ? tinBan.batDongSan.provinceCode : "-1"}
+          id={tinBan ? tinBan.id : ""}
+        />
       </div>
     </>
   );

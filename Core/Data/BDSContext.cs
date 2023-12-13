@@ -23,6 +23,7 @@ namespace Core.Data
         public DbSet<NguoiDung> NguoiDung { get; set; }
         public DbSet<PhongBan> PhongBan { get; set; }
         public DbSet<Role> Role { get; set; }
+        public DbSet<NguoiDungRole> NguoiDungRole { get; set; }
         public DbSet<TinBan> TinBan { get; set; }
         public DbSet<PhieuXemNha> PhieuXemNha { get; set; }
         public DbSet<PhieuXemNhaBatDongSan> PhieuXemNhaBatDongSan { get; set; }

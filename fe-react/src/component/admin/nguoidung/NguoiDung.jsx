@@ -10,6 +10,11 @@ import { Button, Image, Input, Space, Table, Tag } from "antd";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import { fixMoney } from "../../../extensions/fixMoney";
+import { useNguoiDung } from "./useNguoiDung";
+import { fixTrangThaiNguoiDung } from "../../../extensions/fixTrangThaiNguoiDung";
+import ModalThem from "./ModalThem";
+import ModalView from "./ModalView";
+import ModalSua from "./ModalSua";
 function NguoiDung() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
@@ -130,82 +135,94 @@ function NguoiDung() {
   });
   const columns = [
     {
-      title: "Họ tên",
-      dataIndex: "hoTen",
-      key: "hoTen",
+      title: "Người dùng",
+      dataIndex: "hoTenNguoiDung",
+      key: "hoTenNguoiDung",
       width: "20%",
-      render: (tieuDe, record) => <span>{tieuDe}</span>,
-    },
-    {
-      title: "Tiêu đề",
-      dataIndex: "tieuDe",
-      key: "tieuDe",
-      width: "20%",
-      render: (tieuDe) => <span>{tieuDe}</span>,
-    },
-    {
-      title: "Giá bán",
-      dataIndex: "giaBan",
-      key: "giaBan",
-      width: "15%",
-      sorter: (a, b) => a.giaBan - b.giaBan,
-      sortDirections: ["descend", "ascend"],
-      render: (giaBan) => <span>{fixMoney(giaBan)}</span>,
-    },
-    {
-      title: "Mô tả",
-      dataIndex: "moTa",
-      key: "moTa",
-      width: "20%",
-      render: (moTa) => <span>{moTa}</span>,
-    },
-    {
-      title: "Ngày đăng",
-      dataIndex: "ngayTao",
-      key: "ngayTao",
-      width: "5%",
-      render: (ngayTao) => <span>{fixNgayThang(ngayTao)}</span>,
-    },
-    {
-      title: "Người đăng",
-      dataIndex: "nguoiDang",
-      key: "nguoiDang",
-      width: "7.5%",
-      render: (nguoiDang) => <span>{nguoiDang.hoTenNguoiDung}</span>,
-    },
-    {
-      title: "Loại BDS",
-      dataIndex: "loaiBatDongSan",
-      key: "loaiBatDongSan",
-      width: "7.5%",
-      filters: [
-        {
-          text: "Nhà phố",
-          value: 1,
-        },
-        {
-          text: "Đất thổ cư",
-          value: 2,
-        },
-        {
-          text: "Đất nền",
-          value: 3,
-        },
-        {
-          text: "Chung cư",
-          value: 4,
-        },
-      ],
-      onFilter: (value, record) => {
-        return value == record.loaiBatDongSan;
-      },
-      filterSearch: true,
-      render: (loaiBatDongSan) => (
-        <Tag color="success">{fixLoaiBDS(loaiBatDongSan)}</Tag>
+      render: (hoTenNguoiDung, record) => (
+        <>
+          <div>
+            <div
+              style={{
+                height: "40px",
+                width: "40px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "hidden",
+                borderRadius: "50%",
+                float: "left",
+              }}
+            >
+              <Image
+                style={{
+                  height: "40px",
+                  width: "auto",
+                }}
+                src={record.hinhDaiDien}
+                alt=""
+              />
+            </div>
+            <span
+              style={{
+                marginLeft: "8px",
+                lineHeight: "40px",
+                fontWeight: 500,
+              }}
+            >
+              {hoTenNguoiDung}
+            </span>
+          </div>
+        </>
       ),
-      // filters: filter.thietKe,
-      // filteredValue: filteredInfo.address || null,
-      // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
+    },
+    {
+      title: "Tên tài khoản",
+      dataIndex: "tenTaiKhoan",
+      key: "tenTaiKhoan",
+      render: (tenTaiKhoan) => <>{tenTaiKhoan}</>,
+    },
+    {
+      title: "Phòng ban",
+      dataIndex: "phongBan",
+      key: "phongBan",
+      render: (phongBan) => <>{phongBan ? phongBan.tenPhongBan : "Chưa có"}</>,
+    },
+    {
+      title: "Quyền",
+      dataIndex: "nguoiDungRole",
+      key: "nguoiDungRole",
+      render: (nguoiDungRole) => (
+        <>
+          {nguoiDungRole.map((item) => {
+            if (item.role.id == 1) {
+              return <Tag color="#f50">{item.role.roleName}</Tag>;
+            }
+            if (item.role.id == 2) {
+              return <Tag color="#87d068">{item.role.roleName}</Tag>;
+            }
+            if (item.role.id == 3) {
+              return <Tag color="#2db7f5">{item.role.roleName}</Tag>;
+            }
+            if (item.role.id == 4) {
+              return <Tag color="#108ee9">{item.role.roleName}</Tag>;
+            }
+            return "";
+          })}
+        </>
+      ),
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "soDienThoai",
+      key: "soDienThoai",
+      render: (soDienThoai) => <>{soDienThoai ? soDienThoai : "Chưa nhập"}</>,
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "trangThai",
+      key: "trangThai",
+      render: (trangThai) => <>{fixTrangThaiNguoiDung(trangThai)}</>,
     },
     {
       title: "Thao tác",
@@ -214,22 +231,25 @@ function NguoiDung() {
       align: "center",
       width: "10%",
       render: (id, record) => (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <div>
+          <ModalView data={record} />
+          <ModalSua fetchData={fetchData} data2={record} phongBan={phongBan} />
         </div>
       ),
     },
   ];
+  const [phongBan, setPhongBan] = useState(undefined);
+  async function handleLayPhongBan() {
+    const data2 = await useNguoiDung.actions.layPhongBan();
+    setPhongBan(data2.data);
+  }
   const fetchData = async () => {
+    const data = await useNguoiDung.actions.layNguoiDung();
     setData(data.data);
   };
   useEffect(() => {
-    // dispath(productSlice.actions.setIsLoading(true));
-    // fetchData();
+    fetchData();
+    handleLayPhongBan();
   }, []);
   return (
     <>
@@ -238,7 +258,7 @@ function NguoiDung() {
         <MenuAdmin />
         <div className="body-container">
           <div className="content">
-            {/* <ModalThem fetchData={fetchData} /> */}
+            <ModalThem fetchData={fetchData} />
             <div className="table-sanpham background-color">
               <Table
                 columns={columns}

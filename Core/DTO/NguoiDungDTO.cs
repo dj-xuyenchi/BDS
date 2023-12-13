@@ -49,6 +49,7 @@ namespace Core.DTO
                 TrangThai = entity.TrangThai,
                 NgayTao = entity.NgayTao,
                 NgayCapNhat = entity.NgayCapNhat,
+                NguoiDungRole = entity.NguoiDungRole
             };
         }
         public NguoiDung ToEntity()

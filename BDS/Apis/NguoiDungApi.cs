@@ -13,10 +13,7 @@ namespace BDS.Apis
         private readonly INguoiDungService nguoiDungService = new NguoiDungService();
 
         [HttpPost("dangky")]
-        public async Task<IActionResult> DangKy(
-            [FromBody]
-          NguoiDungDTO nguoiDungDTO
-            )
+        public async Task<IActionResult> DangKy([FromBody] NguoiDungDTO nguoiDungDTO)
         {
             return Ok(await nguoiDungService.DangKy(
                nguoiDungDTO));
@@ -38,6 +35,20 @@ namespace BDS.Apis
         {
             return Ok(await nguoiDungService.TaoNguoiDung(
                nguoiDungDTO));
+        }
+        [HttpPost("suanguoidung")]
+        public async Task<IActionResult> SuaNguoiDung(
+          [FromBody]
+          NguoiDungDTO nguoiDungDTO
+          )
+        {
+            return Ok(await nguoiDungService.SuaNguoiDung(
+               nguoiDungDTO));
+        }
+        [HttpGet("laynguoidung")]
+        public IActionResult LayHetNguoiDung()
+        {
+            return Ok(nguoiDungService.LayHetNguoiDung());
         }
     }
 }
