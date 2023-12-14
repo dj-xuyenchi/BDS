@@ -16,6 +16,7 @@ import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import ModalThem from "./ModalThem";
 import ModalXoa from "./ModalXoa";
 import ModalSua from "./ModalSua";
+import { checkRole } from "../../../extensions/checkRole";
 function Product() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
@@ -290,8 +291,12 @@ function Product() {
           }}
         >
           <ModalView data={record} />
-          <ModalSua data={record} fetchData={fetchData} />
-          <ModalXoa tinId={id} fetData={fetchData} />
+          {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
+            <>
+              <ModalSua data={record} fetchData={fetchData} />
+              <ModalXoa tinId={id} fetData={fetchData} />
+            </>
+          )}
         </div>
       ),
     },
@@ -305,6 +310,7 @@ function Product() {
     // dispath(productSlice.actions.setIsLoading(true));
     fetchData();
   }, []);
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <div>
@@ -312,13 +318,16 @@ function Product() {
         <MenuAdmin />
         <div className="body-container">
           <div className="content">
-            <ModalThem fetchData={fetchData} />
+            {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
+              <ModalThem fetchData={fetchData} />
+            )}
             <div className="table-sanpham background-color">
               <Table
                 columns={columns}
                 dataSource={data}
                 pagination={{
                   position: ["bottomRight"],
+                  pageSize: "40",
                 }}
               />
             </div>

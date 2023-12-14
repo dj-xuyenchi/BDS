@@ -12,6 +12,7 @@ import { fixLoaibaiHoc } from "../../../../extensions/fixLoaiBaiHoc";
 import ModalXem from "./ModalXem";
 import ModalXoaBaiHoc from "./ModalXoaBaiHoc";
 import ModalSua from "./ModalSua";
+import { checkRole } from "../../../../extensions/checkRole";
 function QuanLyBaiHoc() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
@@ -89,12 +90,17 @@ function QuanLyBaiHoc() {
       render: (nguoiTao, record) => (
         <>
           <ModalXem data={record} />
-          <ModalSua data2={record} fetchData={fetchData} />
-          <ModalXoaBaiHoc baiHocId={record.id} fetData={fetchData} />
+          {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
+            <>
+              <ModalSua data2={record} fetchData={fetchData} />
+              <ModalXoaBaiHoc baiHocId={record.id} fetData={fetchData} />
+            </>
+          )}
         </>
       ),
     },
   ];
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <div>
@@ -103,7 +109,10 @@ function QuanLyBaiHoc() {
         <div className="body-container">
           <div className="content">
             <div className="table-sanpham background-color">
-              <ModalThem fetchData={fetchData} />
+              {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
+                <ModalThem fetchData={fetchData} />
+              )}
+
               <div className="table-sanpham background-color">
                 <Table
                   columns={columns}

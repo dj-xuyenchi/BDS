@@ -15,6 +15,7 @@ import { fixTrangThaiNguoiDung } from "../../../extensions/fixTrangThaiNguoiDung
 import ModalThem from "./ModalThem";
 import ModalView from "./ModalView";
 import ModalSua from "./ModalSua";
+import { checkRole } from "../../../extensions/checkRole";
 function NguoiDung() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
@@ -233,7 +234,13 @@ function NguoiDung() {
       render: (id, record) => (
         <div>
           <ModalView data={record} />
-          <ModalSua fetchData={fetchData} data2={record} phongBan={phongBan} />
+          {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD", "PRODUCT"]) && (
+            <ModalSua
+              fetchData={fetchData}
+              data2={record}
+              phongBan={phongBan}
+            />
+          )}
         </div>
       ),
     },
@@ -251,6 +258,7 @@ function NguoiDung() {
     fetchData();
     handleLayPhongBan();
   }, []);
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <div>
@@ -258,7 +266,10 @@ function NguoiDung() {
         <MenuAdmin />
         <div className="body-container">
           <div className="content">
-            <ModalThem fetchData={fetchData} />
+            {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD", "PRODUCT"]) && (
+              <ModalThem fetchData={fetchData} />
+            )}
+
             <div className="table-sanpham background-color">
               <Table
                 columns={columns}

@@ -33,7 +33,7 @@ namespace Core.Service.NguoiDungService
 
         public async Task<NguoiDungDTO> DangNhap(DangNhapRequest nguoiDungDTO)
         {
-            var nguoiDung = _context.NguoiDung.Where(x => x.TenTaiKhoan == nguoiDungDTO.TaiKhoan).FirstOrDefault();
+            var nguoiDung = _context.NguoiDung.Include(x=>x.NguoiDungRole).ThenInclude(y=>y.Role).Where(x => x.TenTaiKhoan == nguoiDungDTO.TaiKhoan).FirstOrDefault();
             if (nguoiDung == null)
             {
                 return null;

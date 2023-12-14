@@ -77,6 +77,16 @@ function Filter({ tinhHuyen, page, pageSize, handleLayDuLieu }) {
               marginBottom: "8px",
               width: "100%",
             }}
+            onClick={() => {
+              setSoPhongNgu(undefined);
+              setSoNhaVeSinh(undefined);
+              setLoaiBatDongSan(undefined);
+              setDienTichSuDung(undefined);
+              setChieuDai(undefined);
+              setGiaTien([0, 10000000000]);
+              setMatTien(undefined);
+              handleFilter(null, null, null, null, null, null);
+            }}
           >
             <Tag className="tag" color="purple">
               Xóa tất cả
