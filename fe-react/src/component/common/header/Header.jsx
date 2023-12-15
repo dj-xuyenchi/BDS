@@ -10,9 +10,10 @@ import { LuShoppingCart } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
 import Search from "../search/Search";
 import YeuThich from "../../home/yeuthich/YeuThich";
-import { Breadcrumb, notification } from "antd";
+import { Breadcrumb, Button, notification } from "antd";
 import { Link } from "react-router-dom";
 import { selectUser } from "../../login/selectUser";
+import { MdOutlineEditCalendar } from "react-icons/md";
 function Header() {
   const language = useSelector(selectLanguage);
   const user = useSelector(selectUser);
@@ -124,7 +125,23 @@ function Header() {
               <span>{language.header.search.inputHolder}</span>
             </div>
             <div className="icon-right">
+
               <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                onClick={() => {
+                  setOpenYeuThich(true);
+                }}
+              >
+                <FiHeart />
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
                 onClick={() => {
                   var nguoiDung = JSON.parse(localStorage.getItem("user"));
                   if (nguoiDung) {
@@ -138,18 +155,17 @@ function Header() {
                 <FaRegUser />
               </div>
               <div
-                onClick={() => {
-                  setOpenYeuThich(true);
+                style={{
+                  display: 'flex',
+                  alignItems: 'center'
                 }}
               >
-                <FiHeart />
-              </div>
-              <div
-                onClick={() => {
-                  setOpenGioHang(true);
-                }}
-              >
-                <LuShoppingCart />
+                <Button style={{
+                  backgroundColor: "#FA6819",
+                  color: "white"
+                }} icon={<MdOutlineEditCalendar />}>
+                  Ký gửi nhà đất
+                </Button>
               </div>
             </div>
           </div>
