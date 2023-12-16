@@ -18,6 +18,7 @@ import DaoTao from "./component/admin/daotao/DaoTao";
 import QuanLyBaiHoc from "./component/admin/daotao/qldaotao/QuanLyBaiHoc";
 import KyGui from "./component/admin/kygui/KyGui";
 import NguoiDung from "./component/admin/nguoidung/NguoiDung";
+import PhongBan from "./component/admin/phongban/PhongBan";
 function App() {
   const dispath = useDispatch();
   const disPath = useDispatch();
@@ -55,6 +56,7 @@ function App() {
         <Route path="/admin/nguoidung" element={<NguoiDung />} />
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/admin/dashboard" element={<DashBoard />} />
+        <Route path="/admin/phongban" element={<PhongBan />} />
       </Routes>
     </>
   );

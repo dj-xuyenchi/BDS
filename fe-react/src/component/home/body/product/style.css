@@ -40,5 +40,5 @@
 .product-container .product {
     width: 100%;
     display: inline-block;
-    min-height: 100vh;
+    min-height: 50vh;
 }

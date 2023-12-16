@@ -17,6 +17,8 @@ namespace Core.Entities
         public string TenKhachHang { get; set; }
         public string SoCanCuocKhachHang { get; set; }
         public string GhiChu { get; set; }
+        public string? SoDienThoai { get; set; }
+        public string? Facebook { get; set; }
         public DateTime NgayTao { get; set; }
         public TrangThaiPhieuXemNha TrangThai { get; set; }
         public virtual IEnumerable<PhieuXemNhaBatDongSan> PhieuXemNhaBatDongSan { get; set; }

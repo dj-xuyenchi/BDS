@@ -108,13 +108,15 @@ function Body() {
         style={{
           width: "60%",
           marginLeft: "20%",
-          padding: "12px"
+          padding: "12px",
         }}
       >
-        <Row style={{
-          width: "100%",
-          marginBottom: '12px'
-        }}>
+        <Row
+          style={{
+            width: "100%",
+            marginBottom: "12px",
+          }}
+        >
           <h5>Chuyên gia môi giới BDS</h5>
         </Row>
         <Row>
@@ -122,96 +124,213 @@ function Body() {
           <MoiGioi />
           <MoiGioi />
           <MoiGioi />
-
         </Row>
       </Row>
       <Row
         style={{
           width: "60%",
           marginLeft: "20%",
-          padding: "12px"
+          padding: "12px",
         }}
       >
-        <div >
-          <img src="https://cdn.chotot.com/admincentre/-qh1VBGLyzy32EqV2OrQiAHtFlVHJpmBKREXUSklPmA/preset:raw/plain/e3bc34302544e429bdbd6372b3ebd42b-2811454364981615492.jpg" alt="s" />
+        <div>
+          <img
+            src="https://cdn.chotot.com/admincentre/-qh1VBGLyzy32EqV2OrQiAHtFlVHJpmBKREXUSklPmA/preset:raw/plain/e3bc34302544e429bdbd6372b3ebd42b-2811454364981615492.jpg"
+            alt="s"
+          />
         </div>
       </Row>
       <Row
         style={{
           width: "60%",
           marginLeft: "20%",
-          padding: "12px"
+          padding: "12px",
         }}
       >
-        <div style={{
-          backgroundColor: "black",
-          padding: "8px",
-          width: "100%"
-        }}>
-          <h4 style={{
-            color: "#fff",
-            display: "block",
-            fontSize: "18px",
-            fontWeight: 700
-          }}>Trở thành đối tác Nhà Tốt <img src="https://static.chotot.com/storage/default_images/pty/shield.svg" alt="ss" /></h4>
+        <div
+          style={{
+            backgroundColor: "black",
+            padding: "8px",
+            width: "100%",
+          }}
+        >
+          <h4
+            style={{
+              color: "#fff",
+              display: "block",
+              fontSize: "18px",
+              fontWeight: 700,
+            }}
+          >
+            Trở thành đối tác Nhà Tốt{" "}
+            <img
+              src="https://static.chotot.com/storage/default_images/pty/shield.svg"
+              alt="ss"
+            />
+          </h4>
         </div>
-        <div style={{
-          display: "flex",
-          justifyContent: 'center',
-          width: "100%",
-          alignItems: "center",
-          height: "80px"
-        }}>
-          <div style={{
-            width: "33.33%",
+        <div
+          style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center"
-          }}>
-            <img style={{
-              height: "60px",
-              width: 'auto'
-            }} src="https://cdn.chotot.com/admincentre/cyv7mNjb62sbJme5uSc3WQz0OiNl7RvYiqKw1tf2ZIM/preset:raw/plain/e34f3443057f6cc5b640d117d73a4429-2808379119443443986.jpg" alt="s" />
-            <span style={{
-              marginLeft: "8px",
-              color: "#ff833f",
-              fontWeight: 700
-            }}>Chứng nhận đối tác</span>
+            width: "100%",
+            alignItems: "center",
+            height: "80px",
+          }}
+        >
+          <div
+            style={{
+              width: "33.33%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{
+                height: "60px",
+                width: "auto",
+              }}
+              src="https://cdn.chotot.com/admincentre/cyv7mNjb62sbJme5uSc3WQz0OiNl7RvYiqKw1tf2ZIM/preset:raw/plain/e34f3443057f6cc5b640d117d73a4429-2808379119443443986.jpg"
+              alt="s"
+            />
+            <span
+              style={{
+                marginLeft: "8px",
+                color: "#ff833f",
+                fontWeight: 700,
+              }}
+            >
+              Chứng nhận đối tác
+            </span>
           </div>
-          <div style={{
-            width: "33.33%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center"
-          }}>
-            <img style={{
-              height: "60px",
-              width: 'auto'
-            }} src="https://cdn.chotot.com/admincentre/jpZqe68svUuCc0trsTLg9oUuDPqUc78tSMAkukSd7Ns/preset:raw/plain/1d6d2218e5c9703dad0fd94101a805d6-2808379189790155893.jpg" alt="s" />
-            <span style={{
-              marginLeft: "8px",
-              color: "#ff833f",
-              fontWeight: 700
-            }}>Đăng tin tiếp cận</span>
+          <div
+            style={{
+              width: "33.33%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{
+                height: "60px",
+                width: "auto",
+              }}
+              src="https://cdn.chotot.com/admincentre/jpZqe68svUuCc0trsTLg9oUuDPqUc78tSMAkukSd7Ns/preset:raw/plain/1d6d2218e5c9703dad0fd94101a805d6-2808379189790155893.jpg"
+              alt="s"
+            />
+            <span
+              style={{
+                marginLeft: "8px",
+                color: "#ff833f",
+                fontWeight: 700,
+              }}
+            >
+              Đăng tin tiếp cận
+            </span>
           </div>
-          <div style={{
-            width: "33.33%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center"
-          }}>
-            <img style={{
-              height: "60px",
-              width: 'auto',
-            }} src="https://cdn.chotot.com/admincentre/nIzlhaBBTRc1kI2ORAXWq09FAbD6Wq9DQPM1sSTSjPU/preset:raw/plain/bde99245622feb8caa90ba49c2ff9d81-2808379230799729806.jpg" alt="s" />
-            <span style={{
-              marginLeft: "8px",
-              color: "#ff833f",
-              fontWeight: 700
-            }}>Tài khoản doanh nghiệp</span>
+          <div
+            style={{
+              width: "33.33%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{
+                height: "60px",
+                width: "auto",
+              }}
+              src="https://cdn.chotot.com/admincentre/nIzlhaBBTRc1kI2ORAXWq09FAbD6Wq9DQPM1sSTSjPU/preset:raw/plain/bde99245622feb8caa90ba49c2ff9d81-2808379230799729806.jpg"
+              alt="s"
+            />
+            <span
+              style={{
+                marginLeft: "8px",
+                color: "#ff833f",
+                fontWeight: 700,
+              }}
+            >
+              Tài khoản doanh nghiệp
+            </span>
           </div>
         </div>
-      </Row >
+      </Row>
+      <Row
+        style={{
+          width: "60%",
+          marginLeft: "20%",
+        }}
+      >
+        <div
+          style={{
+            padding: "12px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            backgroundColor: "#F4F4F4",
+            marginTop: "12px",
+            marginBottom: "12px",
+          }}
+        >
+          <div
+            style={{
+              width: "33.33%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <h5
+              style={{
+                marginBottom: "8px",
+              }}
+            >
+              Bất động sản phổ biến
+            </h5>
+            <p>Mua bán BDS TP.Hà Nội</p>
+            <p>Mua bán BDS TP.Hồ Chí Minh</p>
+            <p>Mua bán BDS TP.Cần Thơ</p>
+            <p>Mua bán BDS TP.Hải Phòng</p>
+          </div>
+          <div
+            style={{
+              width: "33.33%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <h5
+              style={{
+                marginBottom: "8px",
+              }}
+            >
+              Nhanh chóng trên Nhà Tốt
+            </h5>
+            <p>Đăng tin tiếp cận</p>
+            <p>Nền tảng kết nối chủ nhà và khách hàng</p>
+          </div>
+          <div
+            style={{
+              width: "33.33%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <h5
+              style={{
+                marginBottom: "8px",
+              }}
+            >
+              Chính sách đảm bảo
+            </h5>
+            <p>Bảo vệ người dùng và khách hàng</p>
+            <p>Thông tin minh bạch</p>
+            <p>Được xác nhận bởi bộ Công Thương</p>
+          </div>
+        </div>
+      </Row>
     </>
   );
 }

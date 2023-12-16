@@ -25,7 +25,6 @@ function Login() {
         "bottomRight"
       );
       localStorage.removeItem("user");
-      window.location.href = process.env.REACT_APP_FRONTEND_URL;
       return;
     }
     localStorage.setItem("user", JSON.stringify(login.data));

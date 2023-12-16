@@ -44,7 +44,14 @@ function ModalSua({ data2, fetchData, phongBan }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(data2);
-  const [role, setRole] = useState({});
+  const [role, setRole] = useState(
+    data2.nguoiDungRole.map((item) => {
+      return {
+        nguoiDungId: item.nguoiDungId,
+        roleId: item.roleId,
+      };
+    })
+  );
   async function handleThem() {
     const data2 = await useNguoiDung.actions.suaNguoiDung({
       ...data,

@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { BsPercent } from "react-icons/bs";
 import { FcIdea } from "react-icons/fc";
 import { PiStudentBold } from "react-icons/pi";
+import { HiMiniUserGroup } from "react-icons/hi2";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -47,6 +48,11 @@ const items = [
     <Link to={"/admin/nguoidung"}>Quản lý người dùng</Link>,
     "63",
     <FaUserFriends />
+  ),
+  getItem(
+    <Link to={"/admin/phongban"}>Phòng ban của tôi</Link>,
+    "69",
+    <HiMiniUserGroup />
   ),
   getItem("Đào tạo", "sub1", <PiStudentBold />, [
     getItem(

@@ -16,6 +16,13 @@ namespace BDS.Apis
         {
             return Ok(_phongBanService.LayHetPhongBan());
         }
-       
+        [HttpGet("phongbancuatoi")]
+        public async Task<IActionResult> LayPhongBan(
+            [FromQuery] int phongBanId,
+            [FromQuery] int year
+            )
+        {
+            return Ok(await _phongBanService.LyaPhongBanCuaToi(phongBanId, year));
+        }
     }
 }

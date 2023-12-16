@@ -28,5 +28,6 @@ namespace Core.Entities
         public virtual IEnumerable<TinBan>? TinBan { get; set; }
         public virtual IEnumerable<NguoiDungRole>? NguoiDungRole { get; set; }
         public virtual IEnumerable<BatDongSan>? DauChuTao { get; set; }
+        public virtual IEnumerable<PhieuXemNha>? PhieuXemNha { get; set; }
     }
 }

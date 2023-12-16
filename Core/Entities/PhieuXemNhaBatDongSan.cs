@@ -13,6 +13,7 @@ namespace Core.Entities
         public int PhieuXemNhaId { get; set; }
         public virtual PhieuXemNha PhieuXemNha { get; set; }
         public DateTime NgayXem { get; set; }
+        public string? Note { get; set; }
         public int SortNumber { get; set; }
     }
 }
