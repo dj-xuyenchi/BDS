@@ -77,7 +77,6 @@ namespace Core.Service.PhongBanService
         {
             var phieuSua = await _context.PhieuXemNhaBatDongSan.FindAsync(phieuXem.Id);
             phieuSua.Note = phieuXem.Note;
-            phieuSua.BatDongSanId = phieuXem.BatDongSanId;
             _context.Update(phieuSua);
             await _context.SaveChangesAsync();
             return phieuSua;
@@ -91,7 +90,6 @@ namespace Core.Service.PhongBanService
             if (hienTai.Count == 0)
             {
                 moi.SortNumber = 1;
-
             }
             else
             {

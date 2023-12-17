@@ -15,7 +15,8 @@ import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import ModalView from "../product/ModalView";
 import ModalViewBDS from "./ModalViewBDS";
 import ModalDanKhach from "./ModalDanKhach";
-function ModalTimeLine({ type = false, data, phieuId ,fet}) {
+import ModalSuaNote from "./ModalSuaNote";
+function ModalTimeLine({ type = false, data, phieuId, fet }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
@@ -44,6 +45,9 @@ function ModalTimeLine({ type = false, data, phieuId ,fet}) {
       >
         <ModalDanKhach phieuId={phieuId} fet={fet} />
         <Timeline
+          style={{
+            marginLeft: "-80px",
+          }}
           mode="left"
           items={
             data &&
@@ -53,7 +57,15 @@ function ModalTimeLine({ type = false, data, phieuId ,fet}) {
                 children: (
                   <div>
                     <p>{item.note}</p>
-                    <ModalViewBDS data={item.batDongSan} />
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ModalViewBDS data={item.batDongSan} />
+                      <ModalSuaNote data2={item} fetchData={fet} />
+                    </div>
                   </div>
                 ),
               };
