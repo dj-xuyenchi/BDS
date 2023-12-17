@@ -12,9 +12,11 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Space, Table, Tag } from "antd";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
-function ModalTimeLine({ type = false, data }) {
+import ModalView from "../product/ModalView";
+import ModalViewBDS from "./ModalViewBDS";
+import ModalDanKhach from "./ModalDanKhach";
+function ModalTimeLine({ type = false, data, phieuId ,fet}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <>
       <Tooltip title="Chi tiết dẫn khách">
@@ -40,6 +42,7 @@ function ModalTimeLine({ type = false, data }) {
         }}
         centered
       >
+        <ModalDanKhach phieuId={phieuId} fet={fet} />
         <Timeline
           mode="left"
           items={
@@ -47,7 +50,12 @@ function ModalTimeLine({ type = false, data }) {
             data.map((item) => {
               return {
                 label: fixNgayThang(item.ngayXem),
-                children: <span>{item.note}</span>,
+                children: (
+                  <div>
+                    <p>{item.note}</p>
+                    <ModalViewBDS data={item.batDongSan} />
+                  </div>
+                ),
               };
             })
           }

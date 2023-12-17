@@ -1,4 +1,5 @@
 ﻿using Core.DTO;
+using Core.Entities;
 using Core.ResponModel;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,9 @@ namespace Core.Service.PhongBanService
     public interface IPhongBanService
     {
         IQueryable<PhongBanDTO> LayHetPhongBan();
-        Task<PhongBanModel> LyaPhongBanCuaToi(int phongBanId,int year);
+        Task<PhongBanModel> LyaPhongBanCuaToi(int phongBanId, int year);
+        IQueryable<PhieuXemNha> LayKhachHangByNVId(int nhanVienId);
+        Task<PhieuXemNhaBatDongSan> TaoNote(PhieuXemNhaBatDongSanDTO phieuXem);
+        Task<PhieuXemNhaBatDongSan> SuaNote(PhieuXemNhaBatDongSanDTO phieuXem);
     }
 }

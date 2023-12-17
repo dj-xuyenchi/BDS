@@ -173,18 +173,34 @@ function PhongBan() {
       width: "15%",
       render: (role) => (
         <>
-          {role.map((item) => {
+          {role.map((item, index) => {
             if (item.role.id == 1) {
-              return <Tag color="#f50">{item.role.roleName}</Tag>;
+              return (
+                <Tag key={index} color="#f50">
+                  {item.role.roleName}
+                </Tag>
+              );
             }
             if (item.role.id == 2) {
-              return <Tag color="#87d068">{item.role.roleName}</Tag>;
+              return (
+                <Tag key={index} color="#87d068">
+                  {item.role.roleName}
+                </Tag>
+              );
             }
             if (item.role.id == 3) {
-              return <Tag color="#2db7f5">{item.role.roleName}</Tag>;
+              return (
+                <Tag key={index} color="#2db7f5">
+                  {item.role.roleName}
+                </Tag>
+              );
             }
             if (item.role.id == 4) {
-              return <Tag color="#108ee9">{item.role.roleName}</Tag>;
+              return (
+                <Tag key={index} color="#108ee9">
+                  {item.role.roleName}
+                </Tag>
+              );
             }
             return "";
           })}
@@ -238,14 +254,7 @@ function PhongBan() {
                 title={data && data.tenPhong}
               />
             </Row>
-            <ModalKhachHangCuaToi
-              data={
-                data &&
-                data.thanhVien.find((item) => {
-                  return item.id === user.id;
-                })
-              }
-            />
+            <ModalKhachHangCuaToi id={user.id} />
             <div className="table-sanpham background-color">
               <Table
                 columns={columns}

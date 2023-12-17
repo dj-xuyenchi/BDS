@@ -7,5 +7,17 @@ export const usePhongBan = {
 
             return await axiosIns.get(url);
         },
+        async layKhachHang(payload) {
+            var url = "/PhongBan/laykhachhang?nhanVienId=" + payload;
+            return await axiosIns.get(url);
+        },
+        async themDanKhach(payload) {
+            var url = "/PhongBan/themphieu";
+            return await axiosIns.post(url, payload);
+        },
+        async suaDanKhach(payload) {
+            var url = "/PhongBan/suaphieu";
+            return await axiosIns.post(url, payload);
+        },
     },
 }

@@ -101,7 +101,7 @@ function ProductDetail() {
             style={{
               width: "100%",
               backgroundColor: "#F4F4F4",
-              marginTop: "20px",
+              marginTop: "80px",
               padding: "12px",
             }}
           >

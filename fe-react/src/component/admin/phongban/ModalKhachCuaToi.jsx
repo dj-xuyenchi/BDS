@@ -1,21 +1,12 @@
 import "./style.css";
-import { FaBusinessTime } from "react-icons/fa6";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Timeline,
-  Tooltip,
-} from "antd";
+import { Button, Input, InputNumber, Modal, Timeline, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { Space, Table, Tag } from "antd";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import ModalTimeLine from "./ModalTimeLine";
-function ModalKhachHangCuaToi({ data }) {
+import { usePhongBan } from "./useKyGui";
+function ModalKhachHangCuaToi({ id }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(data);
   const columns = [
     {
       title: "Tên khách hàng",
@@ -31,7 +22,20 @@ function ModalKhachHangCuaToi({ data }) {
         <a
           href={soDienThoai ? "https://zalo.me/" + soDienThoai : "#"}
           target="_blank"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
         >
+          <img
+            style={{
+              height: "20px",
+              width: "auto",
+              marginRight: "4px",
+            }}
+            src="https://inkythuatso.com/uploads/thumbnails/800/2021/09/zalo-logo-inkythuatso-14-15-05-01.jpg"
+            alt="s"
+          />
           {soDienThoai ? soDienThoai : "Không có"}
         </a>
       ),
@@ -41,7 +45,23 @@ function ModalKhachHangCuaToi({ data }) {
       dataIndex: "facebook",
       key: "facebook",
       render: (facebook) => (
-        <a href={facebook ? facebook : "#"} target="_blank">
+        <a
+          href={facebook ? facebook : "#"}
+          target="_blank"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            style={{
+              height: "20px",
+              width: "auto",
+              marginRight: "4px",
+            }}
+            src="https://www.facebook.com/images/fb_icon_325x325.png"
+            alt="s"
+          />{" "}
           {facebook ? facebook : "Không có"}
         </a>
       ),
@@ -57,29 +77,42 @@ function ModalKhachHangCuaToi({ data }) {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <ModalTimeLine type={true} data={record.phieuXemNhaBatDongSan} />
+          <ModalTimeLine
+            type={true}
+            data={record.phieuXemNhaBatDongSan}
+            phieuId={record.id}
+            fet={handleLayDuLieu}
+          />
         </Space>
       ),
     },
   ];
+  const [data, setData] = useState(undefined);
+  async function handleLayDuLieu() {
+    const data = await usePhongBan.actions.layKhachHang(id);
+    setData(data.data);
+  }
+  useEffect(() => {
+    if (isModalOpen) {
+      handleLayDuLieu();
+    }
+  }, [isModalOpen]);
   return (
     <>
-      <Tooltip title="Chi tiết dẫn khách">
-        <Button
-          style={{
-            marginTop: "12px",
-          }}
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-          type="primary"
-        >
-          Khách hàng của tôi
-        </Button>
-      </Tooltip>
+      <Button
+        style={{
+          marginTop: "12px",
+        }}
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
+        type="primary"
+      >
+        Khách hàng của tôi
+      </Button>
       <Modal
-        width={700}
-        title={"Lịch sử dẫn khách"}
+        width={768}
+        title={"Khách hàng của tôi"}
         open={isModalOpen}
         onOk={() => {
           setIsModalOpen(false);
@@ -89,7 +122,7 @@ function ModalKhachHangCuaToi({ data }) {
         }}
         centered
       >
-        <Table columns={columns} dataSource={data && data.lichSuXem} />
+        <Table columns={columns} dataSource={data && data} />
       </Modal>
     </>
   );
