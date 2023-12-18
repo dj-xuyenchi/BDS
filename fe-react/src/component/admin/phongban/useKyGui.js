@@ -19,5 +19,17 @@ export const usePhongBan = {
             var url = "/PhongBan/suaphieu";
             return await axiosIns.post(url, payload);
         },
+        async themKhach(payload) {
+            var url = "/PhongBan/themkhach";
+            return await axiosIns.post(url, payload);
+        },
+        async suakhach(payload) {
+            var url = "/PhongBan/suakhach";
+            return await axiosIns.post(url, payload);
+        },
+        async xoakhach(payload) {
+            var url = "/PhongBan/xoakhach?phieuId=" + payload;
+            return await axiosIns.get(url);
+        },
     },
 }

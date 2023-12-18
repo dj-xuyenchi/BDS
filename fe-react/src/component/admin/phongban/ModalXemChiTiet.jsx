@@ -62,7 +62,7 @@ function ModalXemChiTiet({ data }) {
   ];
   return (
     <>
-      <Tooltip title="Dẫn khách">
+      <Tooltip title="Khách hàng">
         {" "}
         <Button
           style={{ color: "blue" }}

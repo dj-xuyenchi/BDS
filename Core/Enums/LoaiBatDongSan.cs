@@ -11,7 +11,8 @@ namespace Core.Enums
         NHAPHO = 1,//Nhà phố
         DATTHOCU = 2,//đất thổ cư
         DATNEN = 3, //đất nền
-        CHUNGCU =4, // chung cư
+        CHUNGCU = 4, // chung cư
+        KHACHDANG = 5 // Đăng bán 
 
     }
 }

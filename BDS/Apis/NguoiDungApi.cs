@@ -50,5 +50,10 @@ namespace BDS.Apis
         {
             return Ok(nguoiDungService.LayHetNguoiDung());
         }
+        [HttpGet("laynguoidung10")]
+        public IActionResult LayHetNguoiDung10()
+        {
+            return Ok(nguoiDungService.LayNguoiDungTop());
+        }
     }
 }

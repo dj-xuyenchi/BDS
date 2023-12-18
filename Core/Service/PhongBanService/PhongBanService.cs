@@ -73,6 +73,19 @@ namespace Core.Service.PhongBanService
             return phongBanRe;
         }
 
+        public async Task<PhieuXemNhaDTO> SuaKhachHang(PhieuXemNhaDTO phieuXem)
+        {
+            var phieuXemSua = await _context.PhieuXemNha.FindAsync(phieuXem.Id);
+            phieuXemSua.GhiChu = phieuXem.GhiChu;
+            phieuXemSua.Facebook = phieuXem.Facebook;
+            phieuXemSua.SoCanCuocKhachHang = phieuXem.SoCanCuocKhachHang;
+            phieuXemSua.SoDienThoai = phieuXem.SoDienThoai;
+            phieuXemSua.TenKhachHang = phieuXem.TenKhachHang;
+            _context.Update(phieuXemSua);
+            await _context.SaveChangesAsync();
+            return phieuXem;
+        }
+
         public async Task<PhieuXemNhaBatDongSan> SuaNote(PhieuXemNhaBatDongSanDTO phieuXem)
         {
             var phieuSua = await _context.PhieuXemNhaBatDongSan.FindAsync(phieuXem.Id);
@@ -81,6 +94,14 @@ namespace Core.Service.PhongBanService
             await _context.SaveChangesAsync();
             return phieuSua;
 
+        }
+
+        public async Task<PhieuXemNhaDTO> TaoMoiKhachHang(PhieuXemNhaDTO phieuXem)
+        {
+            phieuXem.NgayTao = DateTime.Now;
+            await _context.AddAsync(phieuXem.ToEntity());
+            await _context.SaveChangesAsync();
+            return phieuXem;
         }
 
         public async Task<PhieuXemNhaBatDongSan> TaoNote(PhieuXemNhaBatDongSanDTO phieuXem)
@@ -102,6 +123,18 @@ namespace Core.Service.PhongBanService
             await _context.AddAsync(moi);
             await _context.SaveChangesAsync();
             return moi;
+        }
+
+        public async Task<PhieuXemNhaDTO> XoaKhachHang(int phieuXemId)
+        {
+            if (_context.HopDongMuaBatDongSan.Any(x => x.PhieuXemNhaId == phieuXemId))
+            {
+                return null;
+            }
+            var phieu = await _context.PhieuXemNha.FindAsync(phieuXemId);
+            _context.Remove(phieu);
+            await _context.SaveChangesAsync();
+            return PhieuXemNhaDTO.FromEntity(phieu);
         }
     }
 }

@@ -6,7 +6,7 @@ import { fixMoney } from "../../../extensions/fixMoney";
 import { CiClock2, CiLocationOn, CiRuler } from "react-icons/ci";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useNumberInput } from "@chakra-ui/react";
-import { Rate, notification } from "antd";
+import { Rate, Row, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSanPhamChiTiet, useTinChiTiet } from "./useSanPhamChiTiet";
@@ -23,6 +23,9 @@ import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import { tinhThoiGianCachHienTai } from "../../../extensions/fixThoiGian";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import Slide from "./Slide";
+import { useSanPhamStore } from "../body/product/useSanPhamStore";
+import MoiGioi from "../body/MoiGioi";
+import Footer from "../../common/footer/Footer";
 function ProductDetail() {
   const language = useSelector(selectLanguage);
   const [api, contextHolder] = notification.useNotification();
@@ -54,12 +57,18 @@ function ProductDetail() {
       });
     }
   };
+  const [moiGioi, setMoiGioi] = useState(undefined);
+  async function handleLayMoiGioi() {
+    const data = await useSanPhamStore.actions.layNguoiDung();
+    setMoiGioi(data.data);
+  }
   async function handleLayData() {
     const data = await useTinChiTiet.actions.layTinById(id);
     setTinBan(data.data);
   }
   useEffect(() => {
     handleLayData();
+    handleLayMoiGioi();
   }, []);
   return (
     <>
@@ -651,21 +660,36 @@ function ProductDetail() {
           </div>
         </div>
       </div>
-      <div
+      <Row
         style={{
           width: "60%",
-          marginLeft: "auto",
-          marginRight: "auto",
-          backgroundColor: "#F4F4F4",
-          marginTop: "12px",
+          marginLeft: "20%",
           padding: "12px",
         }}
       >
-        <Slide
-          tinhCode={tinBan ? tinBan.batDongSan.provinceCode : "-1"}
-          id={tinBan ? tinBan.id : ""}
-        />
-      </div>
+        <Row
+          style={{
+            width: "100%",
+            marginBottom: "12px",
+          }}
+        >
+          <h5>Chuyên gia môi giới BDS</h5>
+        </Row>
+        <Row
+          style={{
+            width: "100%",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          {moiGioi &&
+            moiGioi.map((item) => {
+              return <MoiGioi item={item} />;
+            })}
+        </Row>
+      </Row>
+      <Footer />
     </>
   );
 }

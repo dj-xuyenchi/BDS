@@ -86,7 +86,7 @@ namespace Core.Service.BatDongSanService
             if (!string.IsNullOrEmpty(filter.keyword))
             {
             }
-            return query.Where(x => x.TrangThai != TrangThaiBatDongSan.LOCK).Select(x => BatDongSanDTO.FromEntity(x));
+            return query.Where(x => x.TrangThai != TrangThaiBatDongSan.LOCK && x.LoaiBatDongSan != LoaiBatDongSan.KHACHDANG).Select(x => BatDongSanDTO.FromEntity(x));
         }
 
         public IQueryable<HinhAnhBDSDTO> LayHinhAnhCuaBDSById(int bdsId)

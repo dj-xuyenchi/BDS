@@ -15,18 +15,21 @@ namespace Core.Service.Cron
             Console.WriteLine(123);
         }
 
-        public  void KiemTraTinDangHetHan()
+        public void KiemTraTinDangHetHan()
         {
             var tinBan = _context.TinBan.Where(x => x.TinCuaCongTy == false).ToList();
-            foreach ( var t in tinBan )
+            foreach (var t in tinBan)
             {
-                if(t.NgayHetHan.Value < DateTime.Now)
+                if (t.NgayHetHan.HasValue)
                 {
-                    t.TrangThai = Enums.TrangThaiTinBan.DAKHOA;
+                    if (t.NgayHetHan.Value < DateTime.Now)
+                    {
+                        t.TrangThai = Enums.TrangThaiTinBan.DAKHOA;
+                    }
                 }
             }
             _context.UpdateRange(tinBan);
-             _context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

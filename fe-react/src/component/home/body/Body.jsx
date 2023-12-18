@@ -34,15 +34,29 @@ function Body() {
     disPath(productSlice.actions.setIsLoading(false));
   }
   const [data, setData] = useState(undefined);
+  const se = localStorage.getItem("search");
+
   async function handleLayDuLieu(payload) {
     const data = await useSanPhamStore.actions.fetchSanPham(
-      payload ? payload : {}
+      payload
+        ? {
+            ...payload,
+            keyword: se ? se : null,
+          }
+        : {
+            keyword: se ? se : null,
+          }
     );
     setData(data.data);
   }
-
+  const [moiGioi, setMoiGioi] = useState(undefined);
+  async function handleLayMoiGioi() {
+    const data = await useSanPhamStore.actions.layNguoiDung();
+    setMoiGioi(data.data);
+  }
   useEffect(() => {
     handleLayDuLieu(null);
+    handleLayMoiGioi();
   }, []);
 
   return (
@@ -119,20 +133,14 @@ function Body() {
         >
           <h5>Tin đăng gần đây</h5>
         </Row>
-        <Row style={{
-          width: "100%",
-          overflow: "hidden",
-          display: 'flex',
-          flexDirection: "row"
-        }}>
-          <TinDang />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-        </Row>
+        <Row
+          style={{
+            width: "100%",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        ></Row>
       </Row>
       <Row
         style={{
@@ -149,19 +157,18 @@ function Body() {
         >
           <h5>Chuyên gia môi giới BDS</h5>
         </Row>
-        <Row style={{
-          width: "100%",
-          overflow: "hidden",
-          display: 'flex',
-          flexDirection: "row"
-        }}>
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
-          <MoiGioi />
+        <Row
+          style={{
+            width: "100%",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          {moiGioi &&
+            moiGioi.map((item) => {
+              return <MoiGioi item={item} />;
+            })}
         </Row>
       </Row>
 

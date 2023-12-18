@@ -18,6 +18,8 @@ import { MdPostAdd } from "react-icons/md";
 import { useEffect } from "react";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import { fixMoney } from "../../../extensions/fixMoney";
+import { useGpt } from "../../../plugins/gpt";
+import { content } from "./context";
 function ModalThem({ fetchData }) {
   const [form] = useForm();
   const [api, contextHolder] = notification.useNotification();
@@ -40,6 +42,7 @@ function ModalThem({ fetchData }) {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
   // var form = new FormData();
@@ -66,6 +69,25 @@ function ModalThem({ fetchData }) {
     form.resetFields();
     setIsModalOpen(false);
     fetchData();
+  }
+  async function handleAi() {
+    if (!data.batDongSanId) {
+      openNotification(
+        "error",
+        "Hệ thống",
+        "Tôi cần thông tin BDS để tư vấn content",
+        "bottomRight"
+      );
+      return;
+    }
+    setIsModalOpen2(true);
+    const data2 = await useGpt.actions.chat(
+      content(
+        batDongSan.find((item) => {
+          return item.id == data.batDongSanId;
+        })
+      )
+    );
   }
   return (
     <>
@@ -252,8 +274,35 @@ function ModalThem({ fetchData }) {
             >
               Đăng tin
             </Button>
+            <Button
+              loading={isLoading}
+              style={{
+                marginLeft: "4px",
+              }}
+              onClick={() => {
+                handleAi();
+              }}
+            >
+              Hỗ trợ Content
+            </Button>
           </Form.Item>
         </Form>
+      </Modal>
+      <Modal
+        okButtonProps={{ style: { display: "none" } }}
+        cancelButtonProps={{ style: { display: "none" } }}
+        width={768}
+        title={"AI hỗ trợ Content"}
+        open={isModalOpen2}
+        onOk={() => {
+          setIsModalOpen2(false);
+        }}
+        onCancel={() => {
+          setIsModalOpen2(false);
+        }}
+        centered
+      >
+        <p></p>
       </Modal>
     </>
   );

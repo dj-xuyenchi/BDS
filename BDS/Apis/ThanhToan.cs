@@ -1,5 +1,7 @@
-﻿using Core.plugins;
+﻿using Core.DTO;
+using Core.plugins;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace BDS.Apis
 {
@@ -7,6 +9,12 @@ namespace BDS.Apis
     [Route("ThanhToan")]
     public class ThanhToan : ControllerBase
     {
+        //[HttpPost("suabaihoc")]
+        //public async Task<IActionResult> SuaBaiHoc([FromForm] List<IFormFile> file, [FromForm] string data)
+        //{
+        //    BaiHocDaoTaoDTO bh = JsonConvert.DeserializeObject<BaiHocDaoTaoDTO>(data);
+        //    return Ok(await _daoTao.SuaBaiHoc(file[0], file[1], bh));
+        //}
         [HttpPost("orderPayVn")]
         public async Task<IActionResult> orderPayVn(long amount)
         {

@@ -187,7 +187,7 @@ function PhanHoc({ data }) {
               >
                 <MdDownload /> Tải tài liệu mềm
               </a>
-              <Button
+              {/* <Button
                 onClick={() => {
                   setIsModalOpen2(true);
                 }}
@@ -203,7 +203,7 @@ function PhanHoc({ data }) {
                 >
                   {"Xem thêm bài học về " + fixLoaibaiHoc(data.loaiBaiHoc)}
                 </span>
-              </Button>
+              </Button> */}
               <Modal
                 title={"Bài học liên quan về " + fixLoaibaiHoc(data.loaiBaiHoc)}
                 open={isModalOpen2}

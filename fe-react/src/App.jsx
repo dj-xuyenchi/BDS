@@ -9,7 +9,6 @@ import NotFound from "./component/notfound/NotFound";
 import HomePage from "./component/home/HomePage";
 import DashBoard from "./component/admin/dashboard/DashBoard";
 import ProductDetail from "./component/home/productdetail/ProductDetail";
-import userSlice from "./component/login/userSlice";
 import { useEffect } from "react";
 import Product from "./component/admin/product/Product";
 import Profile from "./component/home/profile/Profile";

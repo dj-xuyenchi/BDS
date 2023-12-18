@@ -3,21 +3,32 @@ import "./style.css";
 import { selectLanguage } from "../../../language/selectLanguage";
 import GioHang from "../../home/giohang/GioHang";
 import { useState } from "react";
-import { DownOutlined, SmileOutlined } from '@ant-design/icons';
+import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import MenuLeft from "../menuleft/MenuLeft";
 import { FiSearch, FiHeart } from "react-icons/fi";
 import Search from "../search/Search";
 import YeuThich from "../../home/yeuthich/YeuThich";
-import { Breadcrumb, Button, Dropdown, Form, Input, InputNumber, Modal, Space, notification } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Dropdown,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Space,
+  notification,
+} from "antd";
 import { Link } from "react-router-dom";
 import { selectUser } from "../../login/selectUser";
 import { MdOutlineEditCalendar } from "react-icons/md";
 import { PiSignIn, PiSignInThin, PiUserCircleLight } from "react-icons/pi";
-import { FaUser } from "react-icons/fa";
-import { SearchOutlined } from '@ant-design/icons';
+import { FaRegListAlt, FaUser } from "react-icons/fa";
+import { SearchOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { useForm } from "antd/es/form/Form";
-
+import { RiAdminFill } from "react-icons/ri";
+import { checkRole } from "../../../extensions/checkRole";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,71 +38,67 @@ function Header() {
   const [openYeuThich, setOpenYeuThich] = useState(false);
   const [openMenuLeft, setOpenMenuLeft] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
-  const [data, setData] = useState({})
-  const [isLoading, setIsLoading] = useState({})
+  const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState({});
   const [form] = useForm();
-  async function handleThem() {
-  }
+  async function handleThem() {}
   const [api, contextHolder] = notification.useNotification();
-  const items = [
-  ];
+  const items = [];
   var nguoiDung = JSON.parse(localStorage.getItem("user"));
-  // if (checkRole(nguoiDung.nguoiDungRole, ["ADMIN", "LEAD", "MEMBER"])) {
-  //   items.push({
-  //     key: '1',
-  //     label: (
-  //       <a href="http://localhost:3000/admin/dashboard">
-  //         Nhà Tốt Insight
-  //       </a>
-  //     ),
-  //     icon: <SiPagespeedinsights />
-  //     ,
-  //   })
-  // }
+  if (nguoiDung) {
+    if (
+      checkRole(nguoiDung.nguoiDungRole, ["ADMIN", "LEAD", "MEMBER", "PRODUCT"])
+    ) {
+      items.push({
+        key: "1",
+        label: (
+          <a href="http://localhost:3000/admin/dashboard">Nhà Tốt Insight</a>
+        ),
+        icon: <RiAdminFill />,
+      });
+    }
+  }
   if (!nguoiDung) {
     items.push({
-      key: '2',
-      label: (
-        <a href="http://localhost:3000/login">
-          Đăng nhập
-        </a>
-      ),
-      icon: <PiSignIn />
-      ,
-    })
+      key: "2",
+      label: <a href="http://localhost:3000/login">Đăng nhập</a>,
+      icon: <PiSignIn />,
+    });
   }
   if (nguoiDung) {
     items.push({
-      key: '3',
+      key: "3",
       label: (
-        <a onClick={() => {
-          var nguoiDung = JSON.parse(localStorage.getItem("user"));
-          if (nguoiDung) {
-            handleRedirect();
-            return;
-          } else {
-            window.location = "http://localhost:3000/login";
-          }
-        }}>
+        <a
+          onClick={() => {
+            var nguoiDung = JSON.parse(localStorage.getItem("user"));
+            if (nguoiDung) {
+              handleRedirect();
+              return;
+            } else {
+              window.location = "http://localhost:3000/login";
+            }
+          }}
+        >
           Thông tin cá nhân
         </a>
       ),
-      icon: <FaUser />
-      ,
-    },)
+      icon: <FaUser />,
+    });
     items.push({
-      key: '4',
+      key: "4",
       label: (
-        <a onClick={() => {
-          localStorage.removeItem("user")
-          window.location = "http://localhost:3000/";
-        }}>
+        <a
+          onClick={() => {
+            localStorage.removeItem("user");
+            window.location = "http://localhost:3000/";
+          }}
+        >
           Đăng xuất
         </a>
       ),
-      icon: <PiSignInThin />
-      ,
-    },)
+      icon: <PiSignInThin />,
+    });
   }
 
   const openNotification = (type, title, des, placement) => {
@@ -124,6 +131,28 @@ function Header() {
     }
     window.location.href =
       process.env.REACT_APP_FRONTEND_URL + "profile/" + user.nguoiDung.id;
+  }
+  function handleRedirect2() {
+    if (user.nguoiDung.id == -1) {
+      openNotification(
+        "error",
+        language.systemNotification.system,
+        "Bạn chưa đăng nhập",
+        "bottomRight"
+      );
+      setTimeout(() => {
+        window.location.href = process.env.REACT_APP_FRONTEND_URL + "login";
+      }, 1000);
+      return;
+    }
+    window.location.href =
+      process.env.REACT_APP_FRONTEND_URL + "tin/" + user.nguoiDung.id;
+  }
+  var se = localStorage.getItem("search");
+  const [search, setSearch] = useState(se ? se : "");
+  function handleSearch() {
+    localStorage.setItem("search", search);
+    window.location.href = process.env.REACT_APP_FRONTEND_URL;
   }
   return (
     <>
@@ -158,13 +187,12 @@ function Header() {
         </div>
         <div className="menu">
           <div className="left-menu">
-            <div
-            >
+            <div>
               <Link to="/">
                 <img
                   style={{
                     height: "40px",
-                    width: "auto"
+                    width: "auto",
                   }}
                   src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
                   alt="logo"
@@ -173,67 +201,82 @@ function Header() {
             </div>
           </div>
           <div className="mid-menu">
-            <Input addonBefore={<SearchOutlined />} placeholder="Tìm kiếm" />
+            <Input
+              addonBefore={<SearchOutlined />}
+              placeholder="Tìm kiếm"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              onPressEnter={() => {
+                handleSearch();
+              }}
+            />
           </div>
           <div className="right-menu">
             <div className="icon-right">
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center'
+                  display: "flex",
+                  alignItems: "center",
                 }}
-
               >
-                <Space >
-                  <p style={{
-                    fontSize: "14px",
-                    marginBottom: "0px",
-                    width: "100px",
-                    display: "flex",
-                    justifyContent: 'space-around',
-                    alignItems: "center",
-                    height: "100%"
-                  }}
+                <Space>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      marginBottom: "0px",
+                      width: "100px",
+                      display: "flex",
+                      justifyContent: "space-around",
+                      alignItems: "center",
+                      height: "100%",
+                    }}
                     onClick={() => {
-                      setOpenYeuThich(true)
+                      handleRedirect2();
                     }}
                   >
-                    <span style={{
-                      fontSize: "20px",
-                      lineHeight: "14px"
-                    }}>
-                      <FiHeart />
+                    <span
+                      style={{
+                        fontSize: "20px",
+                        lineHeight: "14px",
+                      }}
+                    >
+                      <FaRegListAlt />
                     </span>
-                    Yêu thích
+                    Quản lý tin
                   </p>
                 </Space>
               </div>
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center'
+                  display: "flex",
+                  alignItems: "center",
                 }}
-
               >
                 <Dropdown
                   menu={{
                     items,
                   }}
                 >
-                  <Space >
-                    <p style={{
-                      fontSize: "14px",
-                      marginBottom: "0px",
-                      width: "115px",
-                      display: "flex",
-                      justifyContent: 'space-around',
-                      alignItems: "center",
-                      height: "100%"
-                    }}>
-                      <span style={{
-                        fontSize: "22px",
-                        lineHeight: "14px"
-                      }}>
+                  <Space>
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        marginBottom: "0px",
+                        width: "115px",
+                        display: "flex",
+                        justifyContent: "space-around",
+                        alignItems: "center",
+                        height: "100%",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "22px",
+                          lineHeight: "14px",
+                        }}
+                      >
                         <PiUserCircleLight />
                       </span>
                       Tài khoản
@@ -244,16 +287,29 @@ function Header() {
               </div>
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center'
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <Button onClick={() => {
-                  setIsModalOpen(true)
-                }} style={{
-                  backgroundColor: "#FA6819",
-                  color: "white"
-                }} icon={<MdOutlineEditCalendar />}>
+                <Button
+                  onClick={() => {
+                    if (!nguoiDung) {
+                      openNotification(
+                        "error",
+                        language.systemNotification.system,
+                        "Bạn chưa đăng nhập",
+                        "bottomRight"
+                      );
+                      return;
+                    }
+                    setIsModalOpen(true);
+                  }}
+                  style={{
+                    backgroundColor: "#FA6819",
+                    color: "white",
+                  }}
+                  icon={<MdOutlineEditCalendar />}
+                >
                   Đăng tin
                 </Button>
               </div>
@@ -261,11 +317,15 @@ function Header() {
           </div>
         </div>
       </div>
-      <Modal title="Đăng ký Đăng tin" open={isModalOpen} onOk={() => {
-        setIsModalOpen(false)
-      }} onCancel={() => {
-        setIsModalOpen(false)
-      }}
+      <Modal
+        title="Đăng ký Đăng tin"
+        open={isModalOpen}
+        onOk={() => {
+          setIsModalOpen(false);
+        }}
+        onCancel={() => {
+          setIsModalOpen(false);
+        }}
         width={768}
       >
         <Form
@@ -337,7 +397,7 @@ function Header() {
             ]}
           >
             <Input
-              value={data.tieuDe}
+              value={data.soDienThoai}
               onChange={(e) => {
                 setData({
                   ...data,

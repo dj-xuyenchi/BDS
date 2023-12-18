@@ -97,5 +97,13 @@ namespace Core.Service.NguoiDungService
             await _context.SaveChangesAsync();
             return nguoiDungDTO;
         }
+
+        public IQueryable<NguoiDungDTO> LayNguoiDungTop()
+        {
+            var query = _context.NguoiDung
+                .Include(x=>x.PhongBan)
+                .Where(x => x.TrangThai == Enums.TrangThaiNguoiDung.DANGHOATDONG);
+            return query.Take(10).Select(x=>NguoiDungDTO.FromEntity(x));
+        }
     }
 }

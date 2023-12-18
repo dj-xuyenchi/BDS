@@ -15,5 +15,6 @@ namespace Core.Service.NguoiDungService
         Task<NguoiDungDTO> TaoNguoiDung(NguoiDungDTO nguoiDungDTO); 
         Task<NguoiDungDTO> SuaNguoiDung(NguoiDungDTO nguoiDungDTO);
         IQueryable<NguoiDungDTO> LayHetNguoiDung();
+        IQueryable<NguoiDungDTO> LayNguoiDungTop();
     }
 }

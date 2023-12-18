@@ -16,5 +16,8 @@ namespace Core.Service.PhongBanService
         IQueryable<PhieuXemNha> LayKhachHangByNVId(int nhanVienId);
         Task<PhieuXemNhaBatDongSan> TaoNote(PhieuXemNhaBatDongSanDTO phieuXem);
         Task<PhieuXemNhaBatDongSan> SuaNote(PhieuXemNhaBatDongSanDTO phieuXem);
+        Task<PhieuXemNhaDTO> TaoMoiKhachHang(PhieuXemNhaDTO phieuXem);
+        Task<PhieuXemNhaDTO> SuaKhachHang(PhieuXemNhaDTO phieuXem);
+        Task<PhieuXemNhaDTO> XoaKhachHang(int phieuXemId);
     }
 }

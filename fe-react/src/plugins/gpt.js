@@ -12,7 +12,7 @@ export const useGpt = {
                         content: paylay,
                     },
                 ],
-                max_tokens: 4000,
+                max_tokens: 3000,
             }
             const response = await axiosGpt.post('/v1/chat/completions', config)
             return response

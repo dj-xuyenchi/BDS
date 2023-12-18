@@ -302,7 +302,8 @@ function Product() {
     },
   ];
   const fetchData = async () => {
-    const data = await useSanPhamStore.actions.fetchSanPham({});
+    const se = localStorage.getItem("search");
+    const data = await useSanPhamStore.actions.fetchSanPham();
     setData(data.data);
   };
 

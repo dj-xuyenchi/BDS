@@ -48,5 +48,6 @@ namespace BDS.Apis
         {
             return Ok(_tinBan.LayHetTinBanWeb());
         }
+    
     }
 }

@@ -29,7 +29,7 @@ namespace BDS.Apis
             [FromQuery] int nhanVienId
             )
         {
-            return Ok( _phongBanService.LayKhachHangByNVId(nhanVienId));
+            return Ok(_phongBanService.LayKhachHangByNVId(nhanVienId));
         }
         [HttpPost("suaphieu")]
         public async Task<IActionResult> SuaPhieu(
@@ -44,6 +44,28 @@ namespace BDS.Apis
            )
         {
             return Ok(await _phongBanService.TaoNote(phieu));
+        }
+
+        [HttpPost("themkhach")]
+        public async Task<IActionResult> ThemKhach(
+          [FromBody] PhieuXemNhaDTO phieu
+          )
+        {
+            return Ok(await _phongBanService.TaoMoiKhachHang(phieu));
+        }
+        [HttpPost("suakhach")]
+        public async Task<IActionResult> SuaKhach(
+        [FromBody] PhieuXemNhaDTO phieu
+        )
+        {
+            return Ok(await _phongBanService.SuaKhachHang(phieu));
+        }
+        [HttpGet("xoakhach")]
+        public async Task<IActionResult> XoaKhach(
+       [FromQuery] int phieuId
+       )
+        {
+            return Ok(await _phongBanService.XoaKhachHang(phieuId));
         }
     }
 }

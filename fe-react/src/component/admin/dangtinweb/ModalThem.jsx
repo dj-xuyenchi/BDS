@@ -252,6 +252,7 @@ function ModalThem({ fetchData }) {
             >
               Đăng tin
             </Button>
+          
           </Form.Item>
         </Form>
       </Modal>

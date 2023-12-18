@@ -83,8 +83,10 @@ namespace Core.Service.TinBanService
             }
             if (!string.IsNullOrEmpty(filter.keyword))
             {
+                query = query.Where(x => x.MoTa.ToLower().Contains(filter.keyword.ToLower()));
+                query = query.Where(x => x.TieuDe.ToLower().Contains(filter.keyword.ToLower()));
             }
-            return query.Select(x => TinBanDTO.FromEntity(x));
+            return query.Where(x => x.BatDongSan.LoaiBatDongSan != LoaiBatDongSan.KHACHDANG).Select(x => TinBanDTO.FromEntity(x));
         }
 
         public async Task<KhuVucFilterModel> LayKhuVucFilterModel()
@@ -155,7 +157,7 @@ namespace Core.Service.TinBanService
         public IQueryable<TinBanDTO> LayHetTinBanWeb()
         {
             var query = _context.TinBan.AsNoTracking().Where(x => x.TinCuaCongTy == false).OrderBy(x => x.NgayTao);
-            return query.Select(x => TinBanDTO.FromEntity(x));
+            return query.OrderBy(x=>x.NgayTao).Take(10).Select(x => TinBanDTO.FromEntity(x));
         }
     }
 }

@@ -5,6 +5,9 @@ import { Space, Table, Tag } from "antd";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import ModalTimeLine from "./ModalTimeLine";
 import { usePhongBan } from "./useKyGui";
+import ModalThemKhachHang from "./ModalThemKhachHang";
+import ModalSuaKhachHang from "./ModalSuaKhachHang";
+import ModalXoaKhach from "./ModalXoaKhach";
 function ModalKhachHangCuaToi({ id }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const columns = [
@@ -83,6 +86,8 @@ function ModalKhachHangCuaToi({ id }) {
             phieuId={record.id}
             fet={handleLayDuLieu}
           />
+          <ModalSuaKhachHang handleLayDuLieu={handleLayDuLieu} data2={record} />
+          <ModalXoaKhach tinId={record.id} fetData={handleLayDuLieu} />
         </Space>
       ),
     },
@@ -122,6 +127,7 @@ function ModalKhachHangCuaToi({ id }) {
         }}
         centered
       >
+        <ModalThemKhachHang handleLayDuLieu={handleLayDuLieu} />
         <Table columns={columns} dataSource={data && data} />
       </Modal>
     </>
