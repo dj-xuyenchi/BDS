@@ -10,5 +10,6 @@ namespace Core.Service.ThongKeService
     public interface IThongKe
     {
         public Task<ThongKeModel> LayThongKe(int nam);
+        public Task<ThongKeToanCongTyModel> LayThongKeCty(int nam);
     }
 }
