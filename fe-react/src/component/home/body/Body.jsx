@@ -12,9 +12,9 @@ import { selectProduct } from "./product/selectProduct";
 import { useSanPhamStore } from "./product/useSanPhamStore";
 import { useEffect } from "react";
 import MoiGioi from "./MoiGioi";
+import TinDang from "./TinDang";
 function Body() {
   const language = useSelector(selectLanguage);
-
   const product = useSelector(selectProduct);
   const [current, setCurrent] = useState(1);
   const onChange = (page) => {
@@ -42,7 +42,7 @@ function Body() {
   }
 
   useEffect(() => {
-    //  handleLayDuLieu(null);
+    handleLayDuLieu(null);
   }, []);
 
   return (
@@ -117,15 +117,54 @@ function Body() {
             marginBottom: "12px",
           }}
         >
-          <h5>Chuyên gia môi giới BDS</h5>
+          <h5>Tin đăng gần đây</h5>
         </Row>
-        <Row>
+        <Row style={{
+          width: "100%",
+          overflow: "hidden",
+          display: 'flex',
+          flexDirection: "row"
+        }}>
+          <TinDang />
+          <MoiGioi />
+          <MoiGioi />
           <MoiGioi />
           <MoiGioi />
           <MoiGioi />
           <MoiGioi />
         </Row>
       </Row>
+      <Row
+        style={{
+          width: "60%",
+          marginLeft: "20%",
+          padding: "12px",
+        }}
+      >
+        <Row
+          style={{
+            width: "100%",
+            marginBottom: "12px",
+          }}
+        >
+          <h5>Chuyên gia môi giới BDS</h5>
+        </Row>
+        <Row style={{
+          width: "100%",
+          overflow: "hidden",
+          display: 'flex',
+          flexDirection: "row"
+        }}>
+          <MoiGioi />
+          <MoiGioi />
+          <MoiGioi />
+          <MoiGioi />
+          <MoiGioi />
+          <MoiGioi />
+          <MoiGioi />
+        </Row>
+      </Row>
+
       <Row
         style={{
           width: "60%",

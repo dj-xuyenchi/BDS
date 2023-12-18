@@ -25,71 +25,7 @@ function MenuLeft({ open, setOpen }) {
         key={placement}
       >
         <Row>
-          {nguoiDung && (
-            <Col span={24}>
-              <div
-                className="item-nav"
-                onClick={() => {
-                  window.location = "http://localhost:3000/admin/dashboard";
-                }}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "20px",
-                    color: "black",
-                    marginBottom: 0,
-                    marginLeft: "4px",
-                  }}
-                >
-                  <GrSystem />
-                  <span
-                    style={{
-                      marginLeft: "8px",
-                    }}
-                  >
-                    Quản trị hệ thống
-                  </span>
-                </p>
-              </div>
-            </Col>
-          )}
-          {nguoiDung && (
-            <Col span={24}>
-              <div
-                className="item-nav"
-                onClick={() => {
-                  localStorage.removeItem("user");
-                  window.location = "http://localhost:3000/login";
-                }}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "20px",
-                    color: "black",
-                    marginBottom: 0,
-                    marginLeft: "4px",
-                  }}
-                >
-                  <IoIosLogOut />
-                  <span
-                    style={{
-                      marginLeft: "8px",
-                    }}
-                  >
-                    Đăng xuất
-                  </span>
-                </p>
-              </div>
-            </Col>
-          )}
+
           <Col span={24}>
             <Link
               style={{

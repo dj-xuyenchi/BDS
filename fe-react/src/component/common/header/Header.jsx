@@ -3,26 +3,96 @@ import "./style.css";
 import { selectLanguage } from "../../../language/selectLanguage";
 import GioHang from "../../home/giohang/GioHang";
 import { useState } from "react";
+import { DownOutlined, SmileOutlined } from '@ant-design/icons';
 import MenuLeft from "../menuleft/MenuLeft";
-import { HiMenuAlt2 } from "react-icons/hi";
 import { FiSearch, FiHeart } from "react-icons/fi";
-import { LuShoppingCart } from "react-icons/lu";
-import { FaRegUser } from "react-icons/fa";
 import Search from "../search/Search";
 import YeuThich from "../../home/yeuthich/YeuThich";
-import { Breadcrumb, Button, notification } from "antd";
+import { Breadcrumb, Button, Dropdown, Form, Input, InputNumber, Modal, Space, notification } from "antd";
 import { Link } from "react-router-dom";
 import { selectUser } from "../../login/selectUser";
 import { MdOutlineEditCalendar } from "react-icons/md";
+import { PiSignIn, PiSignInThin, PiUserCircleLight } from "react-icons/pi";
+import { FaUser } from "react-icons/fa";
+import { SearchOutlined } from '@ant-design/icons';
+import TextArea from "antd/es/input/TextArea";
+import { useForm } from "antd/es/form/Form";
+
+
 function Header() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const language = useSelector(selectLanguage);
   const user = useSelector(selectUser);
   const [openGioHang, setOpenGioHang] = useState(false);
   const [openYeuThich, setOpenYeuThich] = useState(false);
   const [openMenuLeft, setOpenMenuLeft] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
-
+  const [data, setData] = useState({})
+  const [isLoading, setIsLoading] = useState({})
+  const [form] = useForm();
+  async function handleThem() {
+  }
   const [api, contextHolder] = notification.useNotification();
+  const items = [
+  ];
+  var nguoiDung = JSON.parse(localStorage.getItem("user"));
+  // if (checkRole(nguoiDung.nguoiDungRole, ["ADMIN", "LEAD", "MEMBER"])) {
+  //   items.push({
+  //     key: '1',
+  //     label: (
+  //       <a href="http://localhost:3000/admin/dashboard">
+  //         Nhà Tốt Insight
+  //       </a>
+  //     ),
+  //     icon: <SiPagespeedinsights />
+  //     ,
+  //   })
+  // }
+  if (!nguoiDung) {
+    items.push({
+      key: '2',
+      label: (
+        <a href="http://localhost:3000/login">
+          Đăng nhập
+        </a>
+      ),
+      icon: <PiSignIn />
+      ,
+    })
+  }
+  if (nguoiDung) {
+    items.push({
+      key: '3',
+      label: (
+        <a onClick={() => {
+          var nguoiDung = JSON.parse(localStorage.getItem("user"));
+          if (nguoiDung) {
+            handleRedirect();
+            return;
+          } else {
+            window.location = "http://localhost:3000/login";
+          }
+        }}>
+          Thông tin cá nhân
+        </a>
+      ),
+      icon: <FaUser />
+      ,
+    },)
+    items.push({
+      key: '4',
+      label: (
+        <a onClick={() => {
+          localStorage.removeItem("user")
+          window.location = "http://localhost:3000/";
+        }}>
+          Đăng xuất
+        </a>
+      ),
+      icon: <PiSignInThin />
+      ,
+    },)
+  }
 
   const openNotification = (type, title, des, placement) => {
     if (type === "error") {
@@ -89,70 +159,88 @@ function Header() {
         <div className="menu">
           <div className="left-menu">
             <div
-              onClick={() => {
-                setOpenMenuLeft(true);
-              }}
             >
-              <HiMenuAlt2 />
+              <Link to="/">
+                <img
+                  style={{
+                    height: "40px",
+                    width: "auto"
+                  }}
+                  src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
+                  alt="logo"
+                />
+              </Link>
             </div>
           </div>
           <div className="mid-menu">
-            <Link to="/">
-              <img
-                src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
-                alt="logo"
-              />
-            </Link>
-            <Breadcrumb
-              items={[
-                {
-                  title: "Home",
-                },
-                {
-                  title: <a href="">Trang chủ</a>,
-                },
-              ]}
-            />
+            <Input addonBefore={<SearchOutlined />} placeholder="Tìm kiếm" />
           </div>
           <div className="right-menu">
-            <div
-              className="input-search"
-              onClick={() => {
-                setOpenSearch(true);
-              }}
-            >
-              <FiSearch />
-              <span>{language.header.search.inputHolder}</span>
-            </div>
             <div className="icon-right">
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
 
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-                onClick={() => {
-                  setOpenYeuThich(true);
-                }}
               >
-                <FiHeart />
+                <Space >
+                  <p style={{
+                    fontSize: "14px",
+                    marginBottom: "0px",
+                    width: "100px",
+                    display: "flex",
+                    justifyContent: 'space-around',
+                    alignItems: "center",
+                    height: "100%"
+                  }}
+                    onClick={() => {
+                      setOpenYeuThich(true)
+                    }}
+                  >
+                    <span style={{
+                      fontSize: "20px",
+                      lineHeight: "14px"
+                    }}>
+                      <FiHeart />
+                    </span>
+                    Yêu thích
+                  </p>
+                </Space>
               </div>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center'
                 }}
-                onClick={() => {
-                  var nguoiDung = JSON.parse(localStorage.getItem("user"));
-                  if (nguoiDung) {
-                    handleRedirect();
-                    return;
-                  } else {
-                    window.location = "http://localhost:3000/login";
-                  }
-                }}
+
               >
-                <FaRegUser />
+                <Dropdown
+                  menu={{
+                    items,
+                  }}
+                >
+                  <Space >
+                    <p style={{
+                      fontSize: "14px",
+                      marginBottom: "0px",
+                      width: "115px",
+                      display: "flex",
+                      justifyContent: 'space-around',
+                      alignItems: "center",
+                      height: "100%"
+                    }}>
+                      <span style={{
+                        fontSize: "22px",
+                        lineHeight: "14px"
+                      }}>
+                        <PiUserCircleLight />
+                      </span>
+                      Tài khoản
+                      <DownOutlined />
+                    </p>
+                  </Space>
+                </Dropdown>
               </div>
               <div
                 style={{
@@ -160,17 +248,129 @@ function Header() {
                   alignItems: 'center'
                 }}
               >
-                <Button style={{
+                <Button onClick={() => {
+                  setIsModalOpen(true)
+                }} style={{
                   backgroundColor: "#FA6819",
                   color: "white"
                 }} icon={<MdOutlineEditCalendar />}>
-                  Ký gửi nhà đất
+                  Đăng tin
                 </Button>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Modal title="Đăng ký Đăng tin" open={isModalOpen} onOk={() => {
+        setIsModalOpen(false)
+      }} onCancel={() => {
+        setIsModalOpen(false)
+      }}
+        width={768}
+      >
+        <Form
+          form={form}
+          labelCol={{
+            span: 4,
+          }}
+          wrapperCol={{
+            span: 18,
+          }}
+          layout="horizontal"
+          style={{
+            maxWidth: 768,
+          }}
+        >
+          <Form.Item
+            name="tieuDe"
+            label="Tiêu đề"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              value={data.tieuDe}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  tieuDe: e.target.value,
+                });
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="giaBan"
+            label="Giá bán"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <InputNumber
+              value={data.tieuDe}
+              style={{
+                width: "100%",
+              }}
+              min={1}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  giaBan: e,
+                });
+              }}
+              formatter={(value) =>
+                `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
+            />
+          </Form.Item>
+          <Form.Item
+            name="soDienThoai"
+            label="Số điện thoại liên hệ"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input
+              value={data.tieuDe}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  soDienThoai: e.target.value,
+                });
+              }}
+            />
+          </Form.Item>
+          <Form.Item name="moTa" label="Mô tả">
+            <TextArea
+              value={data.moTa}
+              rows={4}
+              onChange={(e) => {
+                setData({
+                  ...data,
+                  moTa: e.target.value,
+                });
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="Thao tác">
+            <Button
+              htmlType="submit"
+              loading={isLoading}
+              onClick={() => {
+                handleThem();
+              }}
+            >
+              Đăng tin
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 }

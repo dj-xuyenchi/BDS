@@ -3,7 +3,7 @@ import "./style.css";
 import { selectLanguage } from "../../../language/selectLanguage";
 import { Card, Drawer } from "antd";
 import { useState } from "react";
-function MoiGioi({ data }) {
+function TinDang({ data }) {
     const language = useSelector(selectLanguage);
     const [placement, setPlacement] = useState("right");
     return (
@@ -72,4 +72,4 @@ function MoiGioi({ data }) {
     );
 }
 
-export default MoiGioi;
+export default TinDang;

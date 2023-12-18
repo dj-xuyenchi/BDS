@@ -67,7 +67,7 @@ const items = [
     ),
   ]),
   getItem(
-    <Link to={"/admin/kygui"}>Yêu cầu ký gửi</Link>,
+    <Link to={"/admin/dangtinweb"}>Yêu cầu đăng tin</Link>,
     "64",
     <RiRefundFill />
   ),

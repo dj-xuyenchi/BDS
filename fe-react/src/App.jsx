@@ -19,9 +19,9 @@ import QuanLyBaiHoc from "./component/admin/daotao/qldaotao/QuanLyBaiHoc";
 import KyGui from "./component/admin/kygui/KyGui";
 import NguoiDung from "./component/admin/nguoidung/NguoiDung";
 import PhongBan from "./component/admin/phongban/PhongBan";
+import DangTinWeb from "./component/admin/dangtinweb/DangTinWeb";
 function App() {
   const dispath = useDispatch();
-  const disPath = useDispatch();
   useEffect(() => {
     let language = localStorage.getItem("language");
     if (language === null) {
@@ -48,6 +48,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin/dangtin" element={<DangTin />} />
+        <Route path="/admin/dangtinweb" element={<DangTinWeb />} />
         <Route path="/bds/:id" element={<ProductDetail />} />
         <Route path="/admin/daotao" element={<DaoTao />} />
         <Route path="/admin/quanlydaotao" element={<QuanLyBaiHoc />} />
