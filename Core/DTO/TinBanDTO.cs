@@ -22,6 +22,8 @@ namespace Core.DTO
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
         public TrangThaiTinBan TrangThai { get; set; }
+        public bool? TinCuaCongTy { get; set; }
+        public DateTime? NgayHetHan { get; set; }
         public static TinBanDTO FromEntity(TinBan entity)
         {
             return new TinBanDTO()
@@ -38,6 +40,8 @@ namespace Core.DTO
                 TrangThai = entity.TrangThai,
                 GiaBan=entity.GiaBan,
                 SoDienThoai =entity.SoDienThoai,
+                TinCuaCongTy = entity.TinCuaCongTy,
+                NgayHetHan=entity.NgayHetHan
             };
         }
         public TinBan ToEntity()
@@ -56,6 +60,8 @@ namespace Core.DTO
                 BatDongSan = this.BatDongSan,
                 GiaBan = this.GiaBan,
                 SoDienThoai = this.SoDienThoai,
+                TinCuaCongTy = this.TinCuaCongTy,
+                NgayHetHan = this.NgayHetHan
             };
         }
     }

@@ -92,7 +92,7 @@ namespace Core.Service.TinBanService
             KhuVucFilterModel res = new KhuVucFilterModel();
             res.Districts = LayDistricte().ToList();
             res.Provinces = LayProvince().ToList();
-            res.Wards= LayWard().ToList();
+            res.Wards = LayWard().ToList();
             return res;
 
         }
@@ -132,8 +132,13 @@ namespace Core.Service.TinBanService
 
         public async Task<TinBanDTO> TaoTin(TinBanDTO tinBan)
         {
+            if (_context.TinBan.Where(x => x.NguoiDangId == tinBan.NguoiDangId).ToList().Count() > 5)
+            {
+                return null;
+            }
             tinBan.NgayTao = DateTime.Now;
             tinBan.TrangThai = TrangThaiTinBan.DANGHIENTHI;
+            tinBan.TinCuaCongTy = true;
             await _context.AddAsync(tinBan.ToEntity());
             await _context.SaveChangesAsync();
             return tinBan;
@@ -145,6 +150,12 @@ namespace Core.Service.TinBanService
             _context.TinBan.Remove(tinBan);
             await _context.SaveChangesAsync();
             return TinBanDTO.FromEntity(tinBan);
+        }
+
+        public IQueryable<TinBanDTO> LayHetTinBanWeb()
+        {
+            var query = _context.TinBan.AsNoTracking().Where(x => x.TinCuaCongTy == false).OrderBy(x => x.NgayTao);
+            return query.Select(x => TinBanDTO.FromEntity(x));
         }
     }
 }

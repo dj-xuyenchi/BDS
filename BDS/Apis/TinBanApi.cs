@@ -14,14 +14,14 @@ namespace BDS.Apis
         private readonly ITinBanService _tinBan = new TinBanService();
 
         [HttpPost("laytinban")]
-        public IActionResult LayHetTinBan([FromBody]Filter filter)
+        public IActionResult LayHetTinBan([FromBody] Filter filter)
         {
             return Ok(_tinBan.LayHetTinBan(filter));
         }
         [HttpPost("taotin")]
         public async Task<IActionResult> TaoTin([FromBody] TinBanDTO tinBan)
         {
-            return Ok( await _tinBan.TaoTin(tinBan));
+            return Ok(await _tinBan.TaoTin(tinBan));
         }
         [HttpPost("suatin")]
         public async Task<IActionResult> SuaTin([FromBody] TinBanDTO tinBan)
@@ -42,6 +42,11 @@ namespace BDS.Apis
         public async Task<IActionResult> LayKhuVucFilter()
         {
             return Ok(await _tinBan.LayKhuVucFilterModel());
+        }
+        [HttpGet("laytinban")]
+        public IActionResult LayTinBanWeb()
+        {
+            return Ok(_tinBan.LayHetTinBanWeb());
         }
     }
 }

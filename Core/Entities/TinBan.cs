@@ -20,5 +20,7 @@ namespace Core.Entities
         public DateTime NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
         public TrangThaiTinBan TrangThai { get; set; }
+        public bool? TinCuaCongTy { get; set; }
+        public DateTime? NgayHetHan { get; set; }
     }
 }
