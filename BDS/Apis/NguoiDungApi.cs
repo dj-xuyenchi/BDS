@@ -3,6 +3,7 @@ using Core.RequestModel;
 using Core.Service.BatDongSanService;
 using Core.Service.NguoiDungService;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace BDS.Apis
 {
@@ -54,6 +55,17 @@ namespace BDS.Apis
         public IActionResult LayHetNguoiDung10()
         {
             return Ok(nguoiDungService.LayNguoiDungTop());
+        }
+        [HttpGet("thongtincanhan")]
+        public async Task<IActionResult> LayThongTinCaNhan([FromQuery] int nguoiDungId)
+        {
+            return Ok(await nguoiDungService.LayNguoiDung(nguoiDungId));
+        }
+        [HttpPost("thongtincanhan")]
+        public async Task<IActionResult> CapNhat([FromForm] IFormFile? file, [FromForm] string data)
+        {
+            NguoiDungDTO bh = JsonConvert.DeserializeObject<NguoiDungDTO>(data);
+            return Ok(await nguoiDungService.CapNhatThongTin(bh,file));
         }
     }
 }

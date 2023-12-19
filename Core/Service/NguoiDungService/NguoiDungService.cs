@@ -1,7 +1,9 @@
 ﻿using Core.Data;
 using Core.DTO;
 using Core.Entities;
+using Core.plugins;
 using Core.RequestModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -104,6 +106,28 @@ namespace Core.Service.NguoiDungService
                 .Include(x=>x.PhongBan)
                 .Where(x => x.TrangThai == Enums.TrangThaiNguoiDung.DANGHOATDONG);
             return query.Take(10).Select(x=>NguoiDungDTO.FromEntity(x));
+        }
+
+        public async Task<NguoiDungDTO> LayNguoiDung(int nguoiDungId)
+        {
+            return NguoiDungDTO.FromEntity(await _context.NguoiDung.Include(x=>x.PhongBan).Where(x=>x.Id==nguoiDungId).FirstOrDefaultAsync());
+        }
+
+        public async Task<NguoiDungDTO> CapNhatThongTin(NguoiDungDTO nguoiDung,IFormFile file)
+        {
+            var nguoiDungRe = await _context.NguoiDung.Include(x=>x.PhongBan).Where(x => x.Id == nguoiDung.Id).FirstOrDefaultAsync();
+            nguoiDungRe.SoCanCuoc = nguoiDung.SoCanCuoc;
+            nguoiDungRe.HoTenNguoiDung = nguoiDung.HoTenNguoiDung;
+            nguoiDungRe.DiaChi = nguoiDung.DiaChi;
+            nguoiDungRe.SoDienThoai = nguoiDung.SoDienThoai;
+            nguoiDungRe.NgayCapNhat=DateTime.Now;
+            if (file != null)
+            {
+                nguoiDungRe.HinhDaiDien = await CloudinaryUpload.UploadFile(file);
+            }
+            _context.Update(nguoiDungRe);
+            await _context.SaveChangesAsync();
+            return NguoiDungDTO.FromEntity(nguoiDungRe);
         }
     }
 }

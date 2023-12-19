@@ -2,8 +2,10 @@
 using Core.DTO;
 using Core.Entities;
 using Core.Enums;
+using Core.plugins;
 using Core.RequestModel;
 using Core.ResponModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -86,7 +88,7 @@ namespace Core.Service.TinBanService
                 query = query.Where(x => x.MoTa.ToLower().Contains(filter.keyword.ToLower()));
                 query = query.Where(x => x.TieuDe.ToLower().Contains(filter.keyword.ToLower()));
             }
-            return query.Where(x => x.BatDongSan.LoaiBatDongSan != LoaiBatDongSan.KHACHDANG).Select(x => TinBanDTO.FromEntity(x));
+            return query.Where(x => x.BatDongSan.LoaiBatDongSan != LoaiBatDongSan.KHACHDANG && x.TrangThai == TrangThaiTinBan.DANGHIENTHI).Select(x => TinBanDTO.FromEntity(x));
         }
 
         public async Task<KhuVucFilterModel> LayKhuVucFilterModel()
@@ -157,7 +159,33 @@ namespace Core.Service.TinBanService
         public IQueryable<TinBanDTO> LayHetTinBanWeb()
         {
             var query = _context.TinBan.AsNoTracking().Where(x => x.TinCuaCongTy == false).OrderBy(x => x.NgayTao);
-            return query.OrderBy(x=>x.NgayTao).Take(10).Select(x => TinBanDTO.FromEntity(x));
+            return query.OrderBy(x => x.NgayTao).Take(10).Select(x => TinBanDTO.FromEntity(x));
+        }
+
+        public async Task<int> DangTinBanKhachNgoai(TaoTinKhachNgoai tinMoi, List<IFormFile> file)
+        {
+            var bds = tinMoi.BatDongSan.ToEntity();
+            bds.NgayTao = DateTime.Now;
+            bds.LoaiBatDongSan = LoaiBatDongSan.KHACHDANG;
+            await _context.BatDongSan.AddAsync(bds);
+            await _context.SaveChangesAsync();
+            foreach (var item in file)
+            {
+                HinhAnhBatDongSan hinh = new HinhAnhBatDongSan();
+                hinh.NgayTao = DateTime.Now;
+                hinh.LinkHinhAnh = await CloudinaryUpload.UploadFile(item);
+                hinh.BatDongSanId = bds.Id;
+                await _context.HinhAnhBatDongSan.AddAsync(hinh);
+            }
+            
+            var tinDang = tinMoi.TinBan.ToEntity();
+            tinDang.TrangThai = TrangThaiTinBan.DANGCHO;
+            tinDang.BatDongSanId = bds.Id;
+            tinDang.TinCuaCongTy = false;
+            tinDang.NgayTao=DateTime.Now;
+            await _context.AddAsync(tinDang);
+            await _context.SaveChangesAsync();
+            return tinDang.Id;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Core.DTO;
 using Core.plugins;
+using Core.RequestModel;
+using Core.Service.TinBanService;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -9,12 +11,13 @@ namespace BDS.Apis
     [Route("ThanhToan")]
     public class ThanhToan : ControllerBase
     {
-        //[HttpPost("suabaihoc")]
-        //public async Task<IActionResult> SuaBaiHoc([FromForm] List<IFormFile> file, [FromForm] string data)
-        //{
-        //    BaiHocDaoTaoDTO bh = JsonConvert.DeserializeObject<BaiHocDaoTaoDTO>(data);
-        //    return Ok(await _daoTao.SuaBaiHoc(file[0], file[1], bh));
-        //}
+        private readonly ITinBanService _tinBanService = new TinBanService();
+        [HttpPost("taotin")]
+        public async Task<IActionResult> TaoTinDang([FromForm] List<IFormFile> file, [FromForm] string data)
+        {
+            TaoTinKhachNgoai bh = JsonConvert.DeserializeObject<TaoTinKhachNgoai>(data);
+            return Ok(await _tinBanService.DangTinBanKhachNgoai(bh,file));
+        }
         [HttpPost("orderPayVn")]
         public async Task<IActionResult> orderPayVn(long amount)
         {

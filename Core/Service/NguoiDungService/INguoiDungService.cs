@@ -1,5 +1,6 @@
 ﻿using Core.DTO;
 using Core.RequestModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,7 @@ namespace Core.Service.NguoiDungService
         Task<NguoiDungDTO> SuaNguoiDung(NguoiDungDTO nguoiDungDTO);
         IQueryable<NguoiDungDTO> LayHetNguoiDung();
         IQueryable<NguoiDungDTO> LayNguoiDungTop();
+        Task<NguoiDungDTO> LayNguoiDung(int nguoiDungId);
+        Task<NguoiDungDTO> CapNhatThongTin(NguoiDungDTO nguoiDung, IFormFile file);
     }
 }

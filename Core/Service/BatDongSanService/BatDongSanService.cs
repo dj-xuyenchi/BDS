@@ -130,6 +130,7 @@ namespace Core.Service.BatDongSanService
             hinh.NgayTao = DateTime.Now;
             hinh.LinkHinhAnh = "https://png.pngtree.com/png-vector/20190820/ourlarge/pngtree-no-avatar-vector-isolated-on-white-background-png-image_1694546.jpg";
             var bds = data.ToEntity();
+            bds.NgayTao=DateTime.Now;
             await _context.BatDongSan.AddAsync(bds);
             await _context.SaveChangesAsync();
             hinh.BatDongSanId = bds.Id;
