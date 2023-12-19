@@ -19,6 +19,7 @@ import KyGui from "./component/admin/kygui/KyGui";
 import NguoiDung from "./component/admin/nguoidung/NguoiDung";
 import PhongBan from "./component/admin/phongban/PhongBan";
 import DangTinWeb from "./component/admin/dangtinweb/DangTinWeb";
+import Checkout from "./component/home/profile/Checkout";
 function App() {
   const dispath = useDispatch();
   useEffect(() => {
@@ -57,6 +58,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/admin/dashboard" element={<DashBoard />} />
         <Route path="/admin/phongban" element={<PhongBan />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </>
   );

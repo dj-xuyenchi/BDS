@@ -3,7 +3,12 @@ import "./style.css";
 import { selectLanguage } from "../../../../language/selectLanguage";
 import { BsFillBoxSeamFill, BsShopWindow } from "react-icons/bs";
 import { RiBillLine } from "react-icons/ri";
-import { FaBuffer, FaUserFriends, FaTag, FaGraduationCap } from "react-icons/fa";
+import {
+  FaBuffer,
+  FaUserFriends,
+  FaTag,
+  FaGraduationCap,
+} from "react-icons/fa";
 import { SiZerodha } from "react-icons/si";
 import { AiOutlineBgColors } from "react-icons/ai";
 import { SiSteelseries } from "react-icons/si";
@@ -28,46 +33,108 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
   getItem(
-    <Link to={"/admin/dashboard"}>Dashboard</Link>,
+    <Link
+      to={"/admin/dashboard"}
+      style={{
+        textDecoration: "unset",
+      }}
+    >
+      <span
+        style={{
+          fontSize: "18px",
+        }}
+      >
+        Dashboard
+      </span>
+    </Link>,
     "1",
     <TbLayoutDashboard />
   ),
   getItem("Quản lý bất động sản", "sub1", <BsFillBoxSeamFill />, [
     getItem(
-      <Link to={"/admin/sanpham"}>Bất động sản</Link>,
+      <Link
+        to={"/admin/sanpham"}
+        style={{
+          textDecoration: "unset",
+        }}
+      >
+        Bất động sản
+      </Link>,
       "22",
       <BsFillBoxSeamFill />
     ),
   ]),
   getItem(
-    <Link to={"/admin/dangtin"}>Quản lý đăng tin</Link>,
+    <Link
+      to={"/admin/dangtin"}
+      style={{
+        textDecoration: "unset",
+      }}
+    >
+      Quản lý đăng tin
+    </Link>,
     "9",
     <RiBillLine />
   ),
   getItem(
-    <Link to={"/admin/nguoidung"}>Quản lý người dùng</Link>,
+    <Link
+      to={"/admin/nguoidung"}
+      style={{
+        textDecoration: "unset",
+      }}
+    >
+      Quản lý người dùng
+    </Link>,
     "63",
     <FaUserFriends />
   ),
   getItem(
-    <Link to={"/admin/phongban"}>Phòng ban của tôi</Link>,
+    <Link
+      to={"/admin/phongban"}
+      style={{
+        textDecoration: "unset",
+      }}
+    >
+      Phòng ban của tôi
+    </Link>,
     "69",
     <HiMiniUserGroup />
   ),
   getItem("Đào tạo", "sub1", <PiStudentBold />, [
     getItem(
-      <Link to={"/admin/daotao"}>Đào tạo</Link>,
+      <Link
+        to={"/admin/daotao"}
+        style={{
+          textDecoration: "unset",
+        }}
+      >
+        Đào tạo
+      </Link>,
       "2",
       <FaGraduationCap />
     ),
     getItem(
-      <Link to={"/admin/quanlydaotao"}>Quản lý bài học</Link>,
+      <Link
+        to={"/admin/quanlydaotao"}
+        style={{
+          textDecoration: "unset",
+        }}
+      >
+        Quản lý bài học
+      </Link>,
       "32",
       <MdVideoSettings />
     ),
   ]),
   getItem(
-    <Link to={"/admin/dangtinweb"}>Yêu cầu đăng tin</Link>,
+    <Link
+      to={"/admin/dangtinweb"}
+      style={{
+        textDecoration: "unset",
+      }}
+    >
+      Yêu cầu đăng tin
+    </Link>,
     "64",
     <RiRefundFill />
   ),

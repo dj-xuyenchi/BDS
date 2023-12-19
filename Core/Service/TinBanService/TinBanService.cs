@@ -195,7 +195,7 @@ namespace Core.Service.TinBanService
 
         public IQueryable<TinBanDTO> LayBaiDangById(int nguoiDungId)
         {
-            var query = _context.TinBan.Where(x => x.NguoiDangId == nguoiDungId);
+            var query = _context.TinBan.Include(x=>x.BatDongSan).ThenInclude(x=>x.HinhAnhBatDongSan).Where(x => x.NguoiDangId == nguoiDungId&&x.BatDongSan.LoaiBatDongSan==LoaiBatDongSan.KHACHDANG);
             return query.Select(x => TinBanDTO.FromEntity(x));
         }
     }

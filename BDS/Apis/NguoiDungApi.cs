@@ -68,7 +68,7 @@ namespace BDS.Apis
             return Ok(await nguoiDungService.CapNhatThongTin(bh, file));
         }
         [HttpPost("doimatkhau")]
-        public async Task<IActionResult> DoiMatKhau([FromForm] DoiMatKhau doiMatKhau)
+        public async Task<IActionResult> DoiMatKhau([FromBody] DoiMatKhau doiMatKhau)
         {
             return Ok(await nguoiDungService.DoiMatKhau(doiMatKhau));
         }

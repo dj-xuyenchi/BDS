@@ -11,6 +11,9 @@ import { BiUser } from "react-icons/bi";
 import { MdOutlineLocalShipping, MdSecurity } from "react-icons/md";
 import { RiBillLine } from "react-icons/ri";
 import DoiMatKhau from "./DoiMatKhau";
+import TinDang from "./TinDang";
+import { FaMoneyCheckAlt } from "react-icons/fa";
+import NapTien from "./NapTien";
 
 const items = [
   {
@@ -19,14 +22,14 @@ const items = [
     icon: <BiUser />,
   },
   {
-    label: "Địa chỉ nhận hàng",
-    key: "address",
-    icon: <MdOutlineLocalShipping />,
+    label: "Tin đăng",
+    key: "tindang",
+    icon: <RiBillLine />,
   },
   {
-    label: "Đơn mua",
-    key: "bill",
-    icon: <RiBillLine />,
+    label: "Nạp tiền",
+    key: "naptien",
+    icon: <FaMoneyCheckAlt />,
   },
   {
     label: "Bảo mật",
@@ -59,6 +62,8 @@ function Profile() {
         </div>
         <div className="content-profile">
           {current == "profile" ? <ChiTietNguoiDung /> : ""}
+          {current == "tindang" ? <TinDang /> : ""}
+          {current == "naptien" ? <NapTien /> : ""}
           {current == "security" ? <DoiMatKhau /> : ""}
         </div>
       </div>

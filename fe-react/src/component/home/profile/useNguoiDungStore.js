@@ -17,8 +17,33 @@ export const useNguoiDungStore = {
     },
     async doiMatKhau(payload) {
       const response = await axiosIns.post(
-        `/api/nguoidung/doimatkhau`,
+        `/NguoiDung/doimatkhau`,
         payload
+      );
+      return response;
+    },
+    async doiMatKhau(payload) {
+      const response = await axiosIns.post(
+        `/NguoiDung/doimatkhau`,
+        payload
+      );
+      return response;
+    },
+    async layBaiDangById(payload) {
+      const response = await axiosIns.get(
+        `/TinBan/laybaidangbyid?nguoiDungId=` + payload
+      );
+      return response;
+    },
+    async napTien(payload) {
+      const response = await axiosIns.post(
+        `/ThanhToan/naptien?nguoiDungId=` + payload.nguoiDungId + "&amount=" + payload.soTien
+      );
+      return response;
+    },
+    async xacNhan(payload) {
+      const response = await axiosIns.post(
+        `/ThanhToan/xacnhan?hoaDonId=` + payload.hoaDonId + "&status=" + payload.status
       );
       return response;
     },

@@ -187,8 +187,8 @@ function DangTin() {
     },
     {
       title: "Loại BDS",
-      dataIndex: "loaiBatDongSan",
-      key: "loaiBatDongSan",
+      dataIndex: "batDongSan",
+      key: "batDongSan",
       width: "7.5%",
       filters: [
         {
@@ -209,15 +209,12 @@ function DangTin() {
         },
       ],
       onFilter: (value, record) => {
-        return value == record.loaiBatDongSan;
+        return value == record.batDongSan.loaiBatDongSan;
       },
       filterSearch: true,
-      render: (loaiBatDongSan) => (
-        <Tag color="success">{fixLoaiBDS(loaiBatDongSan)}</Tag>
+      render: (batDongSan) => (
+        <Tag color="success">{fixLoaiBDS(batDongSan.loaiBatDongSan)}</Tag>
       ),
-      // filters: filter.thietKe,
-      // filteredValue: filteredInfo.address || null,
-      // onFilter: (value, record) => record.thietKe.tenThietKe.includes(value),
     },
     {
       title: "Thao tác",

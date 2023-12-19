@@ -21,16 +21,27 @@ function ProductItem({ item }) {
               />
             </div>
           </Link>
-          <div className="product-detail">
+          <div
+            className="product-detail"
+            style={{
+              marginTop: "8px",
+            }}
+          >
             {fixDoDai(item.tieuDe)}
             <div className="product-name-container">
               <span>
                 {item.batDongSan.dienTich + "M"}
                 <sup>2</sup> - {item.batDongSan.soPhongNgu + "PN"}
               </span>
-              <PiHeartStraight />
             </div>
-            <div className="product-cost">{fixMoney(item.giaBan)}</div>
+            <div
+              className="product-cost"
+              style={{
+                color: "red",
+              }}
+            >
+              {fixMoney(item.giaBan)}
+            </div>
             <div
               className=""
               style={{

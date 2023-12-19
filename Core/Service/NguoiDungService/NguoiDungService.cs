@@ -139,6 +139,15 @@ namespace Core.Service.NguoiDungService
         public async Task<HoaDonNapTien> NapTien(long soTien, int nguoiDungId)
         {
             HoaDonNapTien hoaDon = new HoaDonNapTien();
+            if (_context.HoaDonNapTien.Count() == 0)
+            {
+                hoaDon.Id = 1;
+            }
+            else
+            {
+                var hoaDonCuoi = _context.HoaDonNapTien.OrderByDescending(x => x.Id).FirstOrDefault();
+                hoaDon.Id = hoaDonCuoi.Id + 1;
+            }
             hoaDon.SoTien = soTien;
             hoaDon.NguoiDungId = nguoiDungId;
             hoaDon.NgayTao = DateTime.Now;
@@ -148,7 +157,7 @@ namespace Core.Service.NguoiDungService
             return hoaDon;
         }
 
-        public async Task<HoaDonNapTien> CheckThanhToan(int hoaDonId,int status)
+        public async Task<HoaDonNapTien> CheckThanhToan(int hoaDonId, int status)
         {
             HoaDonNapTien hoaDon = await _context.HoaDonNapTien.FindAsync(hoaDonId);
             if (status == 1)
@@ -174,7 +183,7 @@ namespace Core.Service.NguoiDungService
 
         public async Task<NguoiDung> DoiMatKhau(DoiMatKhau doiMatKhau)
         {
-            var nguoiDung =await _context.NguoiDung.FindAsync(doiMatKhau.NguoiDungId);
+            var nguoiDung = await _context.NguoiDung.FindAsync(doiMatKhau.NguoiDungId);
             if (BCrypt.Net.BCrypt.Verify(doiMatKhau.MatKhauCu, nguoiDung.MatKhau))
             {
                 nguoiDung.MatKhau = BCrypt.Net.BCrypt.HashPassword(doiMatKhau.MatKhauMoi);

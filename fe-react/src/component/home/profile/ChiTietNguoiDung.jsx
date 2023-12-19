@@ -1,4 +1,13 @@
-import { Button, Col, Radio, Row, Upload, notification, message } from "antd";
+import {
+  Button,
+  Col,
+  Radio,
+  Row,
+  Upload,
+  notification,
+  message,
+  Image,
+} from "antd";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { useNguoiDungStore } from "./useNguoiDungStore";
@@ -6,6 +15,7 @@ import { useParams } from "react-router-dom";
 import { selectLanguage } from "../../../language/selectLanguage";
 import { useSelector } from "react-redux";
 import { PlusOutlined } from "@ant-design/icons";
+import { fixMoney } from "../../../extensions/fixMoney";
 function ChiTietNguoiDung({ user }) {
   const language = useSelector(selectLanguage);
   const [nguoiDung, setNguoiDung] = useState(undefined);
@@ -113,7 +123,8 @@ function ChiTietNguoiDung({ user }) {
               fontWeight: 700,
               fontSize: "20px",
               marginBottom: "4px",
-            }}>
+            }}
+          >
             Thông tin cá nhân
           </h4>
           <p
@@ -122,7 +133,8 @@ function ChiTietNguoiDung({ user }) {
               fontWeight: 400,
               fontSize: "15px",
               fontStyle: "normal",
-            }}>
+            }}
+          >
             Bạn có thể cập nhật thông tin của mình ở trang này
           </p>
           <Row>
@@ -132,23 +144,35 @@ function ChiTietNguoiDung({ user }) {
                 <span
                   style={{
                     color: "red",
-                  }}>
+                  }}
+                >
                   *
                 </span>
               </p>
+              <Image
+                style={{
+                  height: "80px",
+                  width: "80px",
+                  borderRadius: "50%",
+                  marginBottom: "12px",
+                }}
+                src={nguoiDung.hinhDaiDien}
+              />
               <Upload
                 listType="picture-card"
                 multiple
                 customRequest={() => {}}
                 {...props}
                 maxCount={1}
-                fileList={fileList}>
+                fileList={fileList}
+              >
                 <div>
                   <PlusOutlined />
                   <div
                     style={{
                       marginTop: 8,
-                    }}>
+                    }}
+                  >
                     Upload
                   </div>
                 </div>
@@ -162,7 +186,8 @@ function ChiTietNguoiDung({ user }) {
                 <span
                   style={{
                     color: "red",
-                  }}>
+                  }}
+                >
                   *
                 </span>
               </p>
@@ -180,7 +205,8 @@ function ChiTietNguoiDung({ user }) {
                 <span
                   style={{
                     color: "red",
-                  }}>
+                  }}
+                >
                   *
                 </span>
               </p>
@@ -195,14 +221,16 @@ function ChiTietNguoiDung({ user }) {
           <Row
             style={{
               marginTop: "12px",
-            }}>
+            }}
+          >
             <Col span={13}>
               <p>
                 Địa chỉ
                 <span
                   style={{
                     color: "red",
-                  }}>
+                  }}
+                >
                   *
                 </span>
               </p>
@@ -222,14 +250,16 @@ function ChiTietNguoiDung({ user }) {
           <Row
             style={{
               marginTop: "12px",
-            }}>
+            }}
+          >
             <Col span={13}>
               <p>
                 SĐT
                 <span
                   style={{
                     color: "red",
-                  }}>
+                  }}
+                >
                   *
                 </span>
               </p>
@@ -249,14 +279,16 @@ function ChiTietNguoiDung({ user }) {
           <Row
             style={{
               marginTop: "12px",
-            }}>
+            }}
+          >
             <Col span={13}>
               <p>
-                SĐT
+                Số căn cước
                 <span
                   style={{
                     color: "red",
-                  }}>
+                  }}
+                >
                   *
                 </span>
               </p>
@@ -276,7 +308,32 @@ function ChiTietNguoiDung({ user }) {
           <Row
             style={{
               marginTop: "12px",
-            }}>
+            }}
+          >
+            <Col span={13}>
+              <p>
+                Số dư tài khoản
+                <span
+                  style={{
+                    color: "red",
+                  }}
+                >
+                  *
+                </span>
+              </p>
+              <input
+                disabled
+                value={fixMoney(nguoiDung.soDu)}
+                type="text"
+                className="input-profile"
+              />
+            </Col>
+          </Row>
+          <Row
+            style={{
+              marginTop: "12px",
+            }}
+          >
             <Col span={4}>
               <Button onClick={handleCapNhatThongTin} type="primary">
                 Cập nhật

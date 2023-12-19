@@ -82,7 +82,7 @@ function DoiMatKhau() {
       matKhauCu: matKhau.matKhauCu,
       matKhauMoi: matKhau.matKhauMoi,
     });
-    if (data.data.status == "THANHCONG") {
+    if (data.data) {
       openNotification(
         "suscess",
         language.systemNotification.system,
@@ -94,20 +94,11 @@ function DoiMatKhau() {
         matKhauMoi: "",
         xacNhanMatKhau: "",
       });
-    }
-    if (data.data.status == "THATBAI") {
+    } else {
       openNotification(
         "error",
         language.systemNotification.system,
-        "Đổi mật khẩu thành thất bại",
-        "bottomRight"
-      );
-    }
-    if (data.data.status == "MATKHAUCUSAI") {
-      openNotification(
-        "error",
-        language.systemNotification.system,
-        "Mật khẩu hiện tại không đúng",
+        "Mật khẩu không chính xác",
         "bottomRight"
       );
     }
