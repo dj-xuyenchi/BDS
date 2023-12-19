@@ -21,5 +21,7 @@ namespace Core.Service.TinBanService
         Task<TinBanDTO> LayTinById (int tinBanId);
         Task<KhuVucFilterModel> LayKhuVucFilterModel();
         Task<int> DangTinBanKhachNgoai(TaoTinKhachNgoai tinMoi, List<IFormFile> file);
+        Task<int> ThueDangBai(int tinBanId);
+        IQueryable<TinBanDTO> LayBaiDangById(int nguoiDungId);
     }
 }

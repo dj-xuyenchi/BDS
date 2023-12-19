@@ -177,15 +177,26 @@ namespace Core.Service.TinBanService
                 hinh.BatDongSanId = bds.Id;
                 await _context.HinhAnhBatDongSan.AddAsync(hinh);
             }
-            
+
             var tinDang = tinMoi.TinBan.ToEntity();
             tinDang.TrangThai = TrangThaiTinBan.DANGCHO;
             tinDang.BatDongSanId = bds.Id;
             tinDang.TinCuaCongTy = false;
-            tinDang.NgayTao=DateTime.Now;
+            tinDang.NgayTao = DateTime.Now;
             await _context.AddAsync(tinDang);
             await _context.SaveChangesAsync();
             return tinDang.Id;
+        }
+
+        public Task<int> ThueDangBai(int tinBanId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<TinBanDTO> LayBaiDangById(int nguoiDungId)
+        {
+            var query = _context.TinBan.Where(x => x.NguoiDangId == nguoiDungId);
+            return query.Select(x => TinBanDTO.FromEntity(x));
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Core.DTO
         public string? DiaChi { get; set; }
         public int? PhongBanId { get; set; }
         public virtual PhongBan? PhongBan { get; set; }
+        public long? SoDu { get; set; }
         public TrangThaiNguoiDung TrangThai { get; set; }
         public virtual IEnumerable<HopDongMuaBatDongSan>? HopDongMuaBatDongSan { get; set; }
         public virtual IEnumerable<BaiHocDaoTao>? BaiHocDaoTao { get; set; }
@@ -49,7 +50,8 @@ namespace Core.DTO
                 TrangThai = entity.TrangThai,
                 NgayTao = entity.NgayTao,
                 NgayCapNhat = entity.NgayCapNhat,
-                NguoiDungRole = entity.NguoiDungRole
+                NguoiDungRole = entity.NguoiDungRole,
+                SoDu = entity.SoDu,
             };
         }
         public NguoiDung ToEntity()
@@ -71,6 +73,7 @@ namespace Core.DTO
                 TrangThai = this.TrangThai,
                 NgayTao = this.NgayTao,
                 NgayCapNhat = this.NgayCapNhat,
+                SoDu = this.SoDu,
             };
         }
     }

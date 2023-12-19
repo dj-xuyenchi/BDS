@@ -1,4 +1,5 @@
 ﻿using Core.DTO;
+using Core.Entities;
 using Core.RequestModel;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -13,11 +14,14 @@ namespace Core.Service.NguoiDungService
     {
         Task<NguoiDungDTO> DangKy(NguoiDungDTO nguoiDungDTO);
         Task<NguoiDungDTO> DangNhap(DangNhapRequest nguoiDungDTO);
-        Task<NguoiDungDTO> TaoNguoiDung(NguoiDungDTO nguoiDungDTO); 
+        Task<NguoiDungDTO> TaoNguoiDung(NguoiDungDTO nguoiDungDTO);
         Task<NguoiDungDTO> SuaNguoiDung(NguoiDungDTO nguoiDungDTO);
         IQueryable<NguoiDungDTO> LayHetNguoiDung();
         IQueryable<NguoiDungDTO> LayNguoiDungTop();
         Task<NguoiDungDTO> LayNguoiDung(int nguoiDungId);
         Task<NguoiDungDTO> CapNhatThongTin(NguoiDungDTO nguoiDung, IFormFile file);
+        Task<HoaDonNapTien> NapTien(long soTien, int nguoiDungId);
+        Task<HoaDonNapTien> CheckThanhToan(int hoaDonId,int status);
+        Task<NguoiDung> DoiMatKhau(DoiMatKhau doiMatKhau);
     }
 }

@@ -65,7 +65,12 @@ namespace BDS.Apis
         public async Task<IActionResult> CapNhat([FromForm] IFormFile? file, [FromForm] string data)
         {
             NguoiDungDTO bh = JsonConvert.DeserializeObject<NguoiDungDTO>(data);
-            return Ok(await nguoiDungService.CapNhatThongTin(bh,file));
+            return Ok(await nguoiDungService.CapNhatThongTin(bh, file));
+        }
+        [HttpPost("doimatkhau")]
+        public async Task<IActionResult> DoiMatKhau([FromForm] DoiMatKhau doiMatKhau)
+        {
+            return Ok(await nguoiDungService.DoiMatKhau(doiMatKhau));
         }
     }
 }

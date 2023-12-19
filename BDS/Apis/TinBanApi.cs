@@ -48,6 +48,17 @@ namespace BDS.Apis
         {
             return Ok(_tinBan.LayHetTinBanWeb());
         }
-    
+        [HttpGet("laybaidangbyid")]
+        public IActionResult LayBaiDangById([FromQuery] int nguoiDungId)
+        {
+            return Ok(_tinBan.LayBaiDangById(nguoiDungId));
+        }
+        [HttpGet("thuedang")]
+        public IActionResult ThueDangTin(
+            [FromQuery] int tinBanId
+            )
+        {
+            return Ok(_tinBan.ThueDangBai(tinBanId));
+        }
     }
 }

@@ -25,17 +25,23 @@ namespace Core.Service.NguoiDungService
                 return null;
             }
             nguoiDungDTO.HinhDaiDien = "https://cdn-icons-png.flaticon.com/512/1053/1053244.png";
-            nguoiDungDTO.TrangThai = Enums.TrangThaiNguoiDung.LOCK;
+            nguoiDungDTO.TrangThai = Enums.TrangThaiNguoiDung.DANGHOATDONG;
             nguoiDungDTO.MatKhau = BCrypt.Net.BCrypt.HashPassword(nguoiDungDTO.MatKhau);
             nguoiDungDTO.NgayTao = DateTime.Now;
-            await _context.AddAsync(nguoiDungDTO.ToEntity());
+            var nguoiDung = nguoiDungDTO.ToEntity();
+            await _context.AddAsync(nguoiDung);
+            NguoiDungRole nr = new NguoiDungRole();
+            nr.NguoiDungId = nguoiDung.Id;
+            nr.RoleId = 5;
+            /// Khach ngoài
+            nr.NgayTao = DateTime.Now;
             await _context.SaveChangesAsync();
             return nguoiDungDTO;
         }
 
         public async Task<NguoiDungDTO> DangNhap(DangNhapRequest nguoiDungDTO)
         {
-            var nguoiDung = _context.NguoiDung.Include(x=>x.NguoiDungRole).ThenInclude(y=>y.Role).Where(x => x.TenTaiKhoan == nguoiDungDTO.TaiKhoan).FirstOrDefault();
+            var nguoiDung = _context.NguoiDung.Include(x => x.NguoiDungRole).ThenInclude(y => y.Role).Where(x => x.TenTaiKhoan == nguoiDungDTO.TaiKhoan).FirstOrDefault();
             if (nguoiDung == null)
             {
                 return null;
@@ -103,24 +109,24 @@ namespace Core.Service.NguoiDungService
         public IQueryable<NguoiDungDTO> LayNguoiDungTop()
         {
             var query = _context.NguoiDung
-                .Include(x=>x.PhongBan)
+                .Include(x => x.PhongBan)
                 .Where(x => x.TrangThai == Enums.TrangThaiNguoiDung.DANGHOATDONG);
-            return query.Take(10).Select(x=>NguoiDungDTO.FromEntity(x));
+            return query.Take(10).Select(x => NguoiDungDTO.FromEntity(x));
         }
 
         public async Task<NguoiDungDTO> LayNguoiDung(int nguoiDungId)
         {
-            return NguoiDungDTO.FromEntity(await _context.NguoiDung.Include(x=>x.PhongBan).Where(x=>x.Id==nguoiDungId).FirstOrDefaultAsync());
+            return NguoiDungDTO.FromEntity(await _context.NguoiDung.Include(x => x.PhongBan).Where(x => x.Id == nguoiDungId).FirstOrDefaultAsync());
         }
 
-        public async Task<NguoiDungDTO> CapNhatThongTin(NguoiDungDTO nguoiDung,IFormFile file)
+        public async Task<NguoiDungDTO> CapNhatThongTin(NguoiDungDTO nguoiDung, IFormFile file)
         {
-            var nguoiDungRe = await _context.NguoiDung.Include(x=>x.PhongBan).Where(x => x.Id == nguoiDung.Id).FirstOrDefaultAsync();
+            var nguoiDungRe = await _context.NguoiDung.Include(x => x.PhongBan).Where(x => x.Id == nguoiDung.Id).FirstOrDefaultAsync();
             nguoiDungRe.SoCanCuoc = nguoiDung.SoCanCuoc;
             nguoiDungRe.HoTenNguoiDung = nguoiDung.HoTenNguoiDung;
             nguoiDungRe.DiaChi = nguoiDung.DiaChi;
             nguoiDungRe.SoDienThoai = nguoiDung.SoDienThoai;
-            nguoiDungRe.NgayCapNhat=DateTime.Now;
+            nguoiDungRe.NgayCapNhat = DateTime.Now;
             if (file != null)
             {
                 nguoiDungRe.HinhDaiDien = await CloudinaryUpload.UploadFile(file);
@@ -128,6 +134,58 @@ namespace Core.Service.NguoiDungService
             _context.Update(nguoiDungRe);
             await _context.SaveChangesAsync();
             return NguoiDungDTO.FromEntity(nguoiDungRe);
+        }
+
+        public async Task<HoaDonNapTien> NapTien(long soTien, int nguoiDungId)
+        {
+            HoaDonNapTien hoaDon = new HoaDonNapTien();
+            hoaDon.SoTien = soTien;
+            hoaDon.NguoiDungId = nguoiDungId;
+            hoaDon.NgayTao = DateTime.Now;
+            hoaDon.DaThanhToan = false;
+            await _context.AddAsync(hoaDon);
+            await _context.SaveChangesAsync();
+            return hoaDon;
+        }
+
+        public async Task<HoaDonNapTien> CheckThanhToan(int hoaDonId,int status)
+        {
+            HoaDonNapTien hoaDon = await _context.HoaDonNapTien.FindAsync(hoaDonId);
+            if (status == 1)
+            {
+                hoaDon.NgayThanhToan = DateTime.Now;
+                hoaDon.DaThanhToan = true;
+                var nguoiDung = await _context.NguoiDung.FindAsync(hoaDon.NguoiDungId);
+                if (nguoiDung.SoDu == null)
+                {
+                    nguoiDung.SoDu = 0;
+                }
+                nguoiDung.SoDu += hoaDon.SoTien;
+                _context.Update(nguoiDung);
+            }
+            else
+            {
+                hoaDon.DaThanhToan = false;
+            }
+            _context.Update(hoaDon);
+            await _context.SaveChangesAsync();
+            return hoaDon;
+        }
+
+        public async Task<NguoiDung> DoiMatKhau(DoiMatKhau doiMatKhau)
+        {
+            var nguoiDung =await _context.NguoiDung.FindAsync(doiMatKhau.NguoiDungId);
+            if (BCrypt.Net.BCrypt.Verify(doiMatKhau.MatKhauCu, nguoiDung.MatKhau))
+            {
+                nguoiDung.MatKhau = BCrypt.Net.BCrypt.HashPassword(doiMatKhau.MatKhauMoi);
+                _context.Update(nguoiDung);
+                await _context.SaveChangesAsync();
+                return nguoiDung;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
