@@ -1,14 +1,11 @@
-import { useSelector } from "react-redux";
 import "./style.css";
-import { selectLanguage } from "../../../language/selectLanguage";
-import { Card, Drawer } from "antd";
-import { useState } from "react";
+import { Image } from "antd";
+import { fixMoney } from "../../../extensions/fixMoney";
+import { tinhThoiGianCachHienTai } from "../../../extensions/fixThoiGian";
 function TinDang({ data }) {
-    const language = useSelector(selectLanguage);
-    const [placement, setPlacement] = useState("right");
     return (
         <>
-            <div
+            <div className="tinban"
                 style={{
                     width: "200px",
                     height: "240px",
@@ -20,52 +17,53 @@ function TinDang({ data }) {
                 }}
             >
                 <div style={{
-                    height: '80px',
+                    height: '120px',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: "center"
-                    , position: 'relative'
                 }}>
-                    <div style={{
-                        overflow: 'hidden', height: '80px', display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: "center"
-                    }}>
-
-                        <img style={{
-                            height: "200px",
-                            width: "auto"
-                        }} src="https://thanhnien.mediacdn.vn/Uploaded/phucndh/2022_03_22/275784117-1003059813954227-2905016888780054136-n-9366.jpg" alt="" />
-                    </div>
-
-                    <div style={{
-                        border: "1px solid black",
-                        height: "48px",
-                        width: "48px",
-                        borderRadius: "50%",
-                        overflow: 'hidden',
-                        position: "absolute",
-                        bottom: "-20px",
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <img style={{
-                            height: "48px",
-                            width: 'auto'
-                        }} src="https://filesdata.cadn.com.vn//filedatacadn/media/800/2023/1/21/1-hoa-hau-1-1.jpg" alt="ss" />
-                    </div>
+                    <img style={{
+                        height: "120px",
+                        marginTop: "12px",
+                        width: "auto"
+                    }} src="https://thanhnien.mediacdn.vn/Uploaded/phucndh/2022_03_22/275784117-1003059813954227-2905016888780054136-n-9366.jpg" alt="" />
                 </div>
                 <div style={{
-                    marginTop: "20px"
+                    marginTop: "12px"
                 }}>
                     <p style={{
-                        fontWeight: 700,
-                        textAlign: 'center'
-                    }}>Đỗ Tiến Anh - Kim Cương</p>
+                        marginLeft: "8px",
+                        marginBottom: "0px"
+                    }}>Hoa khôi Đại Bản 44m2 siêu phẩm cực đẹp</p>
                     <p style={{
-                        textAlign: 'center'
-                    }}>Chuyên viên tư vấn BDS Hà Nội</p>
+                        fontSize: '14px',
+                        marginLeft: "8px",
+                        color: '#9b9b9b',
+                        marginBottom: "0px"
+                    }}>60m2 - 6PN</p>
+                    <p style={{
+                        fontSize: '14px',
+                        marginLeft: "8px",
+                        color: 'red',
+                        marginBottom: "0px"
+                    }}>{fixMoney(200000000000)}</p>
+                    <div style={{
+                        marginLeft: "8px",
+                        display: 'flex',
+                        flexDirection: "row"
+                    }}>
+                        <img src="https://thanhnien.mediacdn.vn/Uploaded/phucndh/2022_03_22/275784117-1003059813954227-2905016888780054136-n-9366.jpg" alt="s" style={{
+                            height: "16px",
+                            width: "16px",
+                            borderRadius: "50%"
+                        }} />
+                        <span style={{
+                            lineHeight: "16px",
+                            color: "#9b9b9b",
+                            fontSize: "11px",
+                            marginLeft: "4px"
+                        }}> - {tinhThoiGianCachHienTai("2019-2-2")} . TP Hà Nội</span>
+                    </div>
                 </div>
             </div>
         </>

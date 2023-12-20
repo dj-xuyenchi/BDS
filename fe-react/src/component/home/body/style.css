@@ -29,3 +29,8 @@
     height: 300px;
     width: auto;
 }
+
+.tinban:hover {
+    cursor: pointer;
+    background-color: aliceblue;
+}

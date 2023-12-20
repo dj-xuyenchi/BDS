@@ -40,12 +40,12 @@ function Body() {
     const data = await useSanPhamStore.actions.fetchSanPham(
       payload
         ? {
-            ...payload,
-            keyword: se ? se : null,
-          }
+          ...payload,
+          keyword: se ? se : null,
+        }
         : {
-            keyword: se ? se : null,
-          }
+          keyword: se ? se : null,
+        }
     );
     setData(data.data);
   }
@@ -140,7 +140,14 @@ function Body() {
             display: "flex",
             flexDirection: "row",
           }}
-        ></Row>
+        >
+          <TinDang />
+          <TinDang />
+          <TinDang />
+          <TinDang />
+          <TinDang />
+          <TinDang />
+        </Row>
       </Row>
       <Row
         style={{
