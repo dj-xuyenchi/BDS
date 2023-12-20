@@ -88,7 +88,7 @@ namespace Core.Service.TinBanService
                 query = query.Where(x => x.MoTa.ToLower().Contains(filter.keyword.ToLower()));
                 query = query.Where(x => x.TieuDe.ToLower().Contains(filter.keyword.ToLower()));
             }
-            return query.Where(x => x.BatDongSan.LoaiBatDongSan != LoaiBatDongSan.KHACHDANG && x.TrangThai == TrangThaiTinBan.DANGHIENTHI).Select(x => TinBanDTO.FromEntity(x));
+            return query.Where(x => x.BatDongSan.LoaiBatDongSan != LoaiBatDongSan.KHACHDANG && x.TrangThai == TrangThaiTinBan.DANGHIENTHI&&x.BatDongSan.TrangThai!=TrangThaiBatDongSan.DABAN).Select(x => TinBanDTO.FromEntity(x));
         }
 
         public async Task<KhuVucFilterModel> LayKhuVucFilterModel()
@@ -142,7 +142,7 @@ namespace Core.Service.TinBanService
             }
             tinBan.NgayTao = DateTime.Now;
             tinBan.TrangThai = TrangThaiTinBan.DANGHIENTHI;
-            tinBan.TinCuaCongTy = true;
+            tinBan.TinCuaCongTy = false;
             await _context.AddAsync(tinBan.ToEntity());
             await _context.SaveChangesAsync();
             return tinBan;
@@ -158,7 +158,11 @@ namespace Core.Service.TinBanService
 
         public IQueryable<TinBanDTO> LayHetTinBanWeb()
         {
-            var query = _context.TinBan.AsNoTracking().Where(x => x.TinCuaCongTy == false).OrderBy(x => x.NgayTao);
+            var query = _context.TinBan
+                .Include(x=>x.BatDongSan)
+                .ThenInclude(x=>x.HinhAnhBatDongSan)
+                .Include(x=>x.NguoiDang)
+                .AsNoTracking().Where(x => x.TinCuaCongTy == true&&x.TrangThai==TrangThaiTinBan.DANGHIENTHI).OrderBy(x => x.NgayTao);
             return query.OrderBy(x => x.NgayTao).Take(10).Select(x => TinBanDTO.FromEntity(x));
         }
 
@@ -166,6 +170,7 @@ namespace Core.Service.TinBanService
         {
             var bds = tinMoi.BatDongSan.ToEntity();
             bds.NgayTao = DateTime.Now;
+            bds.GiaTriHoaHong = 0;
             bds.LoaiBatDongSan = LoaiBatDongSan.KHACHDANG;
             await _context.BatDongSan.AddAsync(bds);
             await _context.SaveChangesAsync();
@@ -177,20 +182,38 @@ namespace Core.Service.TinBanService
                 hinh.BatDongSanId = bds.Id;
                 await _context.HinhAnhBatDongSan.AddAsync(hinh);
             }
-
             var tinDang = tinMoi.TinBan.ToEntity();
             tinDang.TrangThai = TrangThaiTinBan.DANGCHO;
             tinDang.BatDongSanId = bds.Id;
-            tinDang.TinCuaCongTy = false;
+            tinDang.TinCuaCongTy = true;
             tinDang.NgayTao = DateTime.Now;
             await _context.AddAsync(tinDang);
             await _context.SaveChangesAsync();
             return tinDang.Id;
         }
 
-        public Task<int> ThueDangBai(int tinBanId)
+        public async Task<int> ThueDangBai(int tinBanId,int nguoiDungId,DateTime ngayHet)
         {
-            throw new NotImplementedException();
+            var nguoiDung = await _context.NguoiDung.FindAsync(nguoiDungId);
+            if (nguoiDung.SoDu == null)
+            {
+                return 0;
+            }
+            DateTime now = DateTime.Now;
+            TimeSpan difference = ngayHet - now;
+            int daysDifference = Math.Abs(difference.Days);
+            if (daysDifference * 2500 > nguoiDung.SoDu)
+            {
+                return 0;
+            }
+            nguoiDung.SoDu -= daysDifference * 2500;
+            var tinBan = await _context.TinBan.FindAsync(tinBanId);
+            tinBan.NgayHetHan = ngayHet;
+            tinBan.TrangThai = TrangThaiTinBan.DANGHIENTHI;
+            _context.Update(nguoiDung);
+            _context.Update(tinBan);
+            await _context.SaveChangesAsync();
+            return 1;
         }
 
         public IQueryable<TinBanDTO> LayBaiDangById(int nguoiDungId)

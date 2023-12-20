@@ -40,12 +40,12 @@ function Body() {
     const data = await useSanPhamStore.actions.fetchSanPham(
       payload
         ? {
-          ...payload,
-          keyword: se ? se : null,
-        }
+            ...payload,
+            keyword: se ? se : null,
+          }
         : {
-          keyword: se ? se : null,
-        }
+            keyword: se ? se : null,
+          }
     );
     setData(data.data);
   }
@@ -54,9 +54,15 @@ function Body() {
     const data = await useSanPhamStore.actions.layNguoiDung();
     setMoiGioi(data.data);
   }
+  const [tinKhach, setTinKhach] = useState(undefined);
+  async function handleLayTinKhach() {
+    const data = await useSanPhamStore.actions.layTinKhach();
+    setTinKhach(data.data);
+  }
   useEffect(() => {
     handleLayDuLieu(null);
     handleLayMoiGioi();
+    handleLayTinKhach();
   }, []);
 
   return (
@@ -141,12 +147,10 @@ function Body() {
             flexDirection: "row",
           }}
         >
-          <TinDang />
-          <TinDang />
-          <TinDang />
-          <TinDang />
-          <TinDang />
-          <TinDang />
+          {tinKhach &&
+            tinKhach.map((item) => {
+              return <TinDang data={item} />;
+            })}
         </Row>
       </Row>
       <Row
@@ -173,8 +177,8 @@ function Body() {
           }}
         >
           {moiGioi &&
-            moiGioi.map((item) => {
-              return <MoiGioi item={item} />;
+            moiGioi.map((item,index) => {
+              return <MoiGioi item={item} i={index} />;
             })}
         </Row>
       </Row>

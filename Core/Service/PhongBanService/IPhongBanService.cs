@@ -1,6 +1,8 @@
 ﻿using Core.DTO;
 using Core.Entities;
+using Core.RequestModel;
 using Core.ResponModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +21,6 @@ namespace Core.Service.PhongBanService
         Task<PhieuXemNhaDTO> TaoMoiKhachHang(PhieuXemNhaDTO phieuXem);
         Task<PhieuXemNhaDTO> SuaKhachHang(PhieuXemNhaDTO phieuXem);
         Task<PhieuXemNhaDTO> XoaKhachHang(int phieuXemId);
+        Task<int> TaoHopDong(HopDongMuaBatDongSanDTO hopDong, List<IFormFile> file);
     }
 }

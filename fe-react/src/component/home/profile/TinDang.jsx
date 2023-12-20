@@ -18,6 +18,8 @@ import ModalView from "../../admin/dangtin/ModalView";
 import ModalSua from "../../admin/dangtin/ModalSua";
 import ModalXoa from "../../admin/dangtin/ModalXoa";
 import { fixMoney } from "../../../extensions/fixMoney";
+import { fixTrangThaiTin } from "../../../extensions/fixTrangThaiTin";
+import ModalGiaHan from "./ModalGiaHan";
 function TinDang() {
   const [data, setData] = useState(undefined);
   const param = useParams();
@@ -43,12 +45,12 @@ function TinDang() {
       title: "Hình ảnh",
       dataIndex: "batDongSan",
       key: "batDongSan",
-      width: "10%",
+      width: "20%",
       render: (batDongSan) => (
         <>
           <Image
             src={batDongSan.hinhAnhBatDongSan[0].linkHinhAnh}
-            style={{ width: "160px", height: "170px" }}
+            style={{ width: "100px", height: "80px" }}
           />
         </>
       ),
@@ -83,11 +85,18 @@ function TinDang() {
       ),
     },
     {
+      title: "Trạng thái",
+      dataIndex: "trangThai",
+      key: "trangThai",
+      width: "10%",
+      render: (trangThai) => <span>{fixTrangThaiTin(trangThai)}</span>,
+    },
+    {
       title: "Thao tác",
       dataIndex: "id",
       key: "id",
       align: "center",
-      width: "10%",
+      width: "15%",
       render: (id, record) => (
         <div
           style={{
@@ -96,6 +105,11 @@ function TinDang() {
           }}
         >
           <ModalView data={record} />
+          {record.trangThai !== 2 ? (
+            <ModalGiaHan tinBanId={record.id} fet={fetchData} />
+          ) : (
+            ""
+          )}
           <ModalXoa tinId={id} fetData={fetchData} />
         </div>
       ),

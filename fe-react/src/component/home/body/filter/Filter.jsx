@@ -78,14 +78,7 @@ function Filter({ tinhHuyen, page, pageSize, handleLayDuLieu }) {
               width: "100%",
             }}
             onClick={() => {
-              setSoPhongNgu(undefined);
-              setSoNhaVeSinh(undefined);
-              setLoaiBatDongSan(undefined);
-              setDienTichSuDung(undefined);
-              setChieuDai(undefined);
-              setGiaTien([0, 10000000000]);
-              setMatTien(undefined);
-              handleFilter(null, null, null, null, null, null);
+              window.location = "http://localhost:3000";
             }}
           >
             <Tag className="tag" color="purple">

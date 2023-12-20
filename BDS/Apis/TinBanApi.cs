@@ -43,7 +43,7 @@ namespace BDS.Apis
         {
             return Ok(await _tinBan.LayKhuVucFilterModel());
         }
-        [HttpGet("laytinban")]
+        [HttpGet("laytinbankhach")]
         public IActionResult LayTinBanWeb()
         {
             return Ok(_tinBan.LayHetTinBanWeb());
@@ -54,11 +54,14 @@ namespace BDS.Apis
             return Ok(_tinBan.LayBaiDangById(nguoiDungId));
         }
         [HttpGet("thuedang")]
-        public IActionResult ThueDangTin(
-            [FromQuery] int tinBanId
+        public async Task<IActionResult> ThueDangTin(
+            [FromQuery] int tinBanId,
+               [FromQuery] int nguoiDungId,
+                  [FromQuery] string ngayHet
             )
         {
-            return Ok(_tinBan.ThueDangBai(tinBanId));
+            string[] ngay = ngayHet.Split("-");
+            return Ok(await _tinBan.ThueDangBai(tinBanId, nguoiDungId, new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]))));
         }
     }
 }

@@ -31,7 +31,6 @@ function Product({ data, tinhHuyen, setTinhHuyen }) {
                 style={{ width: 200 }}
                 defaultValue={"Tất cả"}
                 onChange={(e) => {
-                  console.log(e);
                   setHuyen(
                     filterModel.districts.filter((item) => {
                       return item.province_code === e;
@@ -45,12 +44,14 @@ function Product({ data, tinhHuyen, setTinhHuyen }) {
                 optionFilterProp="children"
                 options={
                   filterModel &&
-                  filterModel.provinces.map((item) => {
-                    return {
-                      value: item.code,
-                      label: item.full_name,
-                    };
-                  })
+                  filterModel.provinces
+                    .map((item) => {
+                      return {
+                        value: item.code,
+                        label: item.full_name,
+                      };
+                    })
+                   
                 }
               />
               <Select

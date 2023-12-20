@@ -8,6 +8,7 @@ import { usePhongBan } from "./useKyGui";
 import ModalThemKhachHang from "./ModalThemKhachHang";
 import ModalSuaKhachHang from "./ModalSuaKhachHang";
 import ModalXoaKhach from "./ModalXoaKhach";
+import ModalChotKhach from "./ModalChotKhach";
 function ModalKhachHangCuaToi({ id }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const columns = [
@@ -78,6 +79,7 @@ function ModalKhachHangCuaToi({ id }) {
     {
       title: "Thao tác",
       key: "action",
+      width: "20%",
       render: (_, record) => (
         <Space size="middle">
           <ModalTimeLine
@@ -88,6 +90,7 @@ function ModalKhachHangCuaToi({ id }) {
           />
           <ModalSuaKhachHang handleLayDuLieu={handleLayDuLieu} data2={record} />
           <ModalXoaKhach tinId={record.id} fetData={handleLayDuLieu} />
+          <ModalChotKhach phieu={record.id} handleLayDuLieu={handleLayDuLieu} />
         </Space>
       ),
     },
@@ -116,7 +119,7 @@ function ModalKhachHangCuaToi({ id }) {
         Khách hàng của tôi
       </Button>
       <Modal
-        width={768}
+        width={1000}
         title={"Khách hàng của tôi"}
         open={isModalOpen}
         onOk={() => {

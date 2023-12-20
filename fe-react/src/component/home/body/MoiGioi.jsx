@@ -3,7 +3,7 @@ import "./style.css";
 import { selectLanguage } from "../../../language/selectLanguage";
 import { Card, Drawer } from "antd";
 import { useState } from "react";
-function MoiGioi({ item }) {
+function MoiGioi({ item, i }) {
   const language = useSelector(selectLanguage);
   const [placement, setPlacement] = useState("right");
   return (
@@ -42,7 +42,13 @@ function MoiGioi({ item }) {
                 height: "200px",
                 width: "auto",
               }}
-              src="https://thanhnien.mediacdn.vn/Uploaded/phucndh/2022_03_22/275784117-1003059813954227-2905016888780054136-n-9366.jpg"
+              src={
+                i % 5 == 0
+                  ? "https://media.vneconomy.vn/w800/images/upload/2022/11/16/56c99f14-2861-4dc2-ae06-3c04c8b22a63.jpg"
+                  : i % 2 == 0
+                  ? "https://cdn.reatimes.vn/mediav2/media_old/upload/ol4YvtHypO2k1VgfHNXKTQ/files/1-15651645335071869680987.jpg"
+                  : "https://nhaodep.vn/wp-content/uploads/2021/03/dia-oc.jpg"
+              }
               alt=""
             />
           </div>

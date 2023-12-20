@@ -1,7 +1,9 @@
 ﻿using Core.Data;
 using Core.DTO;
 using Core.Entities;
+using Core.plugins;
 using Core.ResponModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,34 @@ namespace Core.Service.PhongBanService
     public class PhongBanService : IPhongBanService
     {
         private readonly BDSContext _context = new BDSContext();
+
+        public async Task<int> TaoHopDong(HopDongMuaBatDongSanDTO hopDong, List<IFormFile> file)
+        {
+            hopDong.NgayChot = DateTime.Now;
+            var hopDongRe = hopDong.ToEntity();
+            var bds = await _context.BatDongSan.FindAsync(hopDongRe.BatDongSanId);
+            bds.TrangThai = Enums.TrangThaiBatDongSan.DABAN;
+            var nguoiDung = await _context.NguoiDung.FindAsync(hopDongRe.NguoiChotId);
+            nguoiDung.SoBatDongSanDaBan += 1;
+            var phieu = await _context.PhieuXemNha.FindAsync(hopDongRe.PhieuXemNhaId);
+            phieu.TrangThai = Enums.TrangThaiPhieuXemNha.DACHOTTHANHCONG;
+            await _context.AddAsync(hopDongRe);
+            await _context.SaveChangesAsync();
+            foreach (var item in file)
+            {
+                HinhAnhHopDong hinh = new HinhAnhHopDong();
+                hinh.NgayTao = DateTime.Now;
+                hinh.HopDongId = hopDongRe.Id;
+                hinh.LinkHinhAnh = await CloudinaryUpload.UploadFile(item);
+                await _context.HinhAnhHopDong.AddAsync(hinh);
+            }
+            _context.Update(nguoiDung);
+            _context.Update(bds); _context.Update(phieu);
+            await _context.SaveChangesAsync();
+            return 1;
+
+        }
+
         public IQueryable<PhongBanDTO> LayHetPhongBan()
         {
             var query = _context.PhongBan.AsNoTracking();
@@ -27,7 +57,7 @@ namespace Core.Service.PhongBanService
                 .ThenInclude(y => y.BatDongSan)
                 .ThenInclude(z => z.HinhAnhBatDongSan)
                 .AsNoTracking();
-            return query.Where(x => x.NhanVienDanKhachId == nhanVienId);
+            return query.Where(x => x.NhanVienDanKhachId == nhanVienId && x.TrangThai == Enums.TrangThaiPhieuXemNha.DANGCHAMSOC);
         }
 
         public async Task<PhongBanModel> LyaPhongBanCuaToi(int phongBanId, int year)
@@ -98,6 +128,7 @@ namespace Core.Service.PhongBanService
 
         public async Task<PhieuXemNhaDTO> TaoMoiKhachHang(PhieuXemNhaDTO phieuXem)
         {
+            phieuXem.TrangThai = Enums.TrangThaiPhieuXemNha.DANGCHAMSOC;
             phieuXem.NgayTao = DateTime.Now;
             await _context.AddAsync(phieuXem.ToEntity());
             await _context.SaveChangesAsync();

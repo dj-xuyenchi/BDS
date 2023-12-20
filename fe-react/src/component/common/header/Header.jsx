@@ -47,7 +47,6 @@ function Header() {
   const [data2, setData2] = useState({});
   const [isLoading, setIsLoading] = useState({});
   const [form] = useForm();
-  async function handleThem() {}
   const [api, contextHolder] = notification.useNotification();
   const items = [];
   var nguoiDung = JSON.parse(localStorage.getItem("user"));
@@ -84,7 +83,8 @@ function Header() {
             } else {
               window.location = "http://localhost:3000/login";
             }
-          }}>
+          }}
+        >
           Thông tin cá nhân
         </a>
       ),
@@ -97,7 +97,8 @@ function Header() {
           onClick={() => {
             localStorage.removeItem("user");
             window.location = "http://localhost:3000/";
-          }}>
+          }}
+        >
           Đăng xuất
         </a>
       ),
@@ -137,7 +138,7 @@ function Header() {
       process.env.REACT_APP_FRONTEND_URL + "profile/" + nguoiDung.id;
   }
   function handleRedirect2() {
-    if (user.nguoiDung.id == -1) {
+    if (!nguoiDung) {
       openNotification(
         "error",
         language.systemNotification.system,
@@ -150,7 +151,7 @@ function Header() {
       return;
     }
     window.location.href =
-      process.env.REACT_APP_FRONTEND_URL + "tin/" + user.nguoiDung.id;
+      process.env.REACT_APP_FRONTEND_URL + "profile/" + nguoiDung.id;
   }
   var se = localStorage.getItem("search");
   const [search, setSearch] = useState(se ? se : "");
@@ -201,9 +202,8 @@ function Header() {
     setIsLoading(true);
     const data3 = await useLayout.actions.taoTin(form2);
     if (data3.data) {
-      window.location = "http://localhost:3000/quanlytin";
+      window.location = "http://localhost:3000/profile/" + nguoiDung.id;
     }
-    // fetchData();
     setIsLoading(false);
     setIsModalOpen(false);
   }
@@ -235,7 +235,8 @@ function Header() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-          }}>
+          }}
+        >
           <img
             src="https://cdn-icons-png.flaticon.com/512/4891/4891646.png"
             alt=""
@@ -283,7 +284,8 @@ function Header() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                }}>
+                }}
+              >
                 <Space>
                   <p
                     style={{
@@ -297,12 +299,14 @@ function Header() {
                     }}
                     onClick={() => {
                       handleRedirect2();
-                    }}>
+                    }}
+                  >
                     <span
                       style={{
                         fontSize: "20px",
                         lineHeight: "14px",
-                      }}>
+                      }}
+                    >
                       <FaRegListAlt />
                     </span>
                     Quản lý tin
@@ -313,11 +317,13 @@ function Header() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                }}>
+                }}
+              >
                 <Dropdown
                   menu={{
                     items,
-                  }}>
+                  }}
+                >
                   <Space>
                     <p
                       style={{
@@ -328,12 +334,14 @@ function Header() {
                         justifyContent: "space-around",
                         alignItems: "center",
                         height: "100%",
-                      }}>
+                      }}
+                    >
                       <span
                         style={{
                           fontSize: "22px",
                           lineHeight: "14px",
-                        }}>
+                        }}
+                      >
                         <PiUserCircleLight />
                       </span>
                       Tài khoản
@@ -346,7 +354,8 @@ function Header() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                }}>
+                }}
+              >
                 <Button
                   onClick={() => {
                     if (!nguoiDung) {
@@ -364,7 +373,8 @@ function Header() {
                     backgroundColor: "#FA6819",
                     color: "white",
                   }}
-                  icon={<MdOutlineEditCalendar />}>
+                  icon={<MdOutlineEditCalendar />}
+                >
                   Đăng tin
                 </Button>
               </div>
@@ -374,17 +384,16 @@ function Header() {
       </div>
       <Modal
         title="Đăng ký Đăng tin"
+        okButtonProps={{ style: { display: "none" } }}
         open={isModalOpen}
-        onOk={() => {
-          handleTaoTin();
-          setIsModalOpen(false);
-        }}
         onCancel={() => {
           setIsModalOpen(false);
         }}
-        width={768}>
+        width={768}
+      >
         <Form
           form={form}
+          onFinish={handleTaoTin}
           labelCol={{
             span: 4,
           }}
@@ -394,7 +403,8 @@ function Header() {
           layout="horizontal"
           style={{
             maxWidth: 768,
-          }}>
+          }}
+        >
           <Form.Item label="Hình ảnh (tối đa 5 ảnh)">
             <Upload
               listType="picture-card"
@@ -402,26 +412,29 @@ function Header() {
               customRequest={() => {}}
               {...props}
               maxCount={5}
-              fileList={fileList}>
+              fileList={fileList}
+            >
               <div>
                 <PlusOutlined />
                 <div
                   style={{
                     marginTop: 8,
-                  }}>
+                  }}
+                >
                   Upload
                 </div>
               </div>
             </Upload>
           </Form.Item>
           <Form.Item
-            name="tenChuNha"
+            name="Tên chủ nhà"
             label="Tên chủ nhà"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Input
               value={data.tenChuNha}
               onChange={(e) => {
@@ -433,13 +446,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="soDienThoaiChuNha"
+            name="Số điện thoại chủ nhà"
             label="Số điện thoại chủ nhà"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Input
               value={data.soDienThoaiChuNha}
               onChange={(e) => {
@@ -451,13 +465,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="giaBan"
+            name="Giá bán"
             label="Giá bán"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.giaBan}
               min={1}
@@ -477,65 +492,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="giaTriHoaHong"
-            label="Hoa hồng"
-            rules={[
-              {
-                required: true,
-              },
-            ]}>
-            <InputNumber
-              value={data.giaTriHoaHong}
-              min={1}
-              style={{
-                width: "100%",
-              }}
-              onChange={(e) => {
-                setData({
-                  ...data,
-                  giaTriHoaHong: e,
-                });
-              }}
-              formatter={(value) =>
-                `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
-            />
-          </Form.Item>
-          <Form.Item
-            name="giaTriHoaHongChiaNhanVien"
-            label="Hoa hồng nhân viên"
-            rules={[
-              {
-                required: true,
-              },
-            ]}>
-            <InputNumber
-              value={data.giaTriHoaHongChiaNhanVien}
-              min={1}
-              style={{
-                width: "100%",
-              }}
-              onChange={(e) => {
-                setData({
-                  ...data,
-                  giaTriHoaHongChiaNhanVien: e,
-                });
-              }}
-              formatter={(value) =>
-                `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-              parser={(value) => value.replace(/\đ\s?|(,*)/g, "")}
-            />
-          </Form.Item>{" "}
-          <Form.Item
-            name="tinhCode"
+            name="Tỉnh"
             label="Tỉnh/TP"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Select
               labelInValue
               optionLabelProp="children"
@@ -557,7 +521,8 @@ function Header() {
                     return item.province_code === e.value;
                   })
                 );
-              }}>
+              }}
+            >
               {khuVuc &&
                 khuVuc.provinces.map((item) => {
                   return (
@@ -569,13 +534,14 @@ function Header() {
             </Select>
           </Form.Item>
           <Form.Item
-            name="huyenCode"
+            name="Huyện"
             label="Quận/Huyện"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Select
               labelInValue
               optionLabelProp="children"
@@ -597,7 +563,8 @@ function Header() {
                     return item.district_code === e.value;
                   })
                 );
-              }}>
+              }}
+            >
               {huyen &&
                 huyen.map((item) => {
                   return (
@@ -609,13 +576,14 @@ function Header() {
             </Select>
           </Form.Item>
           <Form.Item
-            name="xaCode"
+            name="Xã"
             label="Xã/Phường"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Select
               labelInValue
               optionLabelProp="children"
@@ -632,7 +600,8 @@ function Header() {
                   ...data,
                   wardCode: e.value,
                 });
-              }}>
+              }}
+            >
               {xa &&
                 xa.map((item) => {
                   return (
@@ -644,13 +613,14 @@ function Header() {
             </Select>
           </Form.Item>
           <Form.Item
-            name="namXayDung"
+            name="Năm xây dựng"
             label="Năm xây dựng"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.namXayDung}
               min={1900}
@@ -667,13 +637,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="soPhongNgu"
+            name="Số phòng ngủ"
             label="Số phòng ngủ"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.soPhongNgu}
               min={1}
@@ -690,13 +661,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="soPhongVeSinh"
+            name="Số phòng vệ sinh"
             label="Số nhà vệ sinh"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.soPhongVeSinh}
               min={1}
@@ -713,13 +685,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="chieuNgang"
+            name="Chiều ngang"
             label="Chiều ngang"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.chieuNgang}
               min={1}
@@ -735,13 +708,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="chieuDai"
+            name="Chiều dài"
             label="Chiều dài"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.chieuDai}
               min={1}
@@ -757,13 +731,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="dienTich"
+            name="Diện tích"
             label="Diện tích"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.dienTich}
               min={1}
@@ -779,13 +754,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="dienTichSuDung"
+            name="Diện tích sử dụng"
             label="Diện tích sử dụng"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data.dienTichSuDung}
               min={1}
@@ -801,13 +777,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="diaChi"
+            name="Địa chỉ"
             label="Địa chỉ"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Input
               value={data.diaChi}
               onChange={(e) => {
@@ -819,13 +796,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="diaChiGoogleMap"
+            name="Địa chỉ Google Map"
             label="Link Google Map"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Input
               value={data.diaChiGoogleMap}
               onChange={(e) => {
@@ -836,7 +814,7 @@ function Header() {
               }}
             />
           </Form.Item>
-          <Form.Item name="moTa" label="Mô tả">
+          <Form.Item name="Mô tả" label="Mô tả">
             <TextArea
               value={data.moTaChiTiet}
               rows={4}
@@ -851,17 +829,19 @@ function Header() {
           <h5
             style={{
               marginBottom: "8px",
-            }}>
+            }}
+          >
             Thông tin Bài Đăng
           </h5>
           <Form.Item
-            name="tieuDe"
+            name="Tiêu đề"
             label="Tiêu đề"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Input
               value={data2.tieuDe}
               onChange={(e) => {
@@ -873,13 +853,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="giaBan2"
+            name="Giá bán hiển thị"
             label="Giá bán"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <InputNumber
               value={data2.tieuDe}
               style={{
@@ -899,13 +880,14 @@ function Header() {
             />
           </Form.Item>
           <Form.Item
-            name="soDienThoai"
+            name="Số điện thoại liên hệ"
             label="Số điện thoại liên hệ"
             rules={[
               {
                 required: true,
               },
-            ]}>
+            ]}
+          >
             <Input
               value={data2.soDienThoai}
               onChange={(e) => {
@@ -916,7 +898,15 @@ function Header() {
               }}
             />
           </Form.Item>
-          <Form.Item name="moTa2" label="Mô tả">
+          <Form.Item
+            name="Mô tả trên tin"
+            label="Mô tả"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
             <TextArea
               value={data2.moTa}
               rows={4}
@@ -929,12 +919,7 @@ function Header() {
             />
           </Form.Item>
           <Form.Item label="Thao tác">
-            <Button
-              htmlType="submit"
-              loading={isLoading}
-              onClick={() => {
-                handleThem();
-              }}>
+            <Button htmlType="submit" loading={isLoading}>
               Đăng tin
             </Button>
           </Form.Item>

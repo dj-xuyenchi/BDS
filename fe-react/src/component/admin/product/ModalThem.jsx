@@ -114,6 +114,7 @@ function ModalThem({ fetchData }) {
       >
         <Form
           form={form}
+          onFinish={handleThem}
           labelCol={{
             span: 4,
           }}
@@ -624,9 +625,6 @@ function ModalThem({ fetchData }) {
             <Button
               htmlType="submit"
               loading={isLoading}
-              onClick={() => {
-                handleThem();
-              }}
             >
               Tạo BDS
             </Button>

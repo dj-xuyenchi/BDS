@@ -34,10 +34,7 @@ function QuanLyBaiHoc() {
       width: "10%",
       render: (linkHinhAnh) => (
         <>
-          <Image
-            src={linkHinhAnh}
-            style={{ width: "180px", height: "170px" }}
-          />
+          <Image src={linkHinhAnh} style={{ width: "100px", height: "80px" }} />
         </>
       ),
     },

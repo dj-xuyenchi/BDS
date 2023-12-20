@@ -22,6 +22,7 @@ function DangTin() {
   const [searchedColumn, setSearchedColumn] = useState("");
   const [data, setData] = useState(undefined);
   const searchInput = useRef(null);
+  const user = JSON.parse(localStorage.getItem("user"));
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -230,8 +231,14 @@ function DangTin() {
           }}
         >
           <ModalView data={record} />
-          <ModalSua data={record} fetData={fetchData} />
-          <ModalXoa tinId={id} fetData={fetchData} />
+          {record.nguoiDangId == user.id ? (
+            <>
+              <ModalSua data={record} fetData={fetchData} />
+              <ModalXoa tinId={id} fetData={fetchData} />
+            </>
+          ) : (
+            ""
+          )}
         </div>
       ),
     },
@@ -258,6 +265,7 @@ function DangTin() {
                 dataSource={data}
                 pagination={{
                   position: ["bottomRight"],
+                  pageSize: "50",
                 }}
               />
             </div>

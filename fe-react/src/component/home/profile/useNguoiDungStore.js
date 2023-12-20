@@ -47,5 +47,11 @@ export const useNguoiDungStore = {
       );
       return response;
     },
+    async giaHan(payload) {
+      const response = await axiosIns.get(
+        `/TinBan/thuedang?tinBanId=` + payload.tinBanId + "&nguoiDungId=" + payload.nguoiDungId + "&ngayHet=" + payload.ngayHet
+      );
+      return response;
+    },
   },
 };

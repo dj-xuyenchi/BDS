@@ -18,6 +18,7 @@ namespace Core.Entities
         public virtual BatDongSan BatDongSan { get; set; }
         public int PhieuXemNhaId { get; set; }
         public virtual PhieuXemNha PhieuXemNha { get; set; }
+        public DateTime NgayChot { get; set; }
         public virtual IEnumerable<HinhAnhHopDong> AnhChupHopDong { get; set; }
     }
 }

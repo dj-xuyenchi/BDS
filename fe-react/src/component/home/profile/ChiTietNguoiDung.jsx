@@ -323,7 +323,7 @@ function ChiTietNguoiDung({ user }) {
               </p>
               <input
                 disabled
-                value={fixMoney(nguoiDung.soDu)}
+                value={nguoiDung.soDu ? fixMoney(nguoiDung.soDu) : "0đ"}
                 type="text"
                 className="input-profile"
               />

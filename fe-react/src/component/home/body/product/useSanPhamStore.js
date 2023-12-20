@@ -19,5 +19,10 @@ export const useSanPhamStore = {
             var url = "/NguoiDung/laynguoidung10";
             return await axiosIns.get(url);
         },
+        async layTinKhach(
+        ) {
+            var url = "/TinBan/laytinbankhach";
+            return await axiosIns.get(url);
+        },
     },
 };

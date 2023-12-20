@@ -31,5 +31,13 @@ export const usePhongBan = {
             var url = "/PhongBan/xoakhach?phieuId=" + payload;
             return await axiosIns.get(url);
         },
+        async chotKhach(payload) {
+            var url = "/PhongBan/chotnha";
+            return await axiosIns.post(url, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+        },
     },
 }

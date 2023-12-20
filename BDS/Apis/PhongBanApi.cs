@@ -1,7 +1,9 @@
 ﻿using Core.DTO;
+using Core.RequestModel;
 using Core.Service.NguoiDungService;
 using Core.Service.PhongBanService;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace BDS.Apis
 {
@@ -66,6 +68,13 @@ namespace BDS.Apis
        )
         {
             return Ok(await _phongBanService.XoaKhachHang(phieuId));
+        }
+
+        [HttpPost("chotnha")]
+        public async Task<IActionResult> TaoTinDang([FromForm] List<IFormFile> file, [FromForm] string data)
+        {
+            HopDongMuaBatDongSanDTO bh = JsonConvert.DeserializeObject<HopDongMuaBatDongSanDTO>(data);
+            return Ok(await _phongBanService.TaoHopDong(bh, file));
         }
     }
 }

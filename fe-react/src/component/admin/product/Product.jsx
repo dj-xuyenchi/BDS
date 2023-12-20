@@ -291,11 +291,13 @@ function Product() {
           }}
         >
           <ModalView data={record} />
-          {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
+          {record.dauChuTaoId == user.id ? (
             <>
               <ModalSua data={record} fetchData={fetchData} />
               <ModalXoa tinId={id} fetData={fetchData} />
             </>
+          ) : (
+            ""
           )}
         </div>
       ),
@@ -303,7 +305,7 @@ function Product() {
   ];
   const fetchData = async () => {
     const se = localStorage.getItem("search");
-    const data = await useSanPhamStore.actions.fetchSanPham();
+    const data = await useSanPhamStore.actions.fetchSanPham({});
     setData(data.data);
   };
 
@@ -319,7 +321,7 @@ function Product() {
         <MenuAdmin />
         <div className="body-container">
           <div className="content">
-            {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
+            {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD", "PRODUCT"]) && (
               <ModalThem fetchData={fetchData} />
             )}
             <div className="table-sanpham background-color">

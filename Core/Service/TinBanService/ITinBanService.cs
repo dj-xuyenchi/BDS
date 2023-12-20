@@ -18,10 +18,10 @@ namespace Core.Service.TinBanService
         Task<TinBanDTO> TaoTin(TinBanDTO tinBan);
         Task<TinBanDTO> XoaTin(int tinBanId);
         Task<TinBanDTO> SuaTin(TinBanDTO tinBan);
-        Task<TinBanDTO> LayTinById (int tinBanId);
+        Task<TinBanDTO> LayTinById(int tinBanId);
         Task<KhuVucFilterModel> LayKhuVucFilterModel();
         Task<int> DangTinBanKhachNgoai(TaoTinKhachNgoai tinMoi, List<IFormFile> file);
-        Task<int> ThueDangBai(int tinBanId);
+        Task<int> ThueDangBai(int tinBanId, int nguoiDungId, DateTime ngayHet);
         IQueryable<TinBanDTO> LayBaiDangById(int nguoiDungId);
     }
 }

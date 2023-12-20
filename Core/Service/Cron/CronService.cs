@@ -17,7 +17,7 @@ namespace Core.Service.Cron
 
         public void KiemTraTinDangHetHan()
         {
-            var tinBan = _context.TinBan.Where(x => x.TinCuaCongTy == false).ToList();
+            var tinBan = _context.TinBan.Where(x => x.TinCuaCongTy == true).ToList();
             foreach (var t in tinBan)
             {
                 if (t.NgayHetHan.HasValue)
