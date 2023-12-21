@@ -26,6 +26,7 @@ import Slide from "./Slide";
 import { useSanPhamStore } from "../body/product/useSanPhamStore";
 import MoiGioi from "../body/MoiGioi";
 import Footer from "../../common/footer/Footer";
+import TinDang from "../body/TinDang";
 function ProductDetail() {
   const language = useSelector(selectLanguage);
   const [api, contextHolder] = notification.useNotification();
@@ -57,6 +58,12 @@ function ProductDetail() {
       });
     }
   };
+  
+  const [tinKhach, setTinKhach] = useState(undefined);
+  async function handleLayTinKhach() {
+    const data = await useSanPhamStore.actions.layTinKhach();
+    setTinKhach(data.data);
+  }
   const [moiGioi, setMoiGioi] = useState(undefined);
   async function handleLayMoiGioi() {
     const data = await useSanPhamStore.actions.layNguoiDung();
@@ -69,6 +76,7 @@ function ProductDetail() {
   useEffect(() => {
     handleLayData();
     handleLayMoiGioi();
+    handleLayTinKhach()
   }, []);
   return (
     <>
@@ -667,6 +675,32 @@ function ProductDetail() {
           padding: "12px",
         }}
       >
+        <Row
+          style={{
+          }}
+        >
+          <Row
+            style={{
+              width: "100%",
+              marginBottom: "12px",
+            }}
+          >
+            <h5>Tin đăng gần đây</h5>
+          </Row>
+          <Row
+            style={{
+              width: "100%",
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            {tinKhach &&
+              tinKhach.map((item) => {
+                return <TinDang data={item} />;
+              })}
+          </Row>
+        </Row>
         <Row
           style={{
             width: "100%",

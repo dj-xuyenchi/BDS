@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
 import { selectLanguage } from "../../../../language/selectLanguage";
-import * as echarts from 'echarts';
+import * as echarts from "echarts";
 
 import { useEffect, useRef } from "react";
-function BanhDonut({
+function BanhDonut2({
   data = {
     soNhanVien: 0,
     soTruongPhong: 0,
-    soDauChu:0
+    soDauChu: 0,
   },
 }) {
   const language = useSelector(selectLanguage);
@@ -80,4 +80,4 @@ function BanhDonut({
   );
 }
 
-export default BanhDonut;
+export default BanhDonut2;

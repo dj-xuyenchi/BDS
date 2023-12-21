@@ -52,6 +52,8 @@ namespace Core.Service.ThongKeService
         {
             List<NguoiDung> re = _context.NguoiDung
                 .Include(x=>x.PhongBan)
+                .Include(x=>x.NguoiDungRole)
+    //            .ThenInclude(x=>x.Role)
                 .OrderBy(x=>x.SoBatDongSanDaBan)
                 .Take(10)
                 .ToList();
