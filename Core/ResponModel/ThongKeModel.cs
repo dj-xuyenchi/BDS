@@ -9,5 +9,6 @@ namespace Core.ResponModel
     public class ThongKeModel
     {
         public List<int> SoNhaBanTrongNam { get; set; }
+        public List<int> SoKhachHangMoi { get; set; }
     }
 }

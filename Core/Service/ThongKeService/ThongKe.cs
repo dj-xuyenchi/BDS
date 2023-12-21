@@ -16,6 +16,8 @@ namespace Core.Service.ThongKeService
         public async Task<ThongKeModel> LayThongKe(int nam)
         {
             ThongKeModel thongKe = new ThongKeModel();
+            List<int> soKhachhangMoi = new List<int>();
+            List<int> soBDSChot = new List<int>();
 
             return thongKe;
         }
