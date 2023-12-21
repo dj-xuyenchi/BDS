@@ -18,7 +18,7 @@ namespace Core.Service.ThongKeService
             ThongKeModel thongKe = new ThongKeModel();
             List<int> soKhachhangMoi = new List<int>();
             List<int> soBDSChot = new List<int>();
-
+         //   f
             return thongKe;
         }
 
@@ -50,7 +50,11 @@ namespace Core.Service.ThongKeService
         }
         private List<NguoiDung> TopSeller()
         {
-            List<NguoiDung> re = new List<NguoiDung>();
+            List<NguoiDung> re = _context.NguoiDung
+                .Include(x=>x.PhongBan)
+                .OrderBy(x=>x.SoBatDongSanDaBan)
+                .Take(10)
+                .ToList();
             return re;
 
         }
