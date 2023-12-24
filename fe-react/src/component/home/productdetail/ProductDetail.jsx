@@ -58,7 +58,7 @@ function ProductDetail() {
       });
     }
   };
-  
+
   const [tinKhach, setTinKhach] = useState(undefined);
   async function handleLayTinKhach() {
     const data = await useSanPhamStore.actions.layTinKhach();
@@ -76,7 +76,7 @@ function ProductDetail() {
   useEffect(() => {
     handleLayData();
     handleLayMoiGioi();
-    handleLayTinKhach()
+    handleLayTinKhach();
   }, []);
   return (
     <>
@@ -675,10 +675,7 @@ function ProductDetail() {
           padding: "12px",
         }}
       >
-        <Row
-          style={{
-          }}
-        >
+        <Row style={{}}>
           <Row
             style={{
               width: "100%",
@@ -705,6 +702,7 @@ function ProductDetail() {
           style={{
             width: "100%",
             marginBottom: "12px",
+            marginTop: "24px",
           }}
         >
           <h5>Chuyên gia môi giới BDS</h5>

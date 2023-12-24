@@ -9,7 +9,7 @@ export const fixLoaiBDS = (input) => {
         case 4:
             return "Chung cư";
         default:
-            return "Không rõ"
+            return "Khác"
 
     }
 }

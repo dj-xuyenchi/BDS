@@ -15,6 +15,7 @@ namespace Core.Entities
         public int TruongPhongId { get; set; }
         [ForeignKey(nameof(TruongPhongId))]
         public virtual NguoiDung TruongPhong { get; set; }
+        public DateTime NgayTao { get; set; }
         public string HinhDaiDien { get; set; }
         public int SoLuongNhanVien { get;set; }
         public TrangThaiPhongBan TrangThai { get; set; }

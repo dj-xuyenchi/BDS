@@ -46,8 +46,11 @@ namespace Core.Service.PhongBanService
 
         public IQueryable<PhongBanDTO> LayHetPhongBan()
         {
-            var query = _context.PhongBan.AsNoTracking();
-            return query.Select(x => PhongBanDTO.FromEntity(x));
+            var query = _context.PhongBan.AsNoTracking()
+                .Include(x => x.TruongPhong)
+                .Include(x=>x.ThanhVienPhongBan)
+                ;
+            return query.Where(x => x.TrangThai != Enums.TrangThaiPhongBan.KHOA).Select(x => PhongBanDTO.FromEntity(x));
         }
 
         public IQueryable<PhieuXemNha> LayKhachHangByNVId(int nhanVienId)
@@ -166,6 +169,86 @@ namespace Core.Service.PhongBanService
             _context.Remove(phieu);
             await _context.SaveChangesAsync();
             return PhieuXemNhaDTO.FromEntity(phieu);
+        }
+
+        public async Task<PhongBanDTO> TaoPhongBan(PhongBanDTO phongBan)
+        {
+            phongBan.TrangThai = Enums.TrangThaiPhongBan.DANGHOATDONG;
+            phongBan.HinhDaiDien = "ko";
+            var phongBanThem = phongBan.ToEntity();
+            await _context.AddAsync(phongBanThem);
+            await _context.SaveChangesAsync();
+            var nguoiDung = await _context.NguoiDung.FindAsync(phongBan.TruongPhongId);
+            NguoiDungRole ng = new NguoiDungRole();
+            ng.NguoiDungId = nguoiDung.Id;
+            ng.RoleId = 2;
+            ng.NgayTao = DateTime.Now;
+            nguoiDung.PhongBanId = phongBanThem.Id;
+            await _context.AddAsync(ng);
+            _context.Update(nguoiDung);
+            await _context.SaveChangesAsync();
+            return phongBan;
+        }
+
+        public async Task<PhongBanDTO> XoaPhongBan(int phongBanId)
+        {
+            if(_context.NguoiDung.Any(x=>x.PhongBanId== phongBanId))
+            {
+                return null;
+            }
+            var phongBan = await _context.PhongBan.FindAsync(phongBanId);
+            _context.Remove(phongBan);
+            await _context.SaveChangesAsync();
+            return PhongBanDTO.FromEntity(phongBan);
+        }
+
+        public async Task<PhongBanDTO> CapNhatPhongBan(PhongBanDTO phongBan)
+        {
+
+            var phongBanRe = await _context.PhongBan.FindAsync(phongBan.Id);
+            phongBanRe.TrangThai = phongBan.TrangThai;
+            //phongBanRe.HinhDaiDien =
+            phongBanRe.KhauHieu = phongBan.KhauHieu;
+            phongBanRe.SoLuongNhanVien = phongBan.SoLuongNhanVien;
+            phongBanRe.TenPhongBan = phongBan.TenPhongBan;
+            if(phongBan.TruongPhongId!=phongBanRe.TruongPhongId)
+            {
+                var truongPhongRoleHienTai = await _context.NguoiDungRole.Where(x => x.RoleId == 2 && x.NguoiDungId == phongBanRe.TruongPhongId).FirstOrDefaultAsync();
+                _context.Remove(truongPhongRoleHienTai);
+                var nguoiDung = await _context.NguoiDung.FindAsync(phongBan.TruongPhongId);
+                NguoiDungRole ng = new NguoiDungRole();
+                ng.NguoiDungId = nguoiDung.Id;
+                ng.RoleId = 2;
+                ng.NgayTao = DateTime.Now;
+                phongBanRe.TruongPhongId = phongBan.TruongPhongId;
+                nguoiDung.PhongBanId = phongBanRe.Id;
+                await _context.AddAsync(ng);
+                _context.Update(nguoiDung);
+            }
+            _context.Update(phongBanRe);
+            await _context.SaveChangesAsync();
+            return PhongBanDTO.FromEntity(phongBanRe);
+        }
+
+        public IQueryable<NguoiDungDTO> LayHetNhanVienKoPhaiTruongPhong()
+        {
+            var query = _context.NguoiDung.AsNoTracking()
+                .Include(x => x.NguoiDungRole)
+                .Where(x => !x.NguoiDungRole.Any(x=>x.RoleId==2))
+                ;
+            return query.Select(x => NguoiDungDTO.FromEntity(x));
+        }
+
+        public IQueryable<PhieuXemNha> LayKhachHangDaChot(int nhanVienId)
+        {
+            var query = _context.PhieuXemNha
+                .Include(x => x.PhieuXemNhaBatDongSan)
+                .ThenInclude(y => y.BatDongSan)
+                .ThenInclude(z => z.HinhAnhBatDongSan)
+                .Include(x=>x.HopDongMuaBatDongSan)
+                .ThenInclude(x=>x.AnhChupHopDong)
+                .AsNoTracking();
+            return query.Where(x => x.NhanVienDanKhachId == nhanVienId && x.TrangThai == Enums.TrangThaiPhieuXemNha.DACHOTTHANHCONG);
         }
     }
 }

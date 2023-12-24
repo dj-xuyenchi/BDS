@@ -14,7 +14,12 @@ namespace Core.Service.PhongBanService
     public interface IPhongBanService
     {
         IQueryable<PhongBanDTO> LayHetPhongBan();
+        IQueryable<NguoiDungDTO> LayHetNhanVienKoPhaiTruongPhong();
+        Task<PhongBanDTO> TaoPhongBan(PhongBanDTO phongBan);
+        Task<PhongBanDTO> XoaPhongBan(int phongBanId);
+        Task<PhongBanDTO> CapNhatPhongBan(PhongBanDTO phongBan);
         Task<PhongBanModel> LyaPhongBanCuaToi(int phongBanId, int year);
+        IQueryable<PhieuXemNha> LayKhachHangDaChot(int nhanVienId);
         IQueryable<PhieuXemNha> LayKhachHangByNVId(int nhanVienId);
         Task<PhieuXemNhaBatDongSan> TaoNote(PhieuXemNhaBatDongSanDTO phieuXem);
         Task<PhieuXemNhaBatDongSan> SuaNote(PhieuXemNhaBatDongSanDTO phieuXem);

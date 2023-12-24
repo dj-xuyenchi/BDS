@@ -1,4 +1,5 @@
 ﻿using Core.DTO;
+using Core.Entities;
 using Core.RequestModel;
 using Core.Service.NguoiDungService;
 using Core.Service.PhongBanService;
@@ -18,6 +19,11 @@ namespace BDS.Apis
         {
             return Ok(_phongBanService.LayHetPhongBan());
         }
+        [HttpGet("layhetnhanvienkhongphaitruongphong")]
+        public IActionResult LayHetNhanVienKoPhaiTruongPhong()
+        {
+            return Ok(_phongBanService.LayHetNhanVienKoPhaiTruongPhong());
+        }
         [HttpGet("phongbancuatoi")]
         public async Task<IActionResult> LayPhongBan(
             [FromQuery] int phongBanId,
@@ -32,6 +38,13 @@ namespace BDS.Apis
             )
         {
             return Ok(_phongBanService.LayKhachHangByNVId(nhanVienId));
+        }
+        [HttpGet("laykhachhangdachot")]
+        public IActionResult LayKhachHangDaChot(
+          [FromQuery] int nhanVienId
+          )
+        {
+            return Ok(_phongBanService.LayKhachHangDaChot(nhanVienId));
         }
         [HttpPost("suaphieu")]
         public async Task<IActionResult> SuaPhieu(
@@ -75,6 +88,21 @@ namespace BDS.Apis
         {
             HopDongMuaBatDongSanDTO bh = JsonConvert.DeserializeObject<HopDongMuaBatDongSanDTO>(data);
             return Ok(await _phongBanService.TaoHopDong(bh, file));
+        }
+        [HttpPost("taomoi")]
+        public async Task<IActionResult> TaoPhongBan([FromBody] PhongBanDTO phongBan)
+        {
+            return Ok(await _phongBanService.TaoPhongBan(phongBan));
+        }
+        [HttpPost("capnhat")]
+        public async Task<IActionResult> CapNhatPhongBan([FromBody] PhongBanDTO phongBan)
+        {
+            return Ok(await _phongBanService.CapNhatPhongBan(phongBan));
+        }
+        [HttpGet("xoaphongban")]
+        public async Task<IActionResult> XoaPhongBan([FromQuery] int phongBanId)
+        {
+            return Ok(await _phongBanService.XoaPhongBan(phongBanId));
         }
     }
 }

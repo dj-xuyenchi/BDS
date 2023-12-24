@@ -18,6 +18,7 @@ namespace Core.DTO
         public virtual NguoiDung? TruongPhong { get; set; }
         public string HinhDaiDien { get; set; }
         public int SoLuongNhanVien { get; set; }
+        public DateTime NgayTao { get; set; }
         public TrangThaiPhongBan TrangThai { get; set; }
         public virtual IEnumerable<NguoiDung>? ThanhVienPhongBan { get; set; }
         public static PhongBanDTO FromEntity(PhongBan entity)
@@ -30,9 +31,10 @@ namespace Core.DTO
                 TruongPhong = entity.TruongPhong,
                 TruongPhongId = entity.TruongPhongId,
                 HinhDaiDien = entity.HinhDaiDien,
-                SoLuongNhanVien = entity.SoLuongNhanVien,
+                SoLuongNhanVien = entity.ThanhVienPhongBan.Count(),
                 TrangThai = entity.TrangThai,
-                ThanhVienPhongBan = entity.ThanhVienPhongBan
+                ThanhVienPhongBan = entity.ThanhVienPhongBan,
+                NgayTao = entity.NgayTao
             };
         }
         public PhongBan ToEntity()
@@ -47,6 +49,7 @@ namespace Core.DTO
                 HinhDaiDien = this.HinhDaiDien,
                 SoLuongNhanVien = this.SoLuongNhanVien,
                 TrangThai = this.TrangThai,
+                NgayTao = this.NgayTao
             };
         }
     }

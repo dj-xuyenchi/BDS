@@ -159,7 +159,6 @@ function Header() {
     localStorage.setItem("search", search);
     window.location.href = process.env.REACT_APP_FRONTEND_URL;
   }
-
   const [fileList, setFileList] = useState([]);
   const props = {
     beforeUpload: (file) => {

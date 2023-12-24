@@ -20,6 +20,8 @@ import NguoiDung from "./component/admin/nguoidung/NguoiDung";
 import PhongBan from "./component/admin/phongban/PhongBan";
 import DangTinWeb from "./component/admin/dangtinweb/DangTinWeb";
 import Checkout from "./component/home/profile/Checkout";
+import PhongBanAdmin from "./component/admin/phongbanadmin/PhongBanAdmin";
+import Home2 from "./component/admin/home2/Home2";
 function App() {
   const dispath = useDispatch();
   useEffect(() => {
@@ -45,7 +47,8 @@ function App() {
     <>
       <Routes>
         <Route path="/*" element={<NotFound />} />
-        <Route path="/" element={<HomePage />} />
+        {/* <Route path="/" element={<HomePage />} /> */}
+        <Route path="/" element={<Home2 />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin/dangtin" element={<DangTin />} />
         <Route path="/admin/dangtinweb" element={<DangTinWeb />} />
@@ -58,6 +61,7 @@ function App() {
         <Route path="/profile/:id" element={<Profile />} />
         <Route path="/admin/dashboard" element={<DashBoard />} />
         <Route path="/admin/phongban" element={<PhongBan />} />
+        <Route path="/admin/phongbanadmin" element={<PhongBanAdmin />} />
         <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </>

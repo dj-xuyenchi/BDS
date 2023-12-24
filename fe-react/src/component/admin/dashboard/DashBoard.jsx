@@ -389,34 +389,18 @@ function DashBoard() {
             <Row
               style={{
                 marginTop: "12px",
+                backgroundColor: "#ffffff",
               }}
             >
-              <div
-                style={{
-                  width: "49%",
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                <BanhDonut
-                  data={
-                    thongKe && {
-                      soDauChu: thongKe.soDauChu,
-                      soNhanVien: thongKe.soNhanVien,
-                      soTruongPhong: thongKe.soTruongPhong,
-                    }
+              <BanhDonut
+                data={
+                  thongKe && {
+                    soDauChu: thongKe.soDauChu,
+                    soNhanVien: thongKe.soNhanVien,
+                    soTruongPhong: thongKe.soTruongPhong,
                   }
-                />
-              </div>
-
-              <div
-                style={{
-                  width: "49%",
-                  marginLeft: "2%",
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                <BanhDonut2 />
-              </div>
+                }
+              />
             </Row>
             <div
               style={{

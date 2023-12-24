@@ -7,17 +7,13 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Image, Input, Space, Table, Tag } from "antd";
-import BieuDoChotPhongBan from "./BieuDoChotPhongBan";
-
-import { Col, Row } from "antd";
-import { usePhongBan } from "./useKyGui";
+import ModalThem from "./ModalThem";
 import ModalView from "./ModalView";
-import ModalXemChiTiet from "./ModalXemChiTiet";
-import ModalTimeLine from "./ModalTimeLine";
+import ModalSua from "./ModalSua";
 import { checkRole } from "../../../extensions/checkRole";
-import ModalKhachHangCuaToi from "./ModalKhachCuaToi";
-import ModalLichSuChot from "./chot/ModalLichSuChot";
-function PhongBan() {
+import { usePhongBanAdmin } from "./usePhongBanAdmin";
+import ModalXoa from "./ModalXoa";
+function PhongBanAdmin() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
   const [searchText, setSearchText] = useState("");
@@ -135,107 +131,94 @@ function PhongBan() {
         text
       ),
   });
-
-  const user = JSON.parse(localStorage.getItem("user"));
   const columns = [
     {
-      title: "Họ tên",
-      dataIndex: "hoTen",
-      key: "hoTen",
+      title: "Tên phòng ban",
+      dataIndex: "tenPhongBan",
+      key: "tenPhongBan",
       width: "20%",
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: "soDienThoai",
-      key: "soDienThoai",
-      width: "15%",
-      render: (soDienThoai) => <span>{soDienThoai}</span>,
-    },
-    {
-      title: "Số khách",
-      dataIndex: "soKhach",
-      key: "soKhach",
-      width: "10%",
-      sorter: (a, b) => a - b,
-      sortDirections: ["descend", "ascend"],
-      render: (soKhach) => <span>{soKhach}</span>,
-    },
-    {
-      title: "Địa chỉ",
-      dataIndex: "diaChi",
-      key: "diaChi",
-      width: "20%",
-      render: (diaChi) => <span>{diaChi}</span>,
-    },
-    {
-      title: "Quyền",
-      dataIndex: "role",
-      key: "role",
-      width: "15%",
-      render: (role) => (
+      render: (tenPhongBan, record) => (
         <>
-          {role.map((item, index) => {
-            if (item.role.id == 1) {
-              return (
-                <Tag key={index} color="#f50">
-                  {item.role.roleName}
-                </Tag>
-              );
-            }
-            if (item.role.id == 2) {
-              return (
-                <Tag key={index} color="#87d068">
-                  {item.role.roleName}
-                </Tag>
-              );
-            }
-            if (item.role.id == 3) {
-              return (
-                <Tag key={index} color="#2db7f5">
-                  {item.role.roleName}
-                </Tag>
-              );
-            }
-            if (item.role.id == 4) {
-              return (
-                <Tag key={index} color="#108ee9">
-                  {item.role.roleName}
-                </Tag>
-              );
-            }
-            return "";
-          })}
+          <div>{tenPhongBan}</div>
         </>
       ),
+    },
+    {
+      title: "Khẩu hiệu",
+      dataIndex: "khauHieu",
+      key: "khauHieu",
+      render: (khauHieu) => <>{khauHieu}</>,
+    },
+    {
+      title: "Trưởng phòng",
+      dataIndex: "truongPhong",
+      key: "truongPhong",
+      render: (truongPhong) => (
+        <>
+          <div>
+            <div
+              style={{
+                height: "40px",
+                width: "40px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "hidden",
+                borderRadius: "50%",
+                float: "left",
+              }}
+            >
+              <Image
+                style={{
+                  height: "40px",
+                  width: "auto",
+                }}
+                src={truongPhong.hinhDaiDien}
+                alt=""
+              />
+            </div>
+            <span
+              style={{
+                marginLeft: "8px",
+                lineHeight: "40px",
+                fontWeight: 500,
+              }}
+            >
+              {truongPhong.hoTenNguoiDung}
+            </span>
+          </div>
+        </>
+      ),
+    },
+    {
+      title: "Số lượng nhân viên",
+      dataIndex: "soLuongNhanVien",
+      key: "soLuongNhanVien",
+      render: (soLuongNhanVien) => <>{soLuongNhanVien + " nhân viên"}</>,
     },
     {
       title: "Thao tác",
       dataIndex: "id",
       key: "id",
       align: "center",
-      width: "20%",
+      width: "10%",
       render: (id, record) => (
-        <>
-          <ModalView data={record.data} />
-          {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
-            <ModalXemChiTiet data={record.lichSuXem} />
-          )}
-        </>
+        <div>
+          <ModalView data={record} />
+          <ModalSua data2={record} fetchData={handleLayPhongBan} />
+          <ModalXoa phongBanId={id} fetchData={handleLayPhongBan} />
+        </div>
       ),
     },
   ];
-  const [year, setYear] = useState(2023);
-  const fetchData = async () => {
-    const data = await usePhongBan.actions.layPhongBan({
-      phongBanId: 2,
-      year: year,
-    });
-    setData(data.data);
-  };
+  async function handleLayPhongBan() {
+    const data2 = await usePhongBanAdmin.actions.layPhongBan();
+    setData(data2.data);
+  }
   useEffect(() => {
-    // dispath(productSlice.actions.setIsLoading(true));
-    fetchData();
+    handleLayPhongBan();
   }, []);
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <div>
@@ -243,24 +226,11 @@ function PhongBan() {
         <MenuAdmin />
         <div className="body-container">
           <div className="content">
-            <Row
-              style={{
-                backgroundColor: "#ffffff",
-                padding: "12px 12px",
-              }}
-            >
-              <BieuDoChotPhongBan
-                dataChot={data && data.thongKeBDS}
-                dataKhach={data && data.soKhach}
-                title={data && data.tenPhong}
-              />
-            </Row>
-            <ModalKhachHangCuaToi id={user.id} />
-            <ModalLichSuChot id={user.id} />
+            <ModalThem fetchData={handleLayPhongBan} />
             <div className="table-sanpham background-color">
               <Table
                 columns={columns}
-                dataSource={data && data.thanhVien}
+                dataSource={data}
                 pagination={{
                   position: ["bottomRight"],
                 }}
@@ -273,4 +243,4 @@ function PhongBan() {
   );
 }
 
-export default PhongBan;
+export default PhongBanAdmin;

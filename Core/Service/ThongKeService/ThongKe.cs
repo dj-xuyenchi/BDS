@@ -18,7 +18,7 @@ namespace Core.Service.ThongKeService
             ThongKeModel thongKe = new ThongKeModel();
             List<int> soKhachhangMoi = new List<int>();
             List<int> soBDSChot = new List<int>();
-         //   f
+            //   f
             return thongKe;
         }
 
@@ -41,7 +41,7 @@ namespace Core.Service.ThongKeService
                 soKhach.Add(khach);
             }
             thongKe.SoBDSChot = soBdsChot;
-            thongKe.SoKhachHangMoi= soKhach;
+            thongKe.SoKhachHangMoi = soKhach;
             thongKe.SoDauChu = _context.NguoiDungRole.Where(x => x.RoleId == 3).Count();
             thongKe.SoNhanVien = _context.NguoiDungRole.Where(x => x.RoleId == 1).Count();
             thongKe.SoTruongPhong = _context.NguoiDungRole.Where(x => x.RoleId == 3).Count();
@@ -51,10 +51,11 @@ namespace Core.Service.ThongKeService
         private List<NguoiDung> TopSeller()
         {
             List<NguoiDung> re = _context.NguoiDung
-                .Include(x=>x.PhongBan)
-                .Include(x=>x.NguoiDungRole)
-    //            .ThenInclude(x=>x.Role)
-                .OrderBy(x=>x.SoBatDongSanDaBan)
+                .Include(x => x.PhongBan)
+                .Include(x => x.NguoiDungRole)
+                //            .ThenInclude(x=>x.Role)
+                .OrderBy(x => x.SoBatDongSanDaBan)
+                .Where(x => x.TrangThai == Enums.TrangThaiNguoiDung.DANGHOATDONG && x.PhongBanId != null)
                 .Take(10)
                 .ToList();
             return re;

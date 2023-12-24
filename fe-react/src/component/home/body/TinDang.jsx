@@ -60,7 +60,7 @@ function TinDang({ data }) {
               marginBottom: "0px",
             }}
           >
-            {data && data.batDongSan.dienTich + "2"}
+            {data && data.batDongSan.dienTich + "m2 - "}
             {data && data.batDongSan.soPhongNgu + "PN"}
           </p>
           <p

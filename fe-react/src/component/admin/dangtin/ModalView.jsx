@@ -18,7 +18,6 @@ import { IoEyeSharp } from "react-icons/io5";
 import TextArea from "antd/es/input/TextArea";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 function ModalView({ data }) {
-  console.log(data);
   const [form] = useForm();
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (type, title, des, placement) => {

@@ -7,14 +7,12 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Image, Input, Space, Table, Tag } from "antd";
-import { useSanPhamStore, useTinBan } from "./useSanPhamStore";
+import { useTinBan } from "./useSanPhamStore";
 import ModalView from "./ModalView";
 import { fixMoney } from "../../../extensions/fixMoney";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
-import ModalThem from "./ModalThem";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import ModalXoa from "./ModalXoa";
-import ModalSua from "./ModalSua";
 function DangTin() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
@@ -233,14 +231,13 @@ function DangTin() {
           }}
         >
           <ModalView data={record} />
-          <ModalSua data={record} fetData={fetchData} />
           <ModalXoa tinId={id} fetData={fetchData} />
         </div>
       ),
     },
   ];
   const fetchData = async () => {
-    const data = await useTinBan.actions.layTinBan({});
+    const data = await useTinBan.actions.layTinKhach();
     setData(data.data);
   };
   useEffect(() => {
@@ -254,7 +251,6 @@ function DangTin() {
         <MenuAdmin />
         <div className="body-container">
           <div className="content">
-            <ModalThem fetchData={fetchData} />
             <div className="table-sanpham background-color">
               <Table
                 columns={columns}
