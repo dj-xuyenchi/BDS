@@ -113,7 +113,6 @@ function Header() {
           >
             Wiki BĐS
           </span>
-
         </div>
         <div
           style={{
@@ -140,6 +139,7 @@ function Header() {
               height: "36px",
               marginRight: "12px",
               fontWeight: 550,
+              cursor: "pointer",
             }}
           >
             Đăng nhập
