@@ -113,32 +113,7 @@ function Header() {
           >
             Wiki BĐS
           </span>
-          <span
-            style={{
-              marginLeft: "24px",
-              padding: "12px 0px 8px",
-              fontSize: "14px",
-              lineHeight: "20px",
-              color: "#2C2C2C",
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            Phân tích đánh giá
-          </span>
-          <span
-            style={{
-              marginLeft: "24px",
-              padding: "12px 0px 8px",
-              fontSize: "14px",
-              lineHeight: "20px",
-              color: "#2C2C2C",
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            Danh bạ
-          </span>
+
         </div>
         <div
           style={{
