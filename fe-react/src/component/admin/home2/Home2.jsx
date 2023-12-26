@@ -19,30 +19,35 @@ import SearchLocThem from "./SearchLocThem";
 
 function Home2() {
   const [searchParam, setSearchParam] = useState({
-    loaiBatDongSan: [],
+    // loaiBatDongSan: [],
     tinhCode: undefined,
     huyenCode: undefined,
-    min: 1000000,
-    max: 1000000,
+    min: undefined,
+    max: undefined,
     dienTich: undefined,
     soPhongNgu: undefined,
     soNhaVeSinh: undefined,
     chieuNgang: undefined,
-    chieuDai: undefined
-  })
+    chieuDai: undefined,
+  });
   const [data, setData] = useState(undefined);
   async function handleLayDuLieu() {
-    console.log(searchParam);
-    // const data = await useSanPhamStore.actions.fetchSanPham(searchParam);
-    // setData(data.data);
+    const data = await useSanPhamStore.actions.fetchSanPham(searchParam);
+    setData(data.data);
   }
   function handleClearParam() {
     setSearchParam({
-      ...{}
-    })
+      ...{},
+    });
+  }
+  const [tinKhach, setTinKhach] = useState(undefined);
+  async function handleLayTinKhach() {
+    const data = await useSanPhamStore.actions.layTinKhach();
+    setTinKhach(data.data);
   }
   useEffect(() => {
-    // handleLayDuLieu();
+    handleLayDuLieu();
+    handleLayTinKhach();
   }, []);
   return (
     <>
@@ -75,7 +80,6 @@ function Home2() {
               }}
             >
               <div>
-
                 <div
                   style={{
                     height: "48px",
@@ -87,9 +91,17 @@ function Home2() {
                     borderRight: "1px solid #F2F2F2",
                   }}
                 >
-                  <Popover content={(
-                    <SearchLoaiNhaDat searchParam={searchParam} setSearchParam={setSearchParam} />
-                  )} title="Loại nhà đất" placement="bottom" trigger="click">
+                  <Popover
+                    content={
+                      <SearchLoaiNhaDat
+                        searchParam={searchParam}
+                        setSearchParam={setSearchParam}
+                      />
+                    }
+                    title="Loại nhà đất"
+                    placement="bottom"
+                    trigger="click"
+                  >
                     <BsHouses />
                     <span
                       style={{
@@ -114,8 +126,8 @@ function Home2() {
                   onChange={(e) => {
                     setSearchParam({
                       ...searchParam,
-                      keyword: e.target.value
-                    })
+                      keyword: e.target.value,
+                    });
                   }}
                   value={searchParam.keyword}
                   placeholder="Tìm nhanh"
@@ -156,9 +168,17 @@ function Home2() {
                 flexDirection: "row",
               }}
             >
-              <Popover content={(
-                <SearchKhuVuc searchParam={searchParam} setSearchParam={setSearchParam} />
-              )} title="Khu vực" placement="bottom" trigger="click">
+              <Popover
+                content={
+                  <SearchKhuVuc
+                    searchParam={searchParam}
+                    setSearchParam={setSearchParam}
+                  />
+                }
+                title="Khu vực"
+                placement="bottom"
+                trigger="click"
+              >
                 <div
                   style={{
                     marginRight: "6px",
@@ -176,9 +196,17 @@ function Home2() {
                   <span> Trên toàn quốc</span> <MdKeyboardArrowDown />
                 </div>
               </Popover>
-              <Popover content={(
-                <SearchMucGia searchParam={searchParam} setSearchParam={setSearchParam} />
-              )} title="Mức giá" placement="bottom" trigger="click">
+              <Popover
+                content={
+                  <SearchMucGia
+                    searchParam={searchParam}
+                    setSearchParam={setSearchParam}
+                  />
+                }
+                title="Mức giá"
+                placement="bottom"
+                trigger="click"
+              >
                 <div
                   style={{
                     marginRight: "6px",
@@ -196,9 +224,17 @@ function Home2() {
                   <span> Mức giá</span> <MdKeyboardArrowDown />
                 </div>
               </Popover>
-              <Popover content={(
-                <SearchDienTich searchParam={searchParam} setSearchParam={setSearchParam} />
-              )} title="Diện tích" placement="bottom" trigger="click">
+              <Popover
+                content={
+                  <SearchDienTich
+                    searchParam={searchParam}
+                    setSearchParam={setSearchParam}
+                  />
+                }
+                title="Diện tích"
+                placement="bottom"
+                trigger="click"
+              >
                 <div
                   style={{
                     marginRight: "6px",
@@ -216,9 +252,17 @@ function Home2() {
                   <span> Diện tích</span> <MdKeyboardArrowDown />
                 </div>
               </Popover>
-              <Popover content={(
-                <SearchLocThem searchParam={searchParam} setSearchParam={setSearchParam} />
-              )} title="Lọc thêm" placement="bottom" trigger="click">
+              <Popover
+                content={
+                  <SearchLocThem
+                    searchParam={searchParam}
+                    setSearchParam={setSearchParam}
+                  />
+                }
+                title="Lọc thêm"
+                placement="bottom"
+                trigger="click"
+              >
                 <div
                   style={{
                     marginRight: "6px",
@@ -312,8 +356,8 @@ function Home2() {
                 display: "inline-block",
               }}
             >
-              {data &&
-                data.map((item, index) => {
+              {tinKhach &&
+                tinKhach.map((item, index) => {
                   return (
                     <TinKhachDang
                       data={item}
@@ -324,7 +368,6 @@ function Home2() {
             </div>
           </div>
         </div>
-
 
         <div className="tintuc">
           <div
@@ -348,50 +391,84 @@ function Home2() {
                 display: "inline-block",
               }}
             >
-              <div style={{
-                display: 'flex',
-                flexDirection: 'row'
-              }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
                 <div className="item-tintuc active">Tin nổi bật</div>
                 <div className="item-tintuc">Tin tức</div>
                 <div className="item-tintuc">BDS Hà Nội</div>
                 <div className="item-tintuc">BDS TP. Hồ Chí Minh</div>
               </div>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'row',
-                marginTop: "12px"
-              }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: "12px",
+                }}
+              >
                 <div className="img-tin">
-                  <img src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/11/MG_9605-scaled.jpg" alt="s" />
+                  <img
+                    src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/11/MG_9605-scaled.jpg"
+                    alt="s"
+                  />
                   <div>
-                    <h4 style={{
-                      marginTop: "12px",
-                      fontFamily: "Lexend Medium,Roboto,Arial !important",
-                      fontSize: "24px",
-                      lineHeight: "32px",
-                      fontWeight: " normal !important",
-                      letterSpacing: "-0.2px",
-                      marginBottom: "2px"
-                    }}> Tâm điểm BDS khu vực miền trung nhiều biến động trước dịp tết nguyên đán 2024</h4>
-                    <span style={{
-                      display: 'flex',
-                      alignItems: "center",
-                      color: "#999"
-                    }}>
+                    <h4
+                      style={{
+                        marginTop: "12px",
+                        fontFamily: "Lexend Medium,Roboto,Arial !important",
+                        fontSize: "24px",
+                        lineHeight: "32px",
+                        fontWeight: " normal !important",
+                        letterSpacing: "-0.2px",
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {" "}
+                      Tâm điểm BDS khu vực miền trung nhiều biến động trước dịp
+                      tết nguyên đán 2024
+                    </h4>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        color: "#999",
+                      }}
+                    >
                       <FaRegClock />
-                      <span style={{
-                        marginLeft: "4px",
-                      }}>5 ngày trước</span>
+                      <span
+                        style={{
+                          marginLeft: "4px",
+                        }}
+                      >
+                        5 ngày trước
+                      </span>
                     </span>
                   </div>
                 </div>
                 <div className="tintuc-container">
-                  <div className="tintuc-title"><span>Cuối năm 2023 có phải thời điểm phù hợp để mua nhà?</span></div>
-                  <div className="tintuc-title"><span>Hành Trình Tìm Mua Nhà “Cười Ra Nước Mắt” Của Gia Đình Giun Dế Family</span></div>
-                  <div className="tintuc-title"><span>Tiêu chí mua nhà trong năm 2023</span></div>
-                  <div className="tintuc-title"><span>Dự án ECO Pank Hà Nội.</span></div>
-                  <div className="tintuc-title"><span>Chọn tuổi mua nhà 2024</span></div>
+                  <div className="tintuc-title">
+                    <span>
+                      Cuối năm 2023 có phải thời điểm phù hợp để mua nhà?
+                    </span>
+                  </div>
+                  <div className="tintuc-title">
+                    <span>
+                      Hành Trình Tìm Mua Nhà “Cười Ra Nước Mắt” Của Gia Đình
+                      Giun Dế Family
+                    </span>
+                  </div>
+                  <div className="tintuc-title">
+                    <span>Tiêu chí mua nhà trong năm 2023</span>
+                  </div>
+                  <div className="tintuc-title">
+                    <span>Dự án ECO Pank Hà Nội.</span>
+                  </div>
+                  <div className="tintuc-title">
+                    <span>Chọn tuổi mua nhà 2024</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -537,61 +614,105 @@ function Home2() {
               style={{
                 width: "1140px",
                 display: "inline-flex",
-                flexDirection: "row"
+                flexDirection: "row",
               }}
             >
               <div className="tintuc-noibat">
-                <img src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/12/2-1.jpg" alt="s" style={{
-                  borderRadius: "5px"
-                }} />
-                <div style={{
-                  display: "flex",
-                  flexDirectio: "row",
-                  marginTop: "12px"
-                }}>
-                  <h4 style={{
-                    fontSize: "32px"
-                  }}>01</h4>
-                  <h4 style={{
-                    fontSize: "16px",
-                    marginLeft: "4px"
-                  }}>Bất động sản tại vị trí hiếm: Kênh đầu tứ sáng cho nhà đầu tư?</h4>
+                <img
+                  src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/12/2-1.jpg"
+                  alt="s"
+                  style={{
+                    borderRadius: "5px",
+                  }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirectio: "row",
+                    marginTop: "12px",
+                  }}
+                >
+                  <h4
+                    style={{
+                      fontSize: "32px",
+                    }}
+                  >
+                    01
+                  </h4>
+                  <h4
+                    style={{
+                      fontSize: "16px",
+                      marginLeft: "4px",
+                    }}
+                  >
+                    Bất động sản tại vị trí hiếm: Kênh đầu tứ sáng cho nhà đầu
+                    tư?
+                  </h4>
                 </div>
               </div>
               <div className="tintuc-noibat">
-                <img src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/12/tay-bac.jpg" alt="s" style={{
-                  borderRadius: "5px"
-                }} />
-                <div style={{
-                  display: "flex",
-                  flexDirectio: "row",
-                  marginTop: "12px"
-                }}>
-                  <h4 style={{
-                    fontSize: "32px"
-                  }}>02</h4>
-                  <h4 style={{
-                    fontSize: "16px",
-                    marginLeft: "4px"
-                  }}>Bất động sản Tây Bắc dạy sóng đợt cuối năm 2023</h4>
+                <img
+                  src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/12/tay-bac.jpg"
+                  alt="s"
+                  style={{
+                    borderRadius: "5px",
+                  }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirectio: "row",
+                    marginTop: "12px",
+                  }}
+                >
+                  <h4
+                    style={{
+                      fontSize: "32px",
+                    }}
+                  >
+                    02
+                  </h4>
+                  <h4
+                    style={{
+                      fontSize: "16px",
+                      marginLeft: "4px",
+                    }}
+                  >
+                    Bất động sản Tây Bắc dạy sóng đợt cuối năm 2023
+                  </h4>
                 </div>
               </div>
               <div className="tintuc-noibat">
-                <img src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/12/tinh-nao-nhieu-khu-cong-nghiep-nhat-viet-nam-2-1.jpg" alt="s" style={{
-                  borderRadius: "5px"
-                }} />
-                <div style={{
-                  display: "flex",
-                  flexDirectio: "row",
-                  marginTop: "12px"
-                }}>
-                  <h4 style={{
-                    fontSize: "32px"
-                  }}>03</h4>
-                  <h4 style={{
-                    fontSize: "16px",
-                    marginLeft: "4px"
-                  }}>Các doanh nghiệp nói gì về việc thủ tướng Chính Phủ bác bỏ việc giảm thuế đất khu vực III</h4>
+                <img
+                  src="https://img.iproperty.com.my/angel/610x342-crop/wp-content/uploads/sites/7/2023/12/tinh-nao-nhieu-khu-cong-nghiep-nhat-viet-nam-2-1.jpg"
+                  alt="s"
+                  style={{
+                    borderRadius: "5px",
+                  }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirectio: "row",
+                    marginTop: "12px",
+                  }}
+                >
+                  <h4
+                    style={{
+                      fontSize: "32px",
+                    }}
+                  >
+                    03
+                  </h4>
+                  <h4
+                    style={{
+                      fontSize: "16px",
+                      marginLeft: "4px",
+                    }}
+                  >
+                    Các doanh nghiệp nói gì về việc thủ tướng Chính Phủ bác bỏ
+                    việc giảm thuế đất khu vực III
+                  </h4>
                 </div>
               </div>
             </div>
@@ -618,32 +739,47 @@ function Home2() {
               style={{
                 width: "1140px",
                 display: "inline-flex",
-                flexDirection: "row"
+                flexDirection: "row",
               }}
             >
               <div className="congcu">
-                <img src="https://staticfile.batdongsan.com.vn/images/icons/color/ic-ying-yang.svg" alt="d" />
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/icons/color/ic-ying-yang.svg"
+                  alt="d"
+                />
                 <span>Xem tuổi xây nhà</span>
               </div>
               <div className="congcu">
-                <img src="https://staticfile.batdongsan.com.vn/images/icons/color/ic-house.svg" alt="d" />
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/icons/color/ic-house.svg"
+                  alt="d"
+                />
                 <span>Chi phí làm nhà</span>
               </div>
               <div className="congcu">
-                <img src="https://staticfile.batdongsan.com.vn/images/home/calculator.svg" alt="d" />
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/home/calculator.svg"
+                  alt="d"
+                />
                 <span>Tính lãi suất</span>
               </div>
               <div className="congcu">
-                <img src="https://staticfile.batdongsan.com.vn/images/icons/color/ic-feng-shui.svg" alt="d" />
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/icons/color/ic-feng-shui.svg"
+                  alt="d"
+                />
                 <span>Tư vấn phong thủy</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="tintuc" style={{
-          marginBottom: "40px"
-        }}>
+        <div
+          className="tintuc"
+          style={{
+            marginBottom: "40px",
+          }}
+        >
           <div
             style={{
               width: "1164px",
@@ -652,85 +788,145 @@ function Home2() {
               padding: "12px",
             }}
           >
-
             <div
               style={{
                 width: "1140px",
                 display: "inline-flex",
-                flexDirection: "row"
+                flexDirection: "row",
               }}
             >
               <div className="congcu2">
-                <img src="https://staticfile.batdongsan.com.vn/images/box-link-footer/ForSale.svg" alt="d" />
-                <span style={{
-                  marginTop: "10px",
-                  fontSize: "16px",
-                  color: "black",
-                  fontWeight: 550
-                }}>Bất động sản bán</span>
-                <span style={{
-                  textAlign: "justify"
-                }}>
-                  Bạn có thể tìm thấy ngôi nhà mơ ước hoặc cơ hội đầu tư hấp dẫn thông qua lượng tin <span style={{
-                    color: "red"
-                  }}>rao lớn</span>, uy tín về các loại hình
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/box-link-footer/ForSale.svg"
+                  alt="d"
+                />
+                <span
+                  style={{
+                    marginTop: "10px",
+                    fontSize: "16px",
+                    color: "black",
+                    fontWeight: 550,
+                  }}
+                >
+                  Bất động sản bán
+                </span>
+                <span
+                  style={{
+                    textAlign: "justify",
+                  }}
+                >
+                  Bạn có thể tìm thấy ngôi nhà mơ ước hoặc cơ hội đầu tư hấp dẫn
+                  thông qua lượng tin{" "}
+                  <span
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    rao lớn
+                  </span>
+                  , uy tín về các loại hình
                 </span>
               </div>
               <div className="congcu2">
-                <img src="https://staticfile.batdongsan.com.vn/images/box-link-footer/ForRent.svg" alt="d" />
-                <span style={{
-                  marginTop: "10px",
-                  fontSize: "16px",
-                  color: "black",
-                  fontWeight: 550
-                }}>Bất động sản cho thuê</span>
-                <span style={{
-                  textAlign: "justify"
-                }}>
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/box-link-footer/ForRent.svg"
+                  alt="d"
+                />
+                <span
+                  style={{
+                    marginTop: "10px",
+                    fontSize: "16px",
+                    color: "black",
+                    fontWeight: 550,
+                  }}
+                >
+                  Bất động sản cho thuê
+                </span>
+                <span
+                  style={{
+                    textAlign: "justify",
+                  }}
+                >
                   Cập nhật thường xuyên và đầy đủ các loại hình
-                  <span style={{
-                    color: "red"
-                  }}> như: thuê phòng trọ, nhà riêng,
-                  </span>,  kinh doanh giúp bạn nhanh chóng tìm được bất động sản ưng ý.
-
+                  <span
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    {" "}
+                    như: thuê phòng trọ, nhà riêng,
+                  </span>
+                  , kinh doanh giúp bạn nhanh chóng tìm được bất động sản ưng ý.
                 </span>
               </div>
               <div className="congcu2">
-                <img src="https://staticfile.batdongsan.com.vn/images/box-link-footer/Projects.svg" alt="d" />
-                <span style={{
-                  marginTop: "10px",
-                  fontSize: "16px",
-                  color: "black",
-                  fontWeight: 550
-                }}>Đánh giá dự án</span>
-                <span style={{
-                  textAlign: "justify"
-                }}>
-                  Bạn có thể tìm thấy ngôi nhà mơ ước hoặc cơ hội đầu tư hấp dẫn thông qua lượng tin <span style={{
-                    color: "red"
-                  }}>rao lớn</span>, uy tín về các loại hình
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/box-link-footer/Projects.svg"
+                  alt="d"
+                />
+                <span
+                  style={{
+                    marginTop: "10px",
+                    fontSize: "16px",
+                    color: "black",
+                    fontWeight: 550,
+                  }}
+                >
+                  Đánh giá dự án
+                </span>
+                <span
+                  style={{
+                    textAlign: "justify",
+                  }}
+                >
+                  Bạn có thể tìm thấy ngôi nhà mơ ước hoặc cơ hội đầu tư hấp dẫn
+                  thông qua lượng tin{" "}
+                  <span
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    rao lớn
+                  </span>
+                  , uy tín về các loại hình
                 </span>
               </div>
               <div className="congcu2">
-                <img src="https://staticfile.batdongsan.com.vn/images/box-link-footer/Wiki.svg" alt="d" />
-                <span style={{
-                  marginTop: "10px",
-                  fontSize: "16px",
-                  color: "black",
-                  fontWeight: 550
-                }}>Wiki BDS</span>
-                <span style={{
-                  textAlign: "justify"
-                }}>
-                  Bạn có thể tìm thấy ngôi nhà mơ ước hoặc cơ hội đầu tư hấp dẫn thông qua lượng tin <span style={{
-                    color: "red"
-                  }}>rao lớn</span>, uy tín về các loại hình
+                <img
+                  src="https://staticfile.batdongsan.com.vn/images/box-link-footer/Wiki.svg"
+                  alt="d"
+                />
+                <span
+                  style={{
+                    marginTop: "10px",
+                    fontSize: "16px",
+                    color: "black",
+                    fontWeight: 550,
+                  }}
+                >
+                  Wiki BDS
+                </span>
+                <span
+                  style={{
+                    textAlign: "justify",
+                  }}
+                >
+                  Bạn có thể tìm thấy ngôi nhà mơ ước hoặc cơ hội đầu tư hấp dẫn
+                  thông qua lượng tin{" "}
+                  <span
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    rao lớn
+                  </span>
+                  , uy tín về các loại hình
                 </span>
               </div>
             </div>
           </div>
         </div>
-      </div >
+      </div>
       <Footer />
     </>
   );
