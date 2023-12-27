@@ -7,21 +7,17 @@ function ProductImgSlider({ imgs }) {
       return {
         original: item.linkHinhAnh,
         thumbnail: item.linkHinhAnh,
-        description: "Description 1",
       };
     })
     : [
       {
         original: "",
         thumbnail: "",
-        description: "Description 1",
       },
     ];
 
   return (
     <div className="slider-img" style={{
-      maxHeight: "420px",
-      minHeight: "420px"
     }}>
       <Gallery items={imgs} />
     </div>

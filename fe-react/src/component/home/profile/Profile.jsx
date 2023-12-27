@@ -1,7 +1,5 @@
 import { useSelector } from "react-redux";
 import "./style.css";
-import { selectLanguage } from "../../../language/selectLanguage";
-import Header from "../../common/header/Header";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useNguoiDungStore } from "./useNguoiDungStore";
@@ -14,6 +12,7 @@ import DoiMatKhau from "./DoiMatKhau";
 import TinDang from "./TinDang";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import NapTien from "./NapTien";
+import Header from "../../admin/home2/Header";
 
 const items = [
   {

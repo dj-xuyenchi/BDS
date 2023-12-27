@@ -22,6 +22,7 @@ import DangTinWeb from "./component/admin/dangtinweb/DangTinWeb";
 import Checkout from "./component/home/profile/Checkout";
 import PhongBanAdmin from "./component/admin/phongbanadmin/PhongBanAdmin";
 import Home2 from "./component/admin/home2/Home2";
+import ProductDetail2 from "./component/home/productdetail2/ProductDetail2";
 function App() {
   const dispath = useDispatch();
   useEffect(() => {
@@ -52,7 +53,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/admin/dangtin" element={<DangTin />} />
         <Route path="/admin/dangtinweb" element={<DangTinWeb />} />
-        <Route path="/bds/:id" element={<ProductDetail />} />
+        <Route path="/bds/:id" element={<ProductDetail2 />} />
+        {/* <Route path="/bds/:id" element={<ProductDetail />} /> */}
         <Route path="/admin/daotao" element={<DaoTao />} />
         <Route path="/admin/quanlydaotao" element={<QuanLyBaiHoc />} />
         <Route path="/admin/sanpham" element={<Product />} />

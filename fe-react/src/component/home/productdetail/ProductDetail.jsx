@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import "./style.css";
-import Header from "../../common/header/Header";
 import ProductImgSlider from "./ProductImgSlider";
 import { fixMoney } from "../../../extensions/fixMoney";
 import { CiClock2, CiLocationOn, CiRuler } from "react-icons/ci";
@@ -27,6 +26,7 @@ import { useSanPhamStore } from "../body/product/useSanPhamStore";
 import MoiGioi from "../body/MoiGioi";
 import Footer from "../../common/footer/Footer";
 import TinDang from "../body/TinDang";
+import Header from "../../admin/home2/Header";
 function ProductDetail() {
   const language = useSelector(selectLanguage);
   const [api, contextHolder] = notification.useNotification();
