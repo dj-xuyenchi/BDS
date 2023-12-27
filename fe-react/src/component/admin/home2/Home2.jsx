@@ -46,50 +46,58 @@ function Home2() {
     setTinKhach(data.data);
   }
   const slideData = [
-    require('../../../assets/1.png'),
-    require('../../../assets/2.png'),
-    require('../../../assets/3.jpg'),
-  ]
-  const [slide, setSlide] = useState(0)
+    require("../../../assets/1.png"),
+    require("../../../assets/2.png"),
+    require("../../../assets/3.jpg"),
+  ];
+  const [slide, setSlide] = useState(0);
   useEffect(() => {
-    // handleLayDuLieu();
-    // handleLayTinKhach();
+    handleLayDuLieu();
+    handleLayTinKhach();
     const iter = setInterval(() => {
       console.log(slide);
       if (slide === 2) {
-        setSlide(0)
+        setSlide(0);
       } else {
-        setSlide(slide + 1)
+        setSlide(slide + 1);
       }
-    }, 1500)
+    }, 1500);
     return () => {
-      clearInterval(iter)
-    }
+      clearInterval(iter);
+    };
   }, [slide]);
   return (
     <>
       <Header />
-      <div className="body" style={{
-        position: 'relative'
-      }}>
-        <img src={slideData[slide]} style={{
-          width: "100vw",
-          top: 0,
-          left: 0,
-          position: "absolute",
-          zIndex: 0,
-          height: "auto"
-        }} alt="anh" />
+      <div
+        className="body"
+        style={{
+          position: "relative",
+        }}
+      >
+        <img
+          src={slideData[slide]}
+          style={{
+            width: "auto",
+            top: 0,
+            left: 0,
+            position: "absolute",
+            zIndex: 0,
+            height: "512px",
+            left: "50%",
+            transform: "translate( -50%)",
+          }}
+          alt="anh"
+        />
         <div
           style={{
             position: "absolute",
             marginTop: "24px",
             width: "945px",
-            left: '50%',
-            transform: 'translate( -50%)',
+            left: "50%",
+            transform: "translate( -50%)",
           }}
         >
-
           <div
             style={{
               backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -98,7 +106,6 @@ function Home2() {
               padding: "16px",
             }}
           >
-
             <div
               style={{
                 borderRadius: "8px",
@@ -184,7 +191,6 @@ function Home2() {
                     style={{
                       backgroundColor: "#E03C31",
                       color: "white",
-
                     }}
                     icon={<GoSearch />}
                   >
@@ -330,12 +336,13 @@ function Home2() {
             </div>
           </div>
         </div>
-        <div style={{
-          height: "520px",
-          marginTop: "1px"
-        }}></div>
-        <div className="sanpham" style={{
-        }}>
+        <div
+          style={{
+            height: "520px",
+            marginTop: "1px",
+          }}
+        ></div>
+        <div className="sanpham" style={{}}>
           <div
             style={{
               width: "1164px",

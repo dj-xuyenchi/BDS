@@ -52,6 +52,7 @@ function Profile() {
           width: "1028px",
           marginLeft: "auto",
           marginRight: "auto",
+          marginTop: "12px",
           display: "flex",
           flexDirection: "row",
         }}

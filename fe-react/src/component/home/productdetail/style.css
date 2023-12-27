@@ -30,6 +30,7 @@
 } */
 .image-gallery-image {
     height: 360px;
+    width: 700px;
 }
 
 .info {
@@ -167,4 +168,9 @@
 
 .hover:hover {
     cursor: pointer;
+}
+
+.image-gallery-play-button,
+.image-gallery-fullscreen-button {
+    display: none;
 }

@@ -6,6 +6,7 @@ import { usePhongBan } from "./useKyGui";
 import ModalTimeLine from "./ModalTimeLine";
 import { fixNgayThang } from "../../../../extensions/fixNgayThang";
 import ModalAnhHopDong from "./ModalAnhHopDong";
+import { fixMoney } from "../../../../extensions/fixMoney";
 function ModalLichSuChot({ id }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const columns = [
@@ -81,6 +82,14 @@ function ModalLichSuChot({ id }) {
       key: "hopDongMuaBatDongSan",
       render: (hopDongMuaBatDongSan) => (
         <span>{hopDongMuaBatDongSan[0].noiCongChung}</span>
+      ),
+    },
+    {
+      title: "Giá cuối",
+      dataIndex: "hopDongMuaBatDongSan",
+      key: "hopDongMuaBatDongSan",
+      render: (hopDongMuaBatDongSan) => (
+        <span>{fixMoney(hopDongMuaBatDongSan[0].giaBan)}</span>
       ),
     },
     {

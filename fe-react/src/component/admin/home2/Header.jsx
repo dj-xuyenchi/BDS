@@ -1,4 +1,16 @@
-import { Button, Form, Input, InputNumber, Modal, Select, Upload, message, notification } from "antd";
+import {
+  Button,
+  Dropdown,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+  Space,
+  Upload,
+  message,
+  notification,
+} from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 import "./style.css";
@@ -9,6 +21,10 @@ import TextArea from "antd/es/input/TextArea";
 import { useForm } from "antd/es/form/Form";
 import { useSanPhamStore } from "../product/useSanPhamStore";
 import { useLayout } from "../../common/useLayout";
+import { FaAngleDown, FaUser } from "react-icons/fa6";
+import { PiSignIn, PiSignInThin } from "react-icons/pi";
+import { RiAdminFill } from "react-icons/ri";
+import { checkRole } from "../../../extensions/checkRole";
 function Header() {
   var nguoiDung = JSON.parse(localStorage.getItem("user"));
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,8 +105,82 @@ function Header() {
   };
 
   useEffect(() => {
-    // layKhuVuc();
+    layKhuVuc();
   }, []);
+  function handleRedirect() {
+    if (!nguoiDung) {
+      openNotification(
+        "error",
+        "Hệ thống",
+        "Bạn chưa đăng nhập",
+        "bottomRight"
+      );
+      setTimeout(() => {
+        window.location.href = process.env.REACT_APP_FRONTEND_URL + "login";
+      }, 1000);
+      return;
+    }
+    window.location.href =
+      process.env.REACT_APP_FRONTEND_URL + "profile/" + nguoiDung.id;
+  }
+  const items = [];
+  var nguoiDung = JSON.parse(localStorage.getItem("user"));
+  if (nguoiDung) {
+    if (
+      checkRole(nguoiDung.nguoiDungRole, ["ADMIN", "LEAD", "MEMBER", "PRODUCT"])
+    ) {
+      items.push({
+        key: "1",
+        label: (
+          <a href="http://localhost:3000/admin/dashboard">Nhà Tốt Insight</a>
+        ),
+        icon: <RiAdminFill />,
+      });
+    }
+  }
+  if (!nguoiDung) {
+    items.push({
+      key: "2",
+      label: <a href="http://localhost:3000/login">Đăng nhập</a>,
+      icon: <PiSignIn />,
+    });
+  }
+  if (nguoiDung) {
+    items.push({
+      key: "3",
+      label: (
+        <a
+          onClick={() => {
+            var nguoiDung = JSON.parse(localStorage.getItem("user"));
+            if (nguoiDung) {
+              handleRedirect();
+              return;
+            } else {
+              window.location = "http://localhost:3000/login";
+            }
+          }}
+        >
+          Thông tin cá nhân
+        </a>
+      ),
+      icon: <FaUser />,
+    });
+    items.push({
+      key: "4",
+      label: (
+        <a
+          onClick={() => {
+            localStorage.removeItem("user");
+            window.location = "http://localhost:3000/";
+          }}
+        >
+          Đăng xuất
+        </a>
+      ),
+      icon: <PiSignInThin />,
+    });
+  }
+
   return (
     <>
       {contextHolder}
@@ -110,9 +200,13 @@ function Header() {
           }}
         >
           <img
+            onClick={() => {
+              window.location = "http://localhost:3000";
+            }}
             style={{
               height: "48px",
               width: "160px",
+              cursor: "pointer",
             }}
             src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
             alt="hinh"
@@ -193,45 +287,98 @@ function Header() {
           <div
             style={{
               marginRight: "12px",
+              height: "36px",
               display: "flex",
               alignItems: "center",
-              height: "36px",
               fontSize: "30px",
             }}
           >
             <CiHeart />
           </div>
+          {nguoiDung ? (
+            <>
+              <Dropdown
+                menu={{
+                  items,
+                }}
+              >
+                <Space>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "36px",
+                        width: "36px",
+                        overflow: "hidden",
+                        borderRadius: "50%",
+                      }}
+                    >
+                      <img
+                        src={nguoiDung.hinhDaiDien}
+                        alt="s"
+                        style={{
+                          width: "60px",
+                          height: "auto",
+                        }}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        height: "40px",
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "8px",
+                        fontWeight: 500,
+                        marginRight: "8px",
+                      }}
+                    >
+                      <span>{nguoiDung.hoTenNguoiDung}</span>
+                      <span
+                        style={{
+                          marginLeft: "4px",
+                        }}
+                      >
+                        <FaAngleDown />
+                      </span>
+                    </div>
+                  </div>
+                </Space>
+              </Dropdown>
+            </>
+          ) : (
+            <>
+              <div
+                onClick={() => {
+                  window.location = "http://localhost:3000/login";
+                }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "36px",
+                  marginRight: "12px",
+                  fontWeight: 550,
+                  cursor: "pointer",
+                }}
+              >
+                Đăng nhập
+              </div>
+            </>
+          )}
           <div
             style={{
+              marginRight: "12px",
+              height: "36px",
+              fontSize: "30px",
               display: "flex",
               alignItems: "center",
-              height: "36px",
-              marginRight: "12px",
-              fontWeight: 550,
-              cursor: "pointer",
-            }}
-          >
-            Đăng nhập
-          </div>
-
-          <div
-            style={{
-              marginRight: "12px",
-              display: "flex",
-              alignItems: "center",
-              height: "36px",
-              fontWeight: 550,
-            }}
-          >
-            Đăng ký
-          </div>
-          <div
-            style={{
-              marginRight: "12px",
-              display: "flex",
-              alignItems: "center",
-              height: "36px",
-              fontWeight: 550,
             }}
           >
             <Button
@@ -284,7 +431,7 @@ function Header() {
             <Upload
               listType="picture-card"
               multiple
-              customRequest={() => { }}
+              customRequest={() => {}}
               {...props}
               maxCount={5}
               fileList={fileList}

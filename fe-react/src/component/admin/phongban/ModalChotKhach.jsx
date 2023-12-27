@@ -3,6 +3,7 @@ import {
   Form,
   Image,
   Input,
+  InputNumber,
   message,
   Modal,
   notification,
@@ -196,6 +197,27 @@ function ModalChotKhach({ handleLayDuLieu, phieu }) {
             setData({
               ...data,
               noiCongChung: e.target.value,
+            });
+          }}
+        />{" "}
+        <p
+          style={{
+            marginBottom: "2px",
+          }}
+        >
+          Giá cuối
+        </p>
+        <InputNumber
+          placeholder="Giá chốt"
+          value={data.giaBan}
+          min={100000000}
+          style={{
+            width: "100%",
+          }}
+          onChange={(e) => {
+            setData({
+              ...data,
+              giaBan: e.target.value,
             });
           }}
         />{" "}
