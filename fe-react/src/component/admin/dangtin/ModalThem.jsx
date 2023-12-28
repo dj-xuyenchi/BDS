@@ -10,7 +10,7 @@ import {
   notification,
 } from "antd";
 import "./style.css";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import { useSanPhamStore, useTinBan } from "./useSanPhamStore";
 import { useForm } from "antd/es/form/Form";
@@ -70,6 +70,7 @@ function ModalThem({ fetchData }) {
     setIsModalOpen(false);
     fetchData();
   }
+  const [isLoading2, setIsLoading2] = useState(false);
   async function handleAi() {
     if (!data.batDongSanId) {
       openNotification(
@@ -80,7 +81,7 @@ function ModalThem({ fetchData }) {
       );
       return;
     }
-    setIsModalOpen2(true);
+    setIsLoading2(true);
     const data2 = await useGpt.actions.chat(
       content(
         batDongSan.find((item) => {
@@ -88,7 +89,13 @@ function ModalThem({ fetchData }) {
         })
       )
     );
+    setIsLoading2(false);
+    if (ai) {
+      const content = "{" + data2.data.choices[0].message.content.split("{")[1];
+      ai.current.innerHTML = JSON.parse(content).tieuDe;
+    }
   }
+  const ai = useRef();
   return (
     <>
       {contextHolder}
@@ -274,8 +281,8 @@ function ModalThem({ fetchData }) {
             >
               Đăng tin
             </Button>
-            <Button
-              loading={isLoading}
+            {/* <Button
+              loading={isLoading2}
               style={{
                 marginLeft: "4px",
               }}
@@ -285,24 +292,9 @@ function ModalThem({ fetchData }) {
             >
               Hỗ trợ Content
             </Button>
+            <p ref={ai}></p> */}
           </Form.Item>
         </Form>
-      </Modal>
-      <Modal
-        okButtonProps={{ style: { display: "none" } }}
-        cancelButtonProps={{ style: { display: "none" } }}
-        width={768}
-        title={"AI hỗ trợ Content"}
-        open={isModalOpen2}
-        onOk={() => {
-          setIsModalOpen2(false);
-        }}
-        onCancel={() => {
-          setIsModalOpen2(false);
-        }}
-        centered
-      >
-        <p></p>
       </Modal>
     </>
   );

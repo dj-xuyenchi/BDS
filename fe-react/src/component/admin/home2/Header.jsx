@@ -132,7 +132,14 @@ function Header() {
       items.push({
         key: "1",
         label: (
-          <a href="http://localhost:3000/admin/dashboard">Nhà Tốt Insight</a>
+          <a
+            style={{
+              textDecoration: "none",
+            }}
+            href="http://localhost:3000/admin/dashboard"
+          >
+            Nhà Tốt Insight
+          </a>
         ),
         icon: <RiAdminFill />,
       });
@@ -141,7 +148,16 @@ function Header() {
   if (!nguoiDung) {
     items.push({
       key: "2",
-      label: <a href="http://localhost:3000/login">Đăng nhập</a>,
+      label: (
+        <a
+          style={{
+            textDecoration: "none",
+          }}
+          href="http://localhost:3000/login"
+        >
+          Đăng nhập
+        </a>
+      ),
       icon: <PiSignIn />,
     });
   }
@@ -150,6 +166,9 @@ function Header() {
       key: "3",
       label: (
         <a
+          style={{
+            textDecoration: "none",
+          }}
           onClick={() => {
             var nguoiDung = JSON.parse(localStorage.getItem("user"));
             if (nguoiDung) {
@@ -169,6 +188,9 @@ function Header() {
       key: "4",
       label: (
         <a
+          style={{
+            textDecoration: "none",
+          }}
           onClick={() => {
             localStorage.removeItem("user");
             window.location = "http://localhost:3000/";

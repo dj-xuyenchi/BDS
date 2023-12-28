@@ -75,8 +75,17 @@ function ModalSua({ data2, fetchData }) {
   };
   async function handleThemBaiHoc() {
     var form2 = new FormData();
-    form2.append("file", fileList[0].originFileObj);
+    if (fileList.length === 0 || fileList2.length === 0) {
+      openNotification(
+        "error",
+        "Hệ thống",
+        "Thiếu ảnh bìa và file",
+        "bottomRight"
+      );
+      return;
+    }
     form2.append("file", fileList2[0].originFileObj);
+    form2.append("file", fileList[0].originFileObj);
     form2.append("data", JSON.stringify(data));
     setIsLoading(true);
     const data2 = await useBaiHoc.actions.suaBaiHoc(form2);
