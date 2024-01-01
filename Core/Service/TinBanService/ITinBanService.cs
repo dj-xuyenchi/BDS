@@ -15,6 +15,7 @@ namespace Core.Service.TinBanService
     {
         IQueryable<TinBanDTO> LayHetTinBan(Filter filter);
         IQueryable<TinBanDTO> LayHetTinBanWeb();
+        IQueryable<TinBanDTO> LayHetTinBanWebChoXetDuyet();
         Task<TinBanDTO> TaoTin(TinBanDTO tinBan);
         Task<TinBanDTO> XoaTin(int tinBanId);
         Task<TinBanDTO> SuaTin(TinBanDTO tinBan);
@@ -23,5 +24,6 @@ namespace Core.Service.TinBanService
         Task<int> DangTinBanKhachNgoai(TaoTinKhachNgoai tinMoi, List<IFormFile> file);
         Task<int> ThueDangBai(int tinBanId, int nguoiDungId, DateTime ngayHet);
         IQueryable<TinBanDTO> LayBaiDangById(int nguoiDungId);
+        Task XacNhanTin(int tinBanId);
     }
 }

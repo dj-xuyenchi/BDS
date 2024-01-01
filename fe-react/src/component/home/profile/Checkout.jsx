@@ -58,14 +58,32 @@ function Checkout() {
           }}
         >
           {vnp_TransactionStatus == "00" ? (
-            <h3
-              style={{
-                color: "green",
-                fontSize: "50px",
-              }}
-            >
-              Thanh toán thành công
-            </h3>
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src="https://static.vecteezy.com/system/resources/thumbnails/017/197/461/small/green-check-mark-icon-on-transparent-background-free-png.png"
+                  alt="s"
+                  style={{
+                    height: "120px",
+                    width: "140px",
+                  }}
+                />
+                <h3
+                  style={{
+                    color: "green",
+                    fontSize: "50px",
+                  }}
+                >
+                  Thanh toán thành công
+                </h3>
+              </div>
+            </>
           ) : (
             <h3
               style={{

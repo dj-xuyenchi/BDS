@@ -7,13 +7,14 @@ import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Image, Input, Space, Table, Tag } from "antd";
-import { useTinBan } from "./useSanPhamStore";
 import ModalView from "./ModalView";
 import { fixMoney } from "../../../extensions/fixMoney";
 import { fixLoaiBDS } from "../../../extensions/fixLoaiBDS";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import ModalXoa from "./ModalXoa";
-function DangTinWeb() {
+import { useTinBan } from "./useSanPhamStore";
+import ModalXacNhan from "./ModalXacNhan";
+function ChoXetDuyet() {
   const language = useSelector(selectLanguage);
   const dispath = useDispatch();
   const [searchText, setSearchText] = useState("");
@@ -231,13 +232,14 @@ function DangTinWeb() {
           }}
         >
           <ModalView data={record} />
+          <ModalXacNhan tinId={id} fetData={fetchData} />
           <ModalXoa tinId={id} fetData={fetchData} />
         </div>
       ),
     },
   ];
   const fetchData = async () => {
-    const data = await useTinBan.actions.layTinKhach();
+    const data = await useTinBan.actions.layTinKhachChoXet();
     setData(data.data);
   };
   useEffect(() => {
@@ -267,4 +269,4 @@ function DangTinWeb() {
   );
 }
 
-export default DangTinWeb;
+export default ChoXetDuyet;

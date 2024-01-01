@@ -11,35 +11,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { Button, Input, Space, Table } from "antd";
 import {} from "@ant-design/icons";
-import { TbSettingsSearch } from "react-icons/tb";
 import { useDashBoardStore } from "./useDashBoardStore";
-import BanhDonut2 from "./chart/BanhDonut2";
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Joe Black",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Jim Green",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park",
-  },
-];
+
 function DashBoard() {
   const language = useSelector(selectLanguage);
   const [searchText, setSearchText] = useState("");
@@ -212,6 +185,12 @@ function DashBoard() {
       render: (phongBan) => <>{phongBan ? phongBan.tenPhongBan : "Chưa có"}</>,
     },
     {
+      title: "Số BDS đã chốt",
+      dataIndex: "soBatDongSanDaBan",
+      key: "soBatDongSanDaBan",
+      render: (soBatDongSanDaBan) => <>{soBatDongSanDaBan + " BDS"}</>,
+    },
+    {
       title: "Quyền",
       dataIndex: "nguoiDungRole",
       key: "nguoiDungRole",
@@ -242,88 +221,6 @@ function DashBoard() {
       render: (soDienThoai) => <>{soDienThoai ? soDienThoai : "Chưa nhập"}</>,
     },
   ]);
-  const options = [
-    {
-      label: "Stt",
-      value: "stt",
-      columns: {
-        title: "#",
-        dataIndex: "name",
-        key: "name",
-        width: "5%",
-        ...getColumnSearchProps("name"),
-      },
-    },
-    {
-      label: "Hình ảnh",
-      value: "hinhAnh",
-      columns: {
-        title: "Hình ảnh",
-        dataIndex: "age",
-        key: "age",
-        width: "10%",
-        ...getColumnSearchProps("age"),
-      },
-    },
-    {
-      label: "Tên SP",
-      value: "tenSanPham",
-      columns: {
-        title: "Tên SP",
-        dataIndex: "address",
-        key: "address",
-        width: "10%",
-        ...getColumnSearchProps("address"),
-        sorter: (a, b) => a.address.length - b.address.length,
-        sortDirections: ["descend", "ascend"],
-      },
-    },
-    {
-      label: "Số lượng tồn",
-      value: "soLuongTon",
-      columns: {
-        title: "Số lượng tồn",
-        dataIndex: "age",
-        key: "age",
-        width: "5%",
-        ...getColumnSearchProps("age"),
-      },
-    },
-    {
-      label: "Đã bán",
-      value: "daBan",
-      columns: {
-        title: "Đã bán",
-        dataIndex: "age",
-        key: "age",
-        width: "5%",
-        ...getColumnSearchProps("age"),
-      },
-    },
-    {
-      label: "Đang giao",
-      value: "dangGiao",
-      columns: {
-        title: "Đang giao",
-        dataIndex: "age",
-        key: "age",
-        width: "5%",
-        ...getColumnSearchProps("age"),
-      },
-    },
-  ];
-  const handleChange = (value) => {
-    var columnMoi = [];
-    for (var item of value) {
-      for (var option of options) {
-        if (item == option.value) {
-          columnMoi.push(option.columns);
-          break;
-        }
-      }
-    }
-    setColumns(columnMoi);
-  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -334,27 +231,6 @@ function DashBoard() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  async function handleTaiBaoCao() {
-    try {
-      const response = await useDashBoardStore.actions.taiBaoCao();
-
-      // Tạo một đường dẫn URL từ dữ liệu Blob trả về từ API
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      // Tạo một thẻ a để kích thích tải xuống file
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "baocao.xlsx"); // Đặt tên file tải về
-      document.body.appendChild(link);
-      link.click();
-
-      // Loại bỏ thẻ a sau khi tải xuống
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading report:", error);
-    }
-  }
   const [nam, setNam] = useState(2023);
   const [thongKe, setThongKe] = useState(undefined);
   async function handleThongKe() {
@@ -363,7 +239,14 @@ function DashBoard() {
   }
   useEffect(() => {
     handleThongKe();
-  }, []);
+  }, [nam]);
+  function xapSep(a, b) {
+    if (a.soBatDongSanDaBan < b.soBatDongSanDaBan) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
   return (
     <>
       <div>
@@ -377,6 +260,38 @@ function DashBoard() {
                 padding: "12px 12px",
               }}
             >
+              <Select
+                defaultValue="2024"
+                style={{
+                  width: 220,
+                  marginBottom: "12px",
+                }}
+                onChange={(e) => {
+                  setNam(e);
+                }}
+                options={[
+                  {
+                    value: "2020",
+                    label: "2020",
+                  },
+                  {
+                    value: "2021",
+                    label: "2021",
+                  },
+                  {
+                    value: "2022",
+                    label: "2022",
+                  },
+                  {
+                    value: "2023",
+                    label: "2023",
+                  },
+                  {
+                    value: "2024",
+                    label: "2024",
+                  },
+                ]}
+              />
               <ThongKeBar
                 data={
                   thongKe && {
@@ -410,77 +325,10 @@ function DashBoard() {
                 padding: "12px 12px",
               }}
             >
-              <Row
-                style={{
-                  marginBottom: "10px",
-                }}
-              >
-                <Col span={12}>
-                  <Space
-                    style={{
-                      width: "100%",
-                    }}
-                    direction="horizontal"
-                  >
-                    Filter
-                    <Select
-                      mode="multiple"
-                      size="large"
-                      allowClear
-                      style={{
-                        width: "400px",
-                      }}
-                      placeholder="Cài đặt hiển thị"
-                      onChange={handleChange}
-                      options={options}
-                    />
-                  </Space>
-                </Col>
-                <Col span={2}></Col>
-                <Col span={10}>
-                  <Space
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                    direction="horizontal"
-                  >
-                    {/* <Button
-                      type="primary"
-                      size="large"
-                      onClick={handleTaiBaoCao}
-                    >
-                      Nhận báo cáo
-                    </Button>
-                    <Button type="primary" size="large" onClick={showModal}>
-                      Thêm cột
-                    </Button>  */}
-                    <Modal
-                      title="Basic Modal"
-                      open={isModalOpen}
-                      onOk={handleOk}
-                      onCancel={handleCancel}
-                    >
-                      <p>Some contents...</p>
-                      <p>Some contents...</p>
-                      <p>Some contents...</p>
-                    </Modal>
-                    {/* <Input
-                      style={{
-                        width: "240px",
-                      }}
-                      size="large"
-                      placeholder="Tìm kiếm"
-                      prefix={<SearchOutlined />}
-                    /> */}
-                  </Space>
-                </Col>
-              </Row>
               <Table
                 pagination={{ position: ["bottomCenter"] }}
                 columns={columns}
-                dataSource={thongKe && thongKe.topSeller}
+                dataSource={thongKe && thongKe.topSeller.sort(xapSep)}
               />
             </div>
           </div>

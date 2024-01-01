@@ -131,6 +131,7 @@ namespace Core.Service.NguoiDungService
             {
                 nguoiDungRe.HinhDaiDien = await CloudinaryUpload.UploadFile(file);
             }
+          
             _context.Update(nguoiDungRe);
             await _context.SaveChangesAsync();
             return NguoiDungDTO.FromEntity(nguoiDungRe);

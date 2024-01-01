@@ -19,6 +19,6 @@ namespace Core.Entities
         public string HinhDaiDien { get; set; }
         public int SoLuongNhanVien { get;set; }
         public TrangThaiPhongBan TrangThai { get; set; }
-        public virtual IEnumerable<NguoiDung> ThanhVienPhongBan { get; set; }
+        public virtual IEnumerable<NguoiDung>? ThanhVienPhongBan { get; set; }
     }
 }

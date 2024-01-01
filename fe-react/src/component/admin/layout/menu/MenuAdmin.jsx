@@ -9,9 +9,7 @@ import {
   FaTag,
   FaGraduationCap,
 } from "react-icons/fa";
-import { SiZerodha } from "react-icons/si";
-import { AiOutlineBgColors } from "react-icons/ai";
-import { SiSteelseries } from "react-icons/si";
+import { GiConfirmed } from "react-icons/gi";
 import { MdGroupWork, MdArchitecture, MdVideoSettings } from "react-icons/md";
 import { TbLayoutDashboard, TbPackages } from "react-icons/tb";
 import { useState } from "react";
@@ -164,6 +162,20 @@ function MenuAdmin() {
         <RiRefundFill />
       )
     );
+      items.push(
+        getItem(
+          <Link
+            to={"/admin/choxetduyet"}
+            style={{
+              textDecoration: "unset",
+            }}
+          >
+            Tin khách đăng
+          </Link>,
+          "61",
+          <GiConfirmed />
+        )
+      );
   }
   const [openKeys, setOpenKeys] = useState(["sub1"]);
   const onOpenChange = (keys) => {

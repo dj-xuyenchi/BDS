@@ -65,6 +65,16 @@ function ModalThem({ fetchData }) {
       ...data,
       nguoiDangId: user.id,
     });
+    if (!data2.data) {
+      openNotification(
+        "error",
+        "Hệ thống",
+        "Mỗi tài khoản chỉ được tạo tối đa 5 tin",
+        "bottomRight"
+      );
+      form.resetFields();
+      return;
+    }
     openNotification("success", "Hệ thống", "Tạo thành công", "bottomRight");
     form.resetFields();
     setIsModalOpen(false);

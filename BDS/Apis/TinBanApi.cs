@@ -48,10 +48,21 @@ namespace BDS.Apis
         {
             return Ok(_tinBan.LayHetTinBanWeb());
         }
+        [HttpGet("laytinbanxetduyet")]
+        public IActionResult LayTinBanChoXetDuyet()
+        {
+            return Ok(_tinBan.LayHetTinBanWebChoXetDuyet());
+        }
         [HttpGet("laybaidangbyid")]
         public IActionResult LayBaiDangById([FromQuery] int nguoiDungId)
         {
             return Ok(_tinBan.LayBaiDangById(nguoiDungId));
+        }
+        [HttpGet("xacnhantin")]
+        public async Task<IActionResult> XacNhanTin([FromQuery] int tinBanId)
+        {
+          await  _tinBan.XacNhanTin(tinBanId);
+            return Ok("");
         }
         [HttpGet("thuedang")]
         public async Task<IActionResult> ThueDangTin(

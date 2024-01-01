@@ -10,6 +10,7 @@ namespace Core.Enums
     {
         DANGCHO = 1,// chờ xác nhận
         DANGHIENTHI = 2, // đang hiển thị
-        DAKHOA = 3 // khóa bài viết
+        DAKHOA = 3, // khóa bài viết
+        DATRATIENCHOXETDUYET =4
     }
 }

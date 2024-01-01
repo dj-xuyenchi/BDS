@@ -197,9 +197,14 @@ namespace Core.Service.PhongBanService
                 return null;
             }
             var phongBan = await _context.PhongBan.FindAsync(phongBanId);
+            var roleTruongPhong =await _context.NguoiDungRole.Where(x=>x.NguoiDungId == phongBan.TruongPhongId && x.RoleId==2).FirstOrDefaultAsync();
+            if (roleTruongPhong != null)
+            {
+                _context.Remove(roleTruongPhong);
+            }
             _context.Remove(phongBan);
             await _context.SaveChangesAsync();
-            return PhongBanDTO.FromEntity(phongBan);
+            return new PhongBanDTO();
         }
 
         public async Task<PhongBanDTO> CapNhatPhongBan(PhongBanDTO phongBan)
