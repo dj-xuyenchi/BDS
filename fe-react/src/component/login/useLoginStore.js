@@ -8,5 +8,11 @@ export const useLoginStore = {
         async dangKy(payload) {
             return await axiosIns.post(`/NguoiDung/dangky`, payload)
         },
+        async taoYeuCau(payload) {
+            return await axiosIns.get(`/NguoiDung/taoyeucau?email=` + payload)
+        },
+        async xacNhanDoi(payload) {
+            return await axiosIns.get(`/NguoiDung/xacnhandoi?code=` + payload.code + "&matKhauMoi=" + payload.matKhauMoi)
+        },
     },
 }

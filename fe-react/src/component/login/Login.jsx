@@ -119,7 +119,9 @@ function Login() {
                 placeholder={language.login.passwordPlaceHolder}
                 className="input"
               />
-              <Link>{language.login.forgotPass}</Link>
+              <Link onClick={()=>{
+                window.location= "http://localhost:3000/taoyeucau"
+              }}>{language.login.forgotPass}</Link>
               {typeError ? (
                 <Card
                   style={{

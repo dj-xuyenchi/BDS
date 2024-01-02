@@ -23,5 +23,7 @@ namespace Core.Service.NguoiDungService
         Task<HoaDonNapTien> NapTien(long soTien, int nguoiDungId);
         Task<HoaDonNapTien> CheckThanhToan(int hoaDonId,int status);
         Task<NguoiDung> DoiMatKhau(DoiMatKhau doiMatKhau);
+        Task<NguoiDungDTO> QuenMatKhau(string email);
+        Task<NguoiDungDTO> XacNhanMatKhau(string code,string matKhauMoi);
     }
 }

@@ -72,5 +72,15 @@ namespace BDS.Apis
         {
             return Ok(await nguoiDungService.DoiMatKhau(doiMatKhau));
         }
+        [HttpGet("taoyeucau")]
+        public async Task<IActionResult> TaoYeuCau([FromQuery] string email)
+        {
+            return Ok(await nguoiDungService.QuenMatKhau(email));
+        }
+        [HttpGet("xacnhandoi")]
+        public async Task<IActionResult> XacNhanDoi([FromQuery] string code, [FromQuery] string matKhauMoi)
+        {
+            return Ok(await nguoiDungService.XacNhanMatKhau(code, matKhauMoi));
+        }
     }
 }

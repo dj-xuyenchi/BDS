@@ -131,7 +131,7 @@ namespace Core.Service.NguoiDungService
             {
                 nguoiDungRe.HinhDaiDien = await CloudinaryUpload.UploadFile(file);
             }
-          
+
             _context.Update(nguoiDungRe);
             await _context.SaveChangesAsync();
             return NguoiDungDTO.FromEntity(nguoiDungRe);
@@ -196,6 +196,38 @@ namespace Core.Service.NguoiDungService
             {
                 return null;
             }
+        }
+
+        public async Task<NguoiDungDTO> QuenMatKhau(string email)
+        {
+            var nguoiDung = await _context.NguoiDung.Where(x => x.TenTaiKhoan.ToLower() == email.ToLower()).FirstOrDefaultAsync();
+            if (nguoiDung == null)
+            {
+                return null;
+            }
+            QuenMatKhau quenMatKhau = new QuenMatKhau();
+            quenMatKhau.NguoiDungId = nguoiDung.Id;
+            quenMatKhau.NgayHetHan = DateTime.Now.AddDays(1);
+            quenMatKhau.Code = Guid.NewGuid().ToString();
+            await _context.AddAsync(quenMatKhau);
+            await _context.SaveChangesAsync();
+            return NguoiDungDTO.FromEntity(nguoiDung);
+        }
+
+        public async Task<NguoiDungDTO> XacNhanMatKhau(string code, string matKhauMoi)
+        {
+            var quenMatKhau = await _context.QuenMatKhau.Where(x => x.Code.ToLower() == code.ToLower()).FirstOrDefaultAsync();
+            if (quenMatKhau == null)
+            {
+                return null;
+            }
+            if (quenMatKhau.NgayHetHan < DateTime.Now)
+            {
+                return null;
+            }
+            var nguoiDung = await _context.NguoiDung.FindAsync(quenMatKhau.NguoiDungId);
+            nguoiDung.MatKhau = BCrypt.Net.BCrypt.HashPassword(matKhauMoi);
+            return NguoiDungDTO.FromEntity(nguoiDung);
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Core.Data
         public DbSet<BaiHocDaoTao> BaiHocDaoTao { get; set; }
         public DbSet<HinhAnhHopDongXemNha> HinhAnhHopDongXemNha { get; set; }
         public DbSet<HoaDonNapTien> HoaDonNapTien { get; set; }
+        public DbSet<QuenMatKhau> QuenMatKhau { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=bds.DB;Integrated Security=True;encrypt=true;trustservercertificate=true;MultipleActiveResultSets=True;");

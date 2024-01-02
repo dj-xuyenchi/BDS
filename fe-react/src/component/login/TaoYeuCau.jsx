@@ -6,20 +6,19 @@ import { useState } from "react";
 import { selectLanguage } from "../../language/selectLanguage";
 import { useLoginStore } from "./useLoginStore";
 import { useForm } from "antd/es/form/Form";
-function QuenMatKhau() {
+function TaoYeuCau() {
   const language = useSelector(selectLanguage);
+  const dispath = useDispatch();
+
   const [typeError, setTypeError] = useState(undefined);
-  const [loginPayload, setLoginPayload] = useState({});
-  const [matKhau, setMatKhau] = useState("");
+  const [email, setEmail] = useState("");
   async function handleTaoYeuCau() {
-    const data = await useLoginStore.actions.xacNhanDoi({
-      matKhauMoi: matKhau,
-    });
+    const data = await useLoginStore.actions.taoYeuCau(email);
     if (!data.data) {
       openNotification(
         "error",
         "Hệ thống",
-        "Yêu cầu đã hết hạn",
+        "Tài khoản không tồn tại",
         "bottomRight"
       );
       return;
@@ -27,11 +26,10 @@ function QuenMatKhau() {
     openNotification(
       "success",
       "Hệ thống",
-      "Đổi mật khẩu thành công!",
+      "Vui lòng kiểm tra email để nhận hướng dẫn đổi lại mật khẩu",
       "bottomRight"
     );
   }
-
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (type, title, des, placement) => {
     if (type === "error") {
@@ -65,31 +63,15 @@ function QuenMatKhau() {
                 src="https://static.chotot.com/storage/APP_WRAPPER/logo/pty-logo-appwrapper.png"
                 alt="ss"
               />
-              <p>Cập nhật mật khẩu tài khoản</p>
-              <label htmlFor="">Mật khẩu mới</label>
-              <Input.Password
+              <p>Bạn không còn nhớ mật khẩu tài khoản? Đừng lo.</p>
+              <label htmlFor="">Email đăng ký</label>
+              <Input
                 onChange={(e) => {
-                  setLoginPayload({
-                    ...loginPayload,
-                    matKhau: e.target.value,
-                  });
+                  setEmail(e.target.value);
                 }}
-                value={loginPayload.matKhau}
+                value={email}
                 size="large"
-                placeholder={language.login.passwordPlaceHolder}
-                className="input"
-              />
-              <label htmlFor="">Xác nhận mật khẩu</label>
-              <Input.Password
-                onChange={(e) => {
-                  setLoginPayload({
-                    ...loginPayload,
-                    matKhau: e.target.value,
-                  });
-                }}
-                value={loginPayload.matKhau}
-                size="large"
-                placeholder={language.login.passwordPlaceHolder}
+                placeholder="Email đăng ký tài khoản"
                 className="input"
               />
               {typeError ? (
@@ -110,8 +92,8 @@ function QuenMatKhau() {
                 ""
               )}
 
-              <Button size="large" onClick={() => {}}>
-                Cập nhật
+              <Button size="large" onClick={handleTaoYeuCau}>
+                Gửi yêu cầu
               </Button>
             </div>
           </div>
@@ -121,4 +103,4 @@ function QuenMatKhau() {
   );
 }
 
-export default QuenMatKhau;
+export default TaoYeuCau;

@@ -25,6 +25,7 @@ import Home2 from "./component/admin/home2/Home2";
 import ProductDetail2 from "./component/home/productdetail2/ProductDetail2";
 import ChoXetDuyet from "./component/admin/choxetduyet/ChoXetDuyet";
 import QuenMatKhau from "./component/login/QuenMatKhau";
+import TaoYeuCau from "./component/login/TaoYeuCau";
 function App() {
   const dispath = useDispatch();
   useEffect(() => {
@@ -54,6 +55,7 @@ function App() {
         <Route path="/" element={<Home2 />} />
         <Route path="/login" element={<Login />} />
         <Route path="/quenmatkhau" element={<QuenMatKhau />} />
+        <Route path="/taoyeucau" element={<TaoYeuCau />} />
         <Route path="/admin/dangtin" element={<DangTin />} />
         <Route path="/admin/dangtinweb" element={<DangTinWeb />} />
         <Route path="/admin/choxetduyet" element={<ChoXetDuyet />} />
