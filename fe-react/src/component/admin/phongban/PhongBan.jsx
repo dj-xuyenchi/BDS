@@ -217,9 +217,7 @@ function PhongBan() {
       render: (id, record) => (
         <>
           <ModalView data={record.data} />
-          {checkRole(user.nguoiDungRole, ["ADMIN", "LEAD"]) && (
-            <ModalXemChiTiet data={record.lichSuXem} />
-          )}
+          
         </>
       ),
     },

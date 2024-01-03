@@ -73,6 +73,15 @@ function ModalThem({ fetchData }) {
     },
   };
   async function handleThemBaiHoc() {
+    if (fileList.length === 0 || fileList2.length === 0) {
+      openNotification(
+        "error",
+        "Hệ thống",
+        "Thiếu tài liệu hoặc bài giảng",
+        "bottomRight"
+      );
+      return;
+    }
     var form2 = new FormData();
     form2.append("file", fileList[0].originFileObj);
     form2.append("file", fileList2[0].originFileObj);
@@ -133,6 +142,7 @@ function ModalThem({ fetchData }) {
           style={{
             maxWidth: 768,
           }}
+          onFinish={handleThemBaiHoc}
         >
           <Form.Item label="Bìa bài học">
             <Upload
@@ -261,7 +271,15 @@ function ModalThem({ fetchData }) {
               </Select.Option>
             </Select>
           </Form.Item>{" "}
-          <Form.Item label="Mô tả">
+          <Form.Item
+            label="Mô tả"
+            name="Mô tả"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
             <TextArea
               value={data.moTa}
               rows={4}
@@ -274,13 +292,7 @@ function ModalThem({ fetchData }) {
             />
           </Form.Item>
           <Form.Item label="Thao tác">
-            <Button
-              htmlType="submit"
-              loading={isLoading}
-              onClick={() => {
-                handleThemBaiHoc();
-              }}
-            >
+            <Button htmlType="submit" loading={isLoading}>
               Tạo mới
             </Button>
           </Form.Item>

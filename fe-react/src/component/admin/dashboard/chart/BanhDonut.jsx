@@ -10,7 +10,6 @@ function BanhDonut({
     soDauChu:0
   },
 }) {
-  const language = useSelector(selectLanguage);
   const chartRef = useRef(null);
   useEffect(() => {
     const chart = echarts.init(chartRef.current);
@@ -72,7 +71,7 @@ function BanhDonut({
         chart.resize();
       });
     };
-  }, []);
+  }, [data]);
   return (
     <>
       <div ref={chartRef} style={{ width: "100%", height: "400px" }} />

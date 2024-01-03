@@ -44,7 +44,7 @@ namespace Core.Service.ThongKeService
             thongKe.SoKhachHangMoi = soKhach;
             thongKe.SoDauChu = _context.NguoiDungRole.Where(x => x.RoleId == 3).Count();
             thongKe.SoNhanVien = _context.NguoiDungRole.Where(x => x.RoleId == 1).Count();
-            thongKe.SoTruongPhong = _context.NguoiDungRole.Where(x => x.RoleId == 3).Count();
+            thongKe.SoTruongPhong = _context.NguoiDungRole.Where(x => x.RoleId == 2).Count();
             thongKe.TopSeller = TopSeller();
             return thongKe;
         }

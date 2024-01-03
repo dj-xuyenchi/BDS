@@ -64,7 +64,7 @@ function Login() {
       openNotification(
         "error",
         "Hệ thống",
-        "Tên tài khoản đã tồn tại",
+        "Email đã tồn tại",
         "bottomRight"
       );
       return;
@@ -72,7 +72,7 @@ function Login() {
     openNotification(
       "success",
       "Hệ thống",
-      "Đăng ký thành công vui lòng chờ công ty Xác nhận",
+      "Đăng ký thành công!",
       "bottomRight"
     );
   }
@@ -119,9 +119,13 @@ function Login() {
                 placeholder={language.login.passwordPlaceHolder}
                 className="input"
               />
-              <Link onClick={()=>{
-                window.location= "http://localhost:3000/taoyeucau"
-              }}>{language.login.forgotPass}</Link>
+              <Link
+                onClick={() => {
+                  window.location = "http://localhost:3000/taoyeucau";
+                }}
+              >
+                {language.login.forgotPass}
+              </Link>
               {typeError ? (
                 <Card
                   style={{
@@ -155,17 +159,18 @@ function Login() {
                       width: "120px",
                     }}
                   >
-                    Tạo tài khoản
+                    Đăng ký nhanh
                   </Button>
                   <Modal
                     width={568}
                     centered
                     title="Đăng ký tài khoản"
                     open={isShow}
-                    onOk={handleDangKy}
                     onCancel={() => {
                       setIsShow(false);
                     }}
+                    okButtonProps={{ style: { display: "none" } }}
+                    cancelButtonProps={{ style: { display: "none" } }}
                   >
                     <Form
                       form={form}
@@ -179,6 +184,7 @@ function Login() {
                       style={{
                         maxWidth: 768,
                       }}
+                      onFinish={handleDangKy}
                     >
                       <Form.Item
                         name="hoTen"
@@ -190,7 +196,7 @@ function Login() {
                         ]}
                       >
                         <Input
-                          placeholder="Tên tài khoản"
+                          placeholder="Tên người dùng"
                           value={yeuCauTaiKhoan.hoTenNguoiDung}
                           onChange={(e) => {
                             setYeuCauTaiKhoan({
@@ -201,8 +207,8 @@ function Login() {
                         />
                       </Form.Item>
                       <Form.Item
-                        name="tenTaiKhoan"
-                        label="Tên tài khoản"
+                        name="email"
+                        label="Email"
                         rules={[
                           {
                             required: true,
@@ -210,7 +216,7 @@ function Login() {
                         ]}
                       >
                         <Input
-                          placeholder="Tên tài khoản"
+                          placeholder="Email"
                           value={yeuCauTaiKhoan.tenTaiKhoan}
                           onChange={(e) => {
                             setYeuCauTaiKhoan({
@@ -302,6 +308,9 @@ function Login() {
                           }}
                         />
                       </Form.Item>
+                      <Button type="primary" htmlType="submit">
+                        Đăng ký
+                      </Button>
                     </Form>
                   </Modal>
                 </div>

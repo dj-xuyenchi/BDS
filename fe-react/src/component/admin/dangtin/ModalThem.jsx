@@ -130,9 +130,6 @@ function ModalThem({ fetchData }) {
         width={768}
         title={"Đăng tin mới"}
         open={isModalOpen}
-        onOk={() => {
-          setIsModalOpen(false);
-        }}
         onCancel={() => {
           setIsModalOpen(false);
         }}
@@ -150,6 +147,7 @@ function ModalThem({ fetchData }) {
           style={{
             maxWidth: 768,
           }}
+          onFinish={handleThem}
         >
           <Form.Item
             name="tieuDe"
@@ -220,7 +218,13 @@ function ModalThem({ fetchData }) {
           </Form.Item>
           {hinhAnhBDSchon && (
             <Form.Item name="moTa" label="Hình ảnh">
-              <Image src={hinhAnhBDSchon.hinhAnhBatDongSan[0].linkHinhAnh} />
+              <Image
+                style={{
+                  width: "auto",
+                  height: "220px",
+                }}
+                src={hinhAnhBDSchon.hinhAnhBatDongSan[0].linkHinhAnh}
+              />
             </Form.Item>
           )}
           <Form.Item
@@ -282,13 +286,7 @@ function ModalThem({ fetchData }) {
             />
           </Form.Item>
           <Form.Item label="Thao tác">
-            <Button
-              htmlType="submit"
-              loading={isLoading}
-              onClick={() => {
-                handleThem();
-              }}
-            >
+            <Button htmlType="submit" loading={isLoading}>
               Đăng tin
             </Button>
             {/* <Button

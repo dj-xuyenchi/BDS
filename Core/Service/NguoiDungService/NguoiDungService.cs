@@ -26,7 +26,7 @@ namespace Core.Service.NguoiDungService
                 return null;
             }
             nguoiDungDTO.HinhDaiDien = "https://cdn-icons-png.flaticon.com/512/1053/1053244.png";
-            nguoiDungDTO.TrangThai = Enums.TrangThaiNguoiDung.DAKHOA;
+            nguoiDungDTO.TrangThai = Enums.TrangThaiNguoiDung.DANGHOATDONG;
             nguoiDungDTO.MatKhau = BCrypt.Net.BCrypt.HashPassword(nguoiDungDTO.MatKhau);
             nguoiDungDTO.NgayTao = DateTime.Now;
             var nguoiDung = nguoiDungDTO.ToEntity();

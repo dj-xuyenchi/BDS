@@ -36,6 +36,32 @@ function ModalThemKhachHang({ handleLayDuLieu }) {
   const [data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   async function handleThem() {
+    if (!data.tenKhachHang) {
+      openNotification(
+        "error",
+        "Hệ thống",
+        "Thiếu tên khách hàng",
+        "bottomRight"
+      );
+      return;
+    }
+    if (!data.soDienThoai) {
+      openNotification(
+        "error",
+        "Hệ thống",
+        "Thiếu số điện thoại",
+        "bottomRight"
+      );
+      return;
+    }
+    if (!data.soCanCuocKhachHang) {
+      openNotification("error", "Hệ thống", "Thiếu số căn cước", "bottomRight");
+      return;
+    }
+    if (!data.ghiChu) {
+      openNotification("error", "Hệ thống", "Thiếu ghi chú", "bottomRight");
+      return;
+    }
     const data3 = await usePhongBan.actions.themKhach({
       ...data,
       nhanVienDanKhachId: user.id,
@@ -51,6 +77,7 @@ function ModalThemKhachHang({ handleLayDuLieu }) {
         "bottomRight"
       );
       handleLayDuLieu();
+      setIsModalOpen(false);
       return;
     }
   }
@@ -73,7 +100,6 @@ function ModalThemKhachHang({ handleLayDuLieu }) {
         open={isModalOpen}
         onOk={() => {
           handleThem();
-          setIsModalOpen(false);
         }}
         onCancel={() => {
           setIsModalOpen(false);

@@ -231,7 +231,7 @@ function DashBoard() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const [nam, setNam] = useState(2023);
+  const [nam, setNam] = useState(2024);
   const [thongKe, setThongKe] = useState(undefined);
   async function handleThongKe() {
     const data2 = await useDashBoardStore.actions.thongKe(nam);

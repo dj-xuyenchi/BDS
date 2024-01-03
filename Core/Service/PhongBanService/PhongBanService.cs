@@ -71,6 +71,7 @@ namespace Core.Service.PhongBanService
             phongBanRe.ThanhVien = _context.NguoiDung
                 .Include(x => x.PhieuXemNha)
                 .ThenInclude(y => y.PhieuXemNhaBatDongSan)
+               
                 .Include(x => x.NguoiDungRole)
                 .ThenInclude(x => x.Role)
                 .Where(x => x.PhongBanId == phongBanId && x.TrangThai == Enums.TrangThaiNguoiDung.DANGHOATDONG)
@@ -89,7 +90,6 @@ namespace Core.Service.PhongBanService
             List<int> soKhach = new List<int>();
             for (int i = 1; i < 13; i++)
             {
-
                 int kach = _context.PhieuXemNha
                   .Include(x => x.NhanVienDanKhach)
                   .Where(x => x.NhanVienDanKhach.PhongBanId == phongBanId && x.TrangThai == Enums.TrangThaiPhieuXemNha.DANGCHAMSOC && x.NgayTao.Year == year && x.NgayTao.Month == i)

@@ -1,24 +1,8 @@
-import {
-  Button,
-  Cascader,
-  Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Radio,
-  Select,
-  Switch,
-  message,
-  Upload,
-  notification,
-} from "antd";
+import { Button, Form, Input, Modal, Select, notification } from "antd";
 import "./style.css";
 import React, { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { useNguoiDung } from "./useNguoiDung";
-import { Textarea } from "@chakra-ui/react";
 import TextArea from "antd/es/input/TextArea";
 function ModalThem({ fetchData }) {
   const [form] = useForm();
@@ -108,10 +92,11 @@ function ModalThem({ fetchData }) {
           style={{
             maxWidth: 768,
           }}
+          onFinish={handleThem}
         >
           <Form.Item
-            name="tenTaiKhoan"
-            label="Tên tài khoản"
+            name="Email"
+            label="Email"
             rules={[
               {
                 required: true,
@@ -253,13 +238,7 @@ function ModalThem({ fetchData }) {
             />
           </Form.Item>
           <Form.Item label="Thao tác">
-            <Button
-              htmlType="submit"
-              loading={isLoading}
-              onClick={() => {
-                handleThem();
-              }}
-            >
+            <Button htmlType="submit" loading={isLoading}>
               Thêm người dùng
             </Button>
           </Form.Item>
