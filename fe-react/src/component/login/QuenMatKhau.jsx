@@ -1,19 +1,21 @@
 import { Button, Card, Divider, Form, Input, Modal, notification } from "antd";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { selectLanguage } from "../../language/selectLanguage";
 import { useLoginStore } from "./useLoginStore";
-import { useForm } from "antd/es/form/Form";
 function QuenMatKhau() {
   const language = useSelector(selectLanguage);
+  const { code } = useParams();
   const [typeError, setTypeError] = useState(undefined);
   const [loginPayload, setLoginPayload] = useState({});
   const [matKhau, setMatKhau] = useState("");
+  const [matKhau2, setMatKhau2] = useState("");
   async function handleTaoYeuCau() {
     const data = await useLoginStore.actions.xacNhanDoi({
       matKhauMoi: matKhau,
+      code:code
     });
     if (!data.data) {
       openNotification(
@@ -30,6 +32,7 @@ function QuenMatKhau() {
       "Đổi mật khẩu thành công!",
       "bottomRight"
     );
+    window.location="http://localhost:3000/login"
   }
 
   const [api, contextHolder] = notification.useNotification();
@@ -69,12 +72,11 @@ function QuenMatKhau() {
               <label htmlFor="">Mật khẩu mới</label>
               <Input.Password
                 onChange={(e) => {
-                  setLoginPayload({
-                    ...loginPayload,
-                    matKhau: e.target.value,
-                  });
+                  setMatKhau(
+                  e.target.value,
+                  );
                 }}
-                value={loginPayload.matKhau}
+                value={matKhau}
                 size="large"
                 placeholder={language.login.passwordPlaceHolder}
                 className="input"
@@ -82,12 +84,11 @@ function QuenMatKhau() {
               <label htmlFor="">Xác nhận mật khẩu</label>
               <Input.Password
                 onChange={(e) => {
-                  setLoginPayload({
-                    ...loginPayload,
-                    matKhau: e.target.value,
-                  });
+                  setMatKhau2(
+                  e.target.value,
+                  );
                 }}
-                value={loginPayload.matKhau}
+                value={matKhau2}
                 size="large"
                 placeholder={language.login.passwordPlaceHolder}
                 className="input"
@@ -110,7 +111,27 @@ function QuenMatKhau() {
                 ""
               )}
 
-              <Button size="large" onClick={() => {}}>
+              <Button size="large" onClick={() => {
+                if(matKhau2!==matKhau){
+                  openNotification(
+                    "error",
+                    "Hệ thống",
+                    "Mật khẩu xác nhận không đúng!",
+                    "bottomRight"
+                  );
+                  return
+                } 
+                if(matKhau2.length<8){
+                  openNotification(
+                    "error",
+                    "Hệ thống",
+                    "Mật khẩu phải lớn hơn 8 ký tự!",
+                    "bottomRight"
+                  );
+                  return
+                }
+                handleTaoYeuCau()
+              }}>
                 Cập nhật
               </Button>
             </div>

@@ -3,6 +3,7 @@ using Core.DTO;
 using Core.Entities;
 using Core.plugins;
 using Core.RequestModel;
+using Core.Service.Email;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace Core.Service.NguoiDungService
                 return null;
             }
             nguoiDungDTO.HinhDaiDien = "https://cdn-icons-png.flaticon.com/512/1053/1053244.png";
-            nguoiDungDTO.TrangThai = Enums.TrangThaiNguoiDung.DANGHOATDONG;
+            nguoiDungDTO.TrangThai = Enums.TrangThaiNguoiDung.DAKHOA;
             nguoiDungDTO.MatKhau = BCrypt.Net.BCrypt.HashPassword(nguoiDungDTO.MatKhau);
             nguoiDungDTO.NgayTao = DateTime.Now;
             var nguoiDung = nguoiDungDTO.ToEntity();
@@ -41,7 +42,7 @@ namespace Core.Service.NguoiDungService
 
         public async Task<NguoiDungDTO> DangNhap(DangNhapRequest nguoiDungDTO)
         {
-            var nguoiDung = _context.NguoiDung.Include(x => x.NguoiDungRole).ThenInclude(y => y.Role).Where(x => x.TenTaiKhoan == nguoiDungDTO.TaiKhoan).FirstOrDefault();
+            var nguoiDung = _context.NguoiDung.Include(x => x.NguoiDungRole).ThenInclude(y => y.Role).Where(x => x.TenTaiKhoan == nguoiDungDTO.TaiKhoan&&x.TrangThai!=Enums.TrangThaiNguoiDung.DAKHOA).FirstOrDefault();
             if (nguoiDung == null)
             {
                 return null;
@@ -209,6 +210,8 @@ namespace Core.Service.NguoiDungService
             quenMatKhau.NguoiDungId = nguoiDung.Id;
             quenMatKhau.NgayHetHan = DateTime.Now.AddDays(1);
             quenMatKhau.Code = Guid.NewGuid().ToString();
+            EmailService e = new EmailService();
+            await e.SendEmailTeoYeuCau(nguoiDung.TenTaiKhoan,quenMatKhau.Code);
             await _context.AddAsync(quenMatKhau);
             await _context.SaveChangesAsync();
             return NguoiDungDTO.FromEntity(nguoiDung);
@@ -227,6 +230,8 @@ namespace Core.Service.NguoiDungService
             }
             var nguoiDung = await _context.NguoiDung.FindAsync(quenMatKhau.NguoiDungId);
             nguoiDung.MatKhau = BCrypt.Net.BCrypt.HashPassword(matKhauMoi);
+            _context.Remove(quenMatKhau);
+            await _context.SaveChangesAsync();
             return NguoiDungDTO.FromEntity(nguoiDung);
         }
     }

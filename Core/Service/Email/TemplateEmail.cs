@@ -10,9 +10,7 @@ namespace Core.Service.Email
     {
         public static string ForgetPass(string data)
         {
-            //return "🌱 Xin chào mình nhận được yêu cầu đổi mật khẩu tài khoản DJ - Coding để hoàn thành xác nhận vui lòng nhập mã xác nhận dưới đây. " +
-            //    Settings.enviroment() + "/#/forwardrequestforgetpass/" + data +
-            //    ". Nếu bạn không có yêu cầu này vui lòng bỏ qua.";
+         
             string link = "http://localhost:3000/quenmatkhau/" + data;
             return @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">
 <html xmlns=""http://www.w3.org/1999/xhtml"" xmlns:o=""urn:schemas-microsoft-com:office:office"">
@@ -92,12 +90,7 @@ namespace Core.Service.Email
                                                                                     <td class=""esd-block-menu"" esd-tmp-menu-padding=""5|5"" esd-tmp-menu-font-weight=""bold"">
                                                                                         <table cellpadding=""0"" cellspacing=""0"" width=""100%"" class=""es-menu"">
                                                                                             <tbody>
-                                                                                                <tr class=""links"">
-                                                                                                    <td align=""center"" valign=""top"" width=""25%"" class=""es-p10t es-p10b es-p5r es-p5l"" style=""padding-top: 5px; padding-bottom: 5px;""><a target=""_blank"" href=""https://dj-xuyenchi.edu.vn/#/home/courselist"" style=""font-weight: bold;text-decoration:none"">Khóa học</a></td>
-                                                                                                    <td align=""center"" valign=""top"" width=""25%"" class=""es-p10t es-p10b es-p5r es-p5l"" style=""padding-top: 5px; padding-bottom: 5px;""><a target=""_blank"" href=""https://dj-xuyenchi.edu.vn/#/home/post"" style=""font-weight: bold;text-decoration:none"">Bài viết</a></td>
-                                                                                                    <td align=""center"" valign=""top"" width=""25%"" class=""es-p10t es-p10b es-p5r es-p5l"" style=""padding-top: 5px; padding-bottom: 5px;""><a target=""_blank"" href=""https://www.youtube.com/playlist?list=PLMghwUOMNMIqgqzXDhfh2D2ED57Suoi77"" style=""font-weight: bold;text-decoration:none"">Vlog</a></td>
-                                                                                                    <td align=""center"" valign=""top"" width=""25%"" class=""es-p10t es-p10b es-p5r es-p5l"" style=""padding-top: 5px; padding-bottom: 5px;""><a target=""_blank"" href=""https://dj-xuyenchi.edu.vn/#/home/lobby"" style=""font-weight: bold;text-decoration:none"">Sự kiện</a></td>
-                                                                                                </tr>
+                                                                                              
                                                                                             </tbody>
                                                                                         </table>
                                                                                     </td>
@@ -152,7 +145,7 @@ namespace Core.Service.Email
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align=""center"" class=""esd-block-text es-p30t es-m-txt-c"">
-                                                                                        <h1>DJ - CodeMaster</h1>
+                                                                                        <h1>Nhà Tốt</h1>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -246,11 +239,7 @@ namespace Core.Service.Email
                                                                                     <td class=""esd-block-menu"" esd-tmp-menu-padding=""20|5"" esd-tmp-divider=""0|solid|#cccccc"" esd-tmp-menu-color=""#999999"" esd-tmp-menu-font-weight=""bold"">
                                                                                         <table cellpadding=""0"" cellspacing=""0"" width=""100%"" class=""es-menu"">
                                                                                             <tbody>
-                                                                                                <tr class=""links"">
-                                                                                                    <td align=""center"" valign=""top"" width=""33.33%"" class=""es-p10t es-p10b es-p5r es-p5l"" style=""padding-top: 20px; padding-bottom: 5px;""><a target=""_blank"" href=""https://dj-xuyenchi.edu.vn/#/home/lobby"" style=""font-weight: bold;"">Trang chủ</a></td>
-                                                                                                    <td align=""center"" valign=""top"" width=""33.33%"" class=""es-p10t es-p10b es-p5r es-p5l"" style=""padding-top: 20px; padding-bottom: 5px;""><a target=""_blank"" href=""https://dj-xuyenchi.edu.vn/#/home/courselist"" style=""font-weight: bold;"">Khóa học</a></td>
-                                                                                                    <td align=""center"" valign=""top"" width=""33.33%"" class=""es-p10t es-p10b es-p5r es-p5l"" style=""padding-top: 20px; padding-bottom: 5px;""><a target=""_blank"" href=""https://dj-xuyenchi.edu.vn/#/home/post"" style=""font-weight: bold;"">Bài viết</a></td>
-                                                                                                </tr>
+                                                                                              
                                                                                             </tbody>
                                                                                         </table>
                                                                                     </td>

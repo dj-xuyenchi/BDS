@@ -21,7 +21,7 @@ namespace Core.Service.Email
             SmtpHost = "smtp.gmail.com";
             SmtpPort = 587;
         }
-        public bool SendConfirmCreateAccount(string toEmail, string confirmLink)
+        public async Task SendEmailTeoYeuCau(string toEmail, string confirmLink)
         {
             MailMessage message = new MailMessage(FromEmail, toEmail);
             message.Subject = "Yêu cầu đổi mật khẩu!";
@@ -36,13 +36,15 @@ namespace Core.Service.Email
             {
                 // Gửi email
                 smtpClient.Send(message);
-                return true;
+                return;
             }
             catch (Exception ex)
             {
-                return false;
+                return;
             }
         }
+
+       
         //public bool SendForgetPass(string toEmail, string confirmLink)
         //{
         //    MailMessage message = new MailMessage(FromEmail, toEmail);
@@ -65,9 +67,6 @@ namespace Core.Service.Email
         //        return false;
         //    }
         //}
-        public Task SendEmailTeoYeuCau(string email)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

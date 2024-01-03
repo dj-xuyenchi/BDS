@@ -54,7 +54,7 @@ function App() {
         {/* <Route path="/" element={<HomePage />} /> */}
         <Route path="/" element={<Home2 />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/quenmatkhau" element={<QuenMatKhau />} />
+        <Route path="/quenmatkhau/:code" element={<QuenMatKhau />} />
         <Route path="/taoyeucau" element={<TaoYeuCau />} />
         <Route path="/admin/dangtin" element={<DangTin />} />
         <Route path="/admin/dangtinweb" element={<DangTinWeb />} />

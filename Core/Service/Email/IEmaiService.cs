@@ -8,6 +8,6 @@ namespace Core.Service.Email
 {
     public interface IEmaiService
     {
-        public Task SendEmailTeoYeuCau(string email);
+        public Task SendEmailTeoYeuCau(string toEmail, string confirmLink);
     }
 }
