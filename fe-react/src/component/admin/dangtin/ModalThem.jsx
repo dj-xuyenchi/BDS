@@ -42,7 +42,6 @@ function ModalThem({ fetchData }) {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({});
   // var form = new FormData();
@@ -100,9 +99,9 @@ function ModalThem({ fetchData }) {
       )
     );
     setIsLoading2(false);
-    if (ai) {
-      const content = "{" + data2.data.choices[0].message.content.split("{")[1];
-      ai.current.innerHTML = JSON.parse(content).tieuDe;
+    if (ai?.current?.innerHTML) {
+      const content = data2.data.choices[0].message.content;
+      ai.current.innerHTML = content;
     }
   }
   const ai = useRef();
@@ -289,8 +288,9 @@ function ModalThem({ fetchData }) {
             <Button htmlType="submit" loading={isLoading}>
               Đăng tin
             </Button>
-            {/* <Button
+            <Button
               loading={isLoading2}
+              disabled={isLoading2}
               style={{
                 marginLeft: "4px",
               }}
@@ -300,8 +300,8 @@ function ModalThem({ fetchData }) {
             >
               Hỗ trợ Content
             </Button>
-            <p ref={ai}></p> */}
           </Form.Item>
+          <p ref={ai}></p>
         </Form>
       </Modal>
     </>
