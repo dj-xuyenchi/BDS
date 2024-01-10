@@ -99,12 +99,13 @@ function ModalThem({ fetchData }) {
       )
     );
     setIsLoading2(false);
-    if (ai?.current?.innerHTML) {
-      const content = data2.data.choices[0].message.content;
-      ai.current.innerHTML = content;
-    }
+    setData({
+      ...data,
+      moTa:data2.data.choices[0].message.content
+     })
   }
   const ai = useRef();
+  useEffect(()=>{},[data])
   return (
     <>
       {contextHolder}
@@ -294,14 +295,12 @@ function ModalThem({ fetchData }) {
               style={{
                 marginLeft: "4px",
               }}
-              onClick={() => {
-                handleAi();
-              }}
+              onClick={handleAi}
             >
               Hỗ trợ Content
             </Button>
           </Form.Item>
-          <p ref={ai}></p>
+        
         </Form>
       </Modal>
     </>
