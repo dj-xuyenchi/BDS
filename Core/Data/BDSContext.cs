@@ -34,7 +34,7 @@ namespace Core.Data
         public DbSet<QuenMatKhau> QuenMatKhau { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-C6TGHIOB\\SQLEXPRESS;Initial Catalog=bds.DB;Integrated Security=True;encrypt=true;trustservercertificate=true;MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=bds.DB;Integrated Security=True;encrypt=true;trustservercertificate=true;MultipleActiveResultSets=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

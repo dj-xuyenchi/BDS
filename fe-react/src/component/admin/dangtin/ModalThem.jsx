@@ -43,7 +43,9 @@ function ModalThem({ fetchData }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    moTa: "",
+  });
   // var form = new FormData();
   // form.append("file1", hinhAnh[0]);
   // form.append("file2", hinhAnh[1]);
@@ -101,11 +103,11 @@ function ModalThem({ fetchData }) {
     setIsLoading2(false);
     setData({
       ...data,
-      moTa:data2.data.choices[0].message.content
-     })
+      moTa: data2.data.choices[0].message.content,
+    });
   }
   const ai = useRef();
-  useEffect(()=>{},[data])
+  useEffect(() => {}, [data]);
   return (
     <>
       {contextHolder}
@@ -273,7 +275,7 @@ function ModalThem({ fetchData }) {
               }}
             />
           </Form.Item>
-          <Form.Item name="moTa" label="Mô tả">
+          <Form.Item label="Mô tả">
             <TextArea
               value={data.moTa}
               rows={4}
@@ -300,7 +302,6 @@ function ModalThem({ fetchData }) {
               Hỗ trợ Content
             </Button>
           </Form.Item>
-        
         </Form>
       </Modal>
     </>
