@@ -84,7 +84,7 @@ function ModalGiaHan({ tinBanId, fet }) {
         }}
         centered
       >
-        <p>Chọn ngày ngưng bài viết (Giá quảng cáo 1 ngày = 2.500đ)</p>
+        <p>Chọn ngày ngưng bài viết (Giá quảng cáo 1 ngày = 20.000đ)</p>
         <DatePicker
           style={{
             width: "100%",

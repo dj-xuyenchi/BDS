@@ -202,11 +202,11 @@ namespace Core.Service.TinBanService
             DateTime now = DateTime.Now;
             TimeSpan difference = ngayHet - now;
             int daysDifference = Math.Abs(difference.Days);
-            if (daysDifference * 2500 > nguoiDung.SoDu)
+            if (daysDifference * 20000 > nguoiDung.SoDu)
             {
                 return 0;
             }
-            nguoiDung.SoDu -= daysDifference * 2500;
+            nguoiDung.SoDu -= daysDifference * 20000;
             var tinBan = await _context.TinBan.FindAsync(tinBanId);
             tinBan.NgayHetHan = ngayHet;
             tinBan.TrangThai = TrangThaiTinBan.DATRATIENCHOXETDUYET;
