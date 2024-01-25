@@ -45,7 +45,7 @@ function Header() {
   const [openSearch, setOpenSearch] = useState(false);
   const [data, setData] = useState({});
   const [data2, setData2] = useState({});
-  const [isLoading, setIsLoading] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [form] = useForm();
   const [api, contextHolder] = notification.useNotification();
   const items = [];
@@ -185,6 +185,10 @@ function Header() {
   };
   async function handleTaoTin() {
     var form2 = new FormData();
+    if(fileList.length===0){
+      message.error(`Vui lòng chọn ít nhất 1 hình ảnh`);
+      return
+    }
     for (var file of fileList) {
       form2.append("file", file.originFileObj);
     }
