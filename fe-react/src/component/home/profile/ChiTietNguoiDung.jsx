@@ -212,7 +212,7 @@ function ChiTietNguoiDung({ user }) {
               </p>
               <input
                 disabled
-                value={nguoiDung.phongBan.tenPhongBan}
+                value={nguoiDung.phongBan?.tenPhongBan}
                 type="text"
                 className="input-profile"
               />
