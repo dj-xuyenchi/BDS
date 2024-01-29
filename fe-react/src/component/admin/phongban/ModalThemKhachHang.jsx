@@ -14,7 +14,7 @@ import { FaPersonRunning } from "react-icons/fa6";
 import TextArea from "antd/es/input/TextArea";
 import { usePhongBan } from "./useKyGui";
 import { FiEdit } from "react-icons/fi";
-function ModalThemKhachHang({ handleLayDuLieu }) {
+function ModalThemKhachHang({ handleLayDuLieu,fet2 }) {
   const [api, contextHolder] = notification.useNotification();
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -76,6 +76,7 @@ function ModalThemKhachHang({ handleLayDuLieu }) {
         "Tạo mới thành công",
         "bottomRight"
       );
+      fet2()
       handleLayDuLieu();
       setIsModalOpen(false);
       return;

@@ -312,7 +312,7 @@ function Product() {
   useEffect(() => {
     // dispath(productSlice.actions.setIsLoading(true));
     fetchData();
-  }, []);
+  }, [data]);
   const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>

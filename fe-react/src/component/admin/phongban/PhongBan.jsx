@@ -6,7 +6,7 @@ import { selectLanguage } from "../../../language/selectLanguage";
 import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { Button, Image, Input, Space, Table, Tag } from "antd";
+import { Button, Image, Input, Select, Space, Table, Tag } from "antd";
 import BieuDoChotPhongBan from "./BieuDoChotPhongBan";
 
 import { Col, Row } from "antd";
@@ -152,7 +152,7 @@ function PhongBan() {
       render: (soDienThoai) => <span>{soDienThoai}</span>,
     },
     {
-      title: "Số khách",
+      title: "Số khách đã liên hệ",
       dataIndex: "soKhach",
       key: "soKhach",
       width: "10%",
@@ -217,15 +217,15 @@ function PhongBan() {
       render: (id, record) => (
         <>
           <ModalView data={record.data} />
-          
+
         </>
       ),
     },
   ];
-  const [year, setYear] = useState(2023);
+  const [year, setYear] = useState(2024);
   const fetchData = async () => {
     const data = await usePhongBan.actions.layPhongBan({
-      phongBanId: 2,
+      phongBanId: user.phongBanId,
       year: year,
     });
     setData(data.data);
@@ -233,7 +233,7 @@ function PhongBan() {
   useEffect(() => {
     // dispath(productSlice.actions.setIsLoading(true));
     fetchData();
-  }, []);
+  }, [year]);
   return (
     <>
       <div>
@@ -247,13 +247,40 @@ function PhongBan() {
                 padding: "12px 12px",
               }}
             >
+              <Select
+                defaultValue="2024"
+                style={{
+                  width: 120,
+                }}
+                onChange={(e) => {
+                  setYear(e)
+                 }}
+                options={[
+                  {
+                    value: '2024',
+                    label: '2024',
+                  },
+                  {
+                    value: '2023',
+                    label: '2023',
+                  },
+                  {
+                    value: '2022',
+                    label: '2022',
+                  },
+                  {
+                    value: '2021',
+                    label: '2021',
+                  },
+                ]}
+              />
               <BieuDoChotPhongBan
                 dataChot={data && data.thongKeBDS}
                 dataKhach={data && data.soKhach}
                 title={data && data.tenPhong}
               />
             </Row>
-            <ModalKhachHangCuaToi id={user.id} />
+            <ModalKhachHangCuaToi id={user.id} fetchData={fetchData}/>
             <ModalLichSuChot id={user.id} />
             <div className="table-sanpham background-color">
               <Table

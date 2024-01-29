@@ -9,7 +9,7 @@ import ModalThemKhachHang from "./ModalThemKhachHang";
 import ModalSuaKhachHang from "./ModalSuaKhachHang";
 import ModalXoaKhach from "./ModalXoaKhach";
 import ModalChotKhach from "./ModalChotKhach";
-function ModalKhachHangCuaToi({ id }) {
+function ModalKhachHangCuaToi({ id,fetchData }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const columns = [
     {
@@ -89,7 +89,7 @@ function ModalKhachHangCuaToi({ id }) {
             fet={handleLayDuLieu}
           />
           <ModalSuaKhachHang handleLayDuLieu={handleLayDuLieu} data2={record} />
-          <ModalXoaKhach tinId={record.id} fetData={handleLayDuLieu} />
+          <ModalXoaKhach tinId={record.id} fetData={handleLayDuLieu} fet2={fetchData} />
           <ModalChotKhach phieu={record.id} handleLayDuLieu={handleLayDuLieu} />
         </Space>
       ),
@@ -130,7 +130,7 @@ function ModalKhachHangCuaToi({ id }) {
         }}
         centered
       >
-        <ModalThemKhachHang handleLayDuLieu={handleLayDuLieu} />
+        <ModalThemKhachHang handleLayDuLieu={handleLayDuLieu} fet2={fetchData} />
         <Table columns={columns} dataSource={data && data} />
       </Modal>
     </>

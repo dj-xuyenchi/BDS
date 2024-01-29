@@ -170,7 +170,7 @@ function MenuAdmin() {
               textDecoration: "unset",
             }}
           >
-            Tin khách đăng
+         Tin chờ xét duyệt
           </Link>,
           "61",
           <GiConfirmed />

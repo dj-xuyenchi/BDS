@@ -42,7 +42,7 @@ function SearchMucGia({ searchParam, setSearchParam }) {
         style={{
           width: "200px",
         }}
-        min={1000000}
+        min={1}
         max={100000000000}
         value={searchParam.max ? searchParam.max : 0}
         formatter={(value) =>

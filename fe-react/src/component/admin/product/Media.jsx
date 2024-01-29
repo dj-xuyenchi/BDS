@@ -17,15 +17,10 @@ import {
   Space,
   Image,
 } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
 import "./style.css";
 import { PlusOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import TextArea from "antd/es/input/TextArea";
-import { Option } from "antd/es/mentions";
 import { useSanPhamStore } from "./useSanPhamStore";
-import { useForm } from "antd/es/form/Form";
-import Dragger from "antd/es/upload/Dragger";
 import { fixNgayThang } from "../../../extensions/fixNgayThang";
 import ModalXoaHinhAnh from "./ModalXoaHinhAnh";
 function Media({ bdsId, fetchData }) {
@@ -104,6 +99,7 @@ function Media({ bdsId, fetchData }) {
         <Space size="middle">
           <ModalXoaHinhAnh
             fetData={handleLayData}
+            fet2={fetchData}
             hinhAnhId={record.id}
             bdsId={record.batDongSanId}
           />
@@ -123,6 +119,7 @@ function Media({ bdsId, fetchData }) {
       "bottomRight"
     );
     handleLayData();
+    fetchData()
   }
   return (
     <>

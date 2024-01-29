@@ -67,7 +67,7 @@ namespace Core.Service.PhongBanService
         {
             var phongBan = await _context.PhongBan.Include(x => x.ThanhVienPhongBan).Where(x => x.Id == phongBanId).FirstOrDefaultAsync();
             PhongBanModel phongBanRe = new PhongBanModel();
-            phongBanRe.TenPhong = phongBan.TenPhongBan;
+            phongBanRe.TenPhong =phongBan==null?"": phongBan.TenPhongBan;
             phongBanRe.ThanhVien = _context.NguoiDung
                 .Include(x => x.PhieuXemNha)
                 .ThenInclude(y => y.PhieuXemNhaBatDongSan)

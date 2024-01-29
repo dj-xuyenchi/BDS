@@ -16,7 +16,7 @@ function BieuDoChotPhongBan({
     // Định nghĩa dữ liệu và tùy chọn biểu đồ
     const option = {
       title: {
-        text: "Khách hàng và BDS chốt năm 2023 phòng " + title,
+        text: "Khách hàng và BDS chốt phòng "+title,
       },
       tooltip: {
         trigger: "axis",

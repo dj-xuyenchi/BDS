@@ -76,6 +76,26 @@ function ModalChotKhach({ handleLayDuLieu, phieu }) {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   async function handleThem() {
+    if(!data.nguoiLamChung){
+      message.error(`Nhập tên người làm chứng`);
+      return
+    }
+    if(!data.canCuocNguoiLamChung){
+      message.error(`Nhập số căn cước`);
+      return
+    }
+    if(!data.noiCongChung){
+      message.error(`Nhập nơi công chứng`);
+      return
+    }
+    if(!data.giaBan){
+      message.error(`Nhập giá bán`);
+      return
+    }
+    if(!data.batDongSanId){
+      message.error(`Chọn BDS`);
+      return
+    }
     var form2 = new FormData();
     for (var file of fileList) {
       form2.append("file", file.originFileObj);
@@ -217,7 +237,7 @@ function ModalChotKhach({ handleLayDuLieu, phieu }) {
           onChange={(e) => {
             setData({
               ...data,
-              giaBan: e.target.value,
+              giaBan: e,
             });
           }}
         />{" "}

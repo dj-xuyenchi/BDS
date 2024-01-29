@@ -11,7 +11,7 @@ import "./style.css";
 import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { usePhongBan } from "./useKyGui";
-function ModalXoaKhach({ tinId, fetData }) {
+function ModalXoaKhach({ tinId, fetData,fet2 }) {
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (type, title, des, placement) => {
     if (type === "error") {
@@ -37,6 +37,7 @@ function ModalXoaKhach({ tinId, fetData }) {
     }
     openNotification("success", "Hệ thống", "Xóa thành công", "bottomRight");
     fetData();
+    fet2()
   }
   return (
     <>

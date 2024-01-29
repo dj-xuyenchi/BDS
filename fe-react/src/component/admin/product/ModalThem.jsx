@@ -91,6 +91,9 @@ function ModalThem({ fetchData }) {
     <>
       {contextHolder}
       <Button
+      style={{
+        marginLeft:"24px"
+      }}
         type="primary"
         onClick={() => {
           setIsModalOpen(true);

@@ -95,6 +95,7 @@ namespace Core.Service.NguoiDungService
             nguoiDung.SoDienThoai = nguoiDungDTO.SoDienThoai;
             nguoiDung.PhongBanId = nguoiDungDTO.PhongBanId;
             nguoiDung.DiaChi = nguoiDungDTO.DiaChi;
+            nguoiDung.TrangThai = nguoiDungDTO.TrangThai;
             var chucVu = _context.NguoiDungRole.Where(x => x.NguoiDungId == nguoiDungDTO.Id);
             _context.RemoveRange(chucVu);
             foreach (var item in nguoiDungDTO.NguoiDungRole)

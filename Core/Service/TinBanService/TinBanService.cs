@@ -33,7 +33,7 @@ namespace Core.Service.TinBanService
                 .AsNoTracking();
             if (filter.giaBan.HasValue)
             {
-                query = query.Where(x => x.BatDongSan.GiaBan <= filter.giaBan.Value);
+                query = query.Where(x => x.GiaBan <= filter.giaBan.Value);
             }
             if (!string.IsNullOrEmpty(filter.tinhCode))
             {

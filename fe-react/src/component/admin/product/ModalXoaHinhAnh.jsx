@@ -14,7 +14,7 @@ import "./style.css";
 import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useSanPhamStore } from "./useSanPhamStore";
-function ModalXoaHinhAnh({ hinhAnhId, bdsId, fetData }) {
+function ModalXoaHinhAnh({ hinhAnhId, bdsId, fetData,fet2 }) {
   const [api, contextHolder] = notification.useNotification();
   const openNotification = (type, title, des, placement) => {
     if (type === "error") {
@@ -39,6 +39,7 @@ function ModalXoaHinhAnh({ hinhAnhId, bdsId, fetData }) {
     });
     if (data.data) {
       openNotification("success", "Hệ thống", "Xóa thành công", "bottomRight");
+      fet2()
     } else {
       openNotification(
         "error",

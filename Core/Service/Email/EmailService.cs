@@ -16,8 +16,8 @@ namespace Core.Service.Email
         public int SmtpPort { get; set; }
         public EmailService()
         {
-            FromEmail = "do.quanganh99zz@gmail.com";
-            Password16 = "hnfoowwjgkagrbxu";
+            FromEmail = "dotienanh305@gmail.com";
+            Password16 = "tyqlmxxzqhebfibd";
             SmtpHost = "smtp.gmail.com";
             SmtpPort = 587;
         }
